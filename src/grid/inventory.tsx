@@ -1,31 +1,37 @@
-import React from 'react';
-import { useDrop } from 'react-dnd'
+import React, { ReactElement } from 'react';
 
 import { ItemSlot } from './item-slot';
+import { useSelector } from 'react-redux';
+import { TeamData } from '../redux/actor-data';
 /**
  * Base UI component for the Inventory.
  * 
  * @returns 
  */
 export function Inventory() {
-  //const { data, error, isLoading } = useGetInventoryQuery();
-  const data = [{},{},{},{},{},{}];
+  const inventory = useSelector((state: TeamData) => state.inventory);
 
+  const buildGrid = (): ReactElement[] => {
+    let rows: ReactElement[] = [];
 
+    for (let i = 0; i < inventory.length; i = i + 2) {
+      rows.push(
+        <div className='row horizontal'>
+          <ItemSlot data={inventory[i]} x={i} y={-1} />
+          {(i + 1) < inventory.length &&
+            <ItemSlot data={inventory[i + 1]} x={i + 1} y={-1} />
+          }
+        </div>);
+    }
+
+    return rows;
+  };
 
   return (
-    <div style={{width: '100%', alignSelf: 'start'}}>
-      <button className="border square round large">
-        <i>filter_list</i>
-      </button>
-    <div className='grid' style={{width: '100%', alignSelf: 'start'}}>
+    <div className='row vertical'>
       {
-        data.map(_ =>
-          <div className='s12 m6 l3'>
-            <ItemSlot data={_} />
-          </div>)
+        buildGrid()
       }
-    </div>
     </div>
   );
 }
