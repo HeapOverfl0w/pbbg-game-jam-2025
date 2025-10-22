@@ -2,14 +2,15 @@ export type ActorData = {
     id: string;
     name: string;
     description: string;
+    color: ActorColorType;
     stats: ActorStats;
-    actionType: ActorActionData;
+    action: ActorActionData;
 }
 
 export type ActorStats = {
     maxHealth: number;
     pierceResist: number;
-    slashDamage: number;
+    pierceDamage: number;
     bluntResist: number;
     bluntDamage: number;
     magicResist: number;
@@ -22,6 +23,12 @@ export enum ActorActionType {
     BUFF,
     HEAL,
     CURSE
+}
+
+export enum ActorColorType {
+    GREEN,
+    BLUE,
+    PURPLE
 }
 
 export type ActorStatType = keyof ActorStats | 'allResists';

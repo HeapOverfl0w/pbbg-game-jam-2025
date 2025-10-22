@@ -1,6 +1,7 @@
+import { AnimatedSprite } from "pixi.js";
 import { ActorActionType, ActorData, ActorStats, ActorStatType } from "../redux/actor-data";
 import { aStar, Position } from "./astar";
-import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH } from "./constants";
+import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH } from "./constants";
 import { GameMap } from "./game-map";
 import { ProjectileFactory } from "./projectile";
 
@@ -21,7 +22,7 @@ export class Actor {
     private health: number;
     private maxHealth: number;
     private pierceResist: number;
-    private slashDamage: number;
+    private pierceDamage: number;
     private bluntResist: number;
     private bluntDamage: number;
     private magicResist: number;
@@ -41,8 +42,9 @@ export class Actor {
     private waitStart: number = 0;
     private actionStart: number = performance.now();
     private path: Position[] = [];
+    private animation: AnimatedSprite;
 
-    constructor(data: ActorData, tileX: number, tileY: number, teamType: ActorTeamType) {
+    constructor(data: ActorData, tileX: number, tileY: number, teamType: ActorTeamType, animation: AnimatedSprite) {
         this.data = data;
         this.tileX = tileX;
         this.tileY = tileY;
@@ -50,6 +52,9 @@ export class Actor {
         this.y = tileY * TILE_HEIGHT;
 
         this.teamType = teamType;
+        this.animation = animation;
+        this.animation.x = this.x + CANVAS_BORDER_WIDTH;
+        this.animation.y = this.y + CANVAS_BORDER_HEIGHT;
 
         this.setStatsFromData();
     }
@@ -58,7 +63,7 @@ export class Actor {
         this.health = this.data.stats.maxHealth;
         this.maxHealth = this.data.stats.maxHealth;
         this.pierceResist = this.data.stats.pierceResist;
-        this.slashDamage = this.data.stats.slashDamage;
+        this.pierceDamage = this.data.stats.pierceDamage;
         this.bluntResist = this.data.stats.bluntResist;
         this.bluntDamage = this.data.stats.bluntDamage;
         this.magicResist = this.data.stats.magicResist;
@@ -70,8 +75,8 @@ export class Actor {
         return this.health > 0;
     }
 
-    damage(slashDamage: number, bluntDamage: number, magicDamage: number) {
-        const totalDamage = Math.max(0, slashDamage * (1 - Math.min(0.8, this.pierceResist))) +
+    damage(pierceDamage: number, bluntDamage: number, magicDamage: number) {
+        const totalDamage = Math.max(0, pierceDamage * (1 - Math.min(0.8, this.pierceResist))) +
                             Math.max(0, bluntDamage * (1 - Math.min(0.8, this.bluntResist))) +
                             Math.max(0, magicDamage * (1 - Math.min(0.8, this.magicResist)));
         this.health -= totalDamage;
@@ -97,8 +102,8 @@ export class Actor {
                 this.bluntResist *= (1 + amount);
                 this.magicResist *= (1 + amount);
                 break;
-            case 'slashDamage':
-                this.slashDamage *= (1 + amount);
+            case 'pierceDamage':
+                this.pierceDamage *= (1 + amount);
                 break;
             case 'bluntDamage':
                 this.bluntDamage *= (1 + amount);
@@ -128,8 +133,8 @@ export class Actor {
                 this.bluntResist /= (1 + amount);
                 this.magicResist /= (1 + amount);
                 break;
-            case 'slashDamage':
-                this.slashDamage /= (1 + amount);
+            case 'pierceDamage':
+                this.pierceDamage /= (1 + amount);
                 break;
             case 'bluntDamage':
                 this.bluntDamage /= (1 + amount);
@@ -183,13 +188,21 @@ export class Actor {
 
         if (performance.now() - this.actionStart >= this.actionSpeed) {
             this.actionStart = performance.now();
-            map.addProjectile(ProjectileFactory.createProjectile(this));
+
+            if (this.data.action.type == ActorActionType.ATTACK) {
+                const newProjectile = ProjectileFactory.createProjectile(this);
+                if (newProjectile) {
+                    map.addProjectile(newProjectile);
+                }
+            } else {
+                this.act(this.target.tileX, this.target.tileY, map);
+            }
         }
     }
 
     public act(tileX: number, tileY: number, map: GameMap) {
         if (this.target) {
-            for (const offset of ACTION_TARGETS_TYPE_TO_TILE_OFFSETS[this.data.actionType.targets]) {
+            for (const offset of ACTION_TARGETS_TYPE_TO_TILE_OFFSETS[this.data.action.targets]) {
                 const targetTileX = tileX + offset.x;
                 const targetTileY = tileY + offset.y;
 
@@ -201,9 +214,9 @@ export class Actor {
                 const targetTile = map.tiles[targetTileX]?.[targetTileY];
 
                 if (targetTile && targetTile.actor) {
-                    switch (this.data.actionType.type) {
+                    switch (this.data.action.type) {
                         case ActorActionType.ATTACK:
-                            targetTile.actor.damage(this.slashDamage, this.bluntDamage, this.magicDamage);
+                            targetTile.actor.damage(this.pierceDamage, this.bluntDamage, this.magicDamage);
                             break;
                         case ActorActionType.HEAL:
                             targetTile.actor.heal(this.magicDamage);
@@ -265,7 +278,7 @@ export class Actor {
 
     private doMove(map: GameMap) {
         //if we're in range then switch to actioning
-        if (this.target && distanceFormula(this.tileX, this.tileY, this.target.tileX, this.target.tileY) <= this.data.actionType.range) {
+        if (this.target && distanceFormula(this.tileX, this.tileY, this.target.tileX, this.target.tileY) <= this.data.action.range) {
             this.setState(ActorStateType.ACTIONING);
             return;
         }
@@ -290,6 +303,9 @@ export class Actor {
 
             this.x += changeX;
             this.y += changeY;
+            this.animation.x += changeX;
+            this.animation.y += changeY;
+
             const newTileX = Math.floor(this.x / TILE_WIDTH);
             const newTileY = Math.floor(this.y / TILE_HEIGHT);
 

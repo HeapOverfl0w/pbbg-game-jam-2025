@@ -1,11 +1,11 @@
 import { Rectangle, Texture, Assets, AnimatedSprite } from "pixi.js";
+import { ActorColorType } from "../redux/actor-data";
 
 //texture list
 const TEXTURES = [
     "backdrops",
     "units",
     "projectiles",
-    "effects",
 ]
 
 class DataLoader {
@@ -34,7 +34,103 @@ class DataLoader {
     }
 
     async loadAnimations() {
-        
+        this.createAnimation({
+            name: "background1",
+            textureName: "backdrops",
+            frameX: 0,
+            frameY: 0,
+            frameWidth: 320,
+            frameHeight: 200,
+            frameSpeed: 0,
+            frameCount: 0,
+            loop: false,
+            offsetX: 0,
+            offsetY: 0
+        });
+
+        this.createAnimation({
+            name: "green_knight",
+            textureName: "units",
+            frameX: 0,
+            frameY: 0,
+            frameWidth: 24,
+            frameHeight: 36,
+            frameSpeed: 0,
+            frameCount: 0,
+            loop: false,
+            offsetX: 0,
+            offsetY: 24
+        });
+
+        this.createAnimation({
+            name: "blue_knight",
+            textureName: "units",
+            frameX: 24,
+            frameY: 0,
+            frameWidth: 24,
+            frameHeight: 36,
+            frameSpeed: 0,
+            frameCount: 0,
+            loop: false,
+            offsetX: 0,
+            offsetY: 24
+        });
+
+        this.createAnimation({
+            name: "purple_knight",
+            textureName: "units",
+            frameX: 48,
+            frameY: 0,
+            frameWidth: 24,
+            frameHeight: 36,
+            frameSpeed: 0,
+            frameCount: 0,
+            loop: false,
+            offsetX: 0,
+            offsetY: 24
+        });
+
+        this.createAnimation({
+            name: "magic_projectile",
+            textureName: "projectiles",
+            frameX: 0,
+            frameY: 0,
+            frameWidth: 16,
+            frameHeight: 10,
+            frameSpeed: 0,
+            frameCount: 0,
+            loop: false,
+            offsetX: -5,
+            offsetY: 8
+        });
+
+        this.createAnimation({
+            name: "blunt_projectile",
+            textureName: "projectiles",
+            frameX: 16,
+            frameY: 0,
+            frameWidth: 17,
+            frameHeight: 15,
+            frameSpeed: 0,
+            frameCount: 0,
+            loop: false,
+            offsetX: -9,
+            offsetY: 8
+        });
+
+        this.createAnimation({
+            name: "pierce_projectile",
+            textureName: "projectiles",
+            frameX: 33,
+            frameY: 0,
+            frameWidth: 18,
+            frameHeight: 7,
+            frameSpeed: 0,
+            frameCount: 0,
+            loop: false,
+            offsetX: -9,
+            offsetY: 4
+        });
     }
 
     private createAnimation(options: {
@@ -83,6 +179,11 @@ class DataLoader {
         sprite.animationSpeed = 0.1;
         sprite.loop = animation.loop;
         return sprite;
+    }
+
+    public getUnitAnimation(color: ActorColorType, name: string) {
+        const colorPrefix = ActorColorType[color].toLowerCase();
+        return this.cloneAnimation(colorPrefix + '_' + name);
     }
 
 }

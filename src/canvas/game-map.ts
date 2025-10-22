@@ -3,6 +3,7 @@ import { Actor, ActorTeamType } from "./actor";
 import { TILES_X, TILES_X_PER_SIDE, TILES_Y } from "./constants";
 import { TeamData } from "../redux/actor-data";
 import { Projectile } from "./projectile";
+import { DATA } from "./data";
 
 export type Tile = {
     passable: boolean;
@@ -14,16 +15,22 @@ export class GameMap {
     public projectiles: Projectile[] = [];
     private playerTeam: TeamData;
     private enemyTeam: TeamData;
+    private stage: Container;
 
     constructor(stage: Container, playerTeam: TeamData, enemyTeam: TeamData) {
         this.playerTeam = playerTeam;
         this.enemyTeam = enemyTeam;
+        this.stage = stage;
         this.init()
         stage.removeChildren();
-        stage.addChild();
     }
 
     private init() {
+        const backdrop = DATA.cloneAnimation('background1');
+        if (backdrop) {
+            this.stage.addChild(backdrop);
+        }
+
         this.tiles = [];
         for (let x = 0; x < TILES_X; x++) {
             this.tiles[x] = [];
@@ -34,15 +41,24 @@ export class GameMap {
                     y < this.playerTeam.actors[x].length && 
                     this.playerTeam.actors[x][y]
                 ) {
-                    //TODO: Add in actor sprite creation with an actor factory.
-                    this.tiles[x][y] = { passable: true, actor: new Actor(this.playerTeam.actors[x][y]!, x, y, ActorTeamType.FRIENDLY) };
+                    const actorData = this.playerTeam.actors[x][y]!;
+                    const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
+                    if (animation) {
+                        this.tiles[x][y] = { passable: true, actor: new Actor(this.playerTeam.actors[x][y]!, x, y, ActorTeamType.FRIENDLY, animation) };
+                        this.stage.addChild(animation);
+                    }                    
                 } else if (x >= TILES_X - TILES_X_PER_SIDE && 
                     (TILES_X - x) < this.enemyTeam.actors.length && 
                     y < this.enemyTeam.actors[(TILES_X - x)].length && 
                     this.enemyTeam.actors[(TILES_X - x)][y]
                 ) {
-                    //TODO: Add in actor sprite creation with an actor factory.
-                    this.tiles[x][y] = { passable: true, actor: new Actor(this.enemyTeam.actors[(TILES_X - x)][y]!, x, y, ActorTeamType.ENEMY) };
+                    const actorData = this.enemyTeam.actors[(TILES_X - x)][y]!;
+                    const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
+                    if (animation) {
+                        animation.scale.x = -1; // flip for enemy
+                        this.tiles[x][y] = { passable: true, actor: new Actor(actorData, x, y, ActorTeamType.ENEMY, animation) };
+                        this.stage.addChild(animation);
+                    }
                 } else {
                     this.tiles[x][y] = { passable: true };
                 }
@@ -51,6 +67,7 @@ export class GameMap {
     }
 
     addProjectile(projectile: Projectile) {
+        this.stage.addChild(projectile.animation);
         this.projectiles.push(projectile);
     }
 
@@ -113,6 +130,7 @@ export class GameMap {
 
             if (projectile.destroyed) {
                 this.projectiles.splice(i, 1);
+                this.stage.removeChild(projectile.animation);
             }
         }
     }
