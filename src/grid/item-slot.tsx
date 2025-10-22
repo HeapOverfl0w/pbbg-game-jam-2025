@@ -1,31 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDrop } from 'react-dnd'
+import { Item } from './item';
+import { useDispatch } from 'react-redux';
+import { moveActor } from '../redux/store-slice';
+import { ActorData } from '../redux/actor-data';
+
+type ItemSlotProps = {
+  data: ActorData|undefined;
+  x: number;
+  y: number;
+}
+
 
 /**
- * Base UI component for the Inventory Item.
+ * Base UI component for the Item Slot.
  * 
  * @param {*} props 
  * @returns 
  */
-export function ItemSlot(props: any) {
-  const [hover, setHover] = useState(false);
+export function ItemSlot(props: ItemSlotProps) {
+  const dispatch = useDispatch();
 
   /**
-   * Method that handles proccessing an item when it has been dropped into the equipment slot.
+   * Method that handles proccessing an item when it has been dropped into the item slot.
    * 
-   * @param {*} item 
+   * @param {*} actor 
    */
-  const handleDrop = (item: any) => {
-    props.onEquip(item.id)
+  const handleDrop = (actor: ActorData) => {
+    dispatch(moveActor({ x: props.x, y: props.y, id: actor.id } as any));
   }
 
   /**
-   * Drag/Drop hook to enable dropping items into the equipment slot.
+   * Drag/Drop hook to enable dropping items into the item slot.
    */
   const [{ isOver, canDrop }, ref] = useDrop(
     () => ({
       accept: "item",
-      drop: (item) => handleDrop(item),
+      canDrop: () => props.data === undefined,
+      drop: (actor: ActorData) => handleDrop(actor),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
         canDrop: !!monitor.canDrop()
@@ -35,19 +47,21 @@ export function ItemSlot(props: any) {
   );
 
   return (
-    <div className='no-padding border' ref={ref as any} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-      { hover &&
-        <div style={{ position: 'absolute', zIndex: 1, width: '100%', height: '100%', background: 'rgba(255, 0, 0, 0.35)' }}></div>
-      }
-      <img className='responsive small' style={{ aspectRatio: '1/1' }} src={''} alt='' />
-
-      {/* <div className='tooltip max left'>
-        <b>Title</b>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <nav>
-          <a className='inverse-link'>Action</a>
-        </nav>
-      </div> */}
+    <div className='padding, border' ref={ref as any}>
+      <div>
+        {(props.data !== undefined) &&
+          <Item item={props.data} onMove={() => { }} />
+        }
+        {(props.data === undefined) &&
+          <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={''} alt='' />
+        }
+        {isOver && !canDrop &&
+          <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, width: '100%', height: '100%', background: 'rgba(255, 0, 0, 0.35)' }} />
+        }
+        {isOver && canDrop &&
+          <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, width: '100%', height: '100%', background: 'rgba(0, 255, 0, 0.35)' }} />
+        }
+      </div>
     </div>
   );
 }

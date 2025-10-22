@@ -56,4 +56,46 @@ export type ActorActionData = {
 export type TeamData = {
     actors: (ActorData | undefined)[][];
     teamStats: ActorStats;
+    inventory: (ActorData | undefined)[];
+}
+
+export const getInitialState = (): TeamData => {
+    const inventory : (ActorData|undefined)[]  = Array(20).fill(undefined);
+    inventory[0] = {
+        id: "",
+        name: "",
+        description: "",
+        color: ActorColorType.GREEN,
+        stats: {
+            maxHealth: 0,
+            pierceResist: 0,
+            pierceDamage: 0,
+            bluntResist: 0,
+            bluntDamage: 0,
+            magicResist: 0,
+            magicDamage: 0,
+            actionSpeed: 0
+        },
+        action: {
+            type: ActorActionType.ATTACK,
+            range: 0,
+            targets: ActorActionTargetsType.SINGLE,
+            buffCurseStatType: undefined
+        }
+    };
+
+    return {
+        actors: Array.from({ length: 4 }, () => Array(5).fill(undefined)),
+        inventory: inventory,
+        teamStats: {
+            maxHealth: 0,
+            pierceResist: 0,
+            pierceDamage: 0,
+            bluntResist: 0,
+            bluntDamage: 0,
+            magicResist: 0,
+            magicDamage: 0,
+            actionSpeed: 0
+        }
+    }
 }
