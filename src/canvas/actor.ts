@@ -181,7 +181,7 @@ export class Actor {
 
     private doAction(map: GameMap) {
         //if our target is dead then switch to idle
-        if (!this.target || !this.target.isAlive()) {
+        if (!this.target || !this.target.isAlive() || distanceFormula(this.tileX, this.tileY, this.target.tileX, this.target.tileY) > this.data.action.range) {
             this.setState(ActorStateType.IDLE);
             return;
         }
@@ -200,7 +200,7 @@ export class Actor {
         }
     }
 
-    public act(tileX: number, tileY: number, map: GameMap) {
+    act(tileX: number, tileY: number, map: GameMap) {
         if (this.target) {
             for (const offset of ACTION_TARGETS_TYPE_TO_TILE_OFFSETS[this.data.action.targets]) {
                 const targetTileX = tileX + offset.x;
@@ -274,6 +274,17 @@ export class Actor {
             }
         }
         return nearestActor;
+    }
+
+    addTeamStats(teamStats: ActorStats) {
+        this.maxHealth += teamStats.maxHealth;
+        this.pierceResist += teamStats.pierceResist;
+        this.pierceDamage += teamStats.pierceDamage;
+        this.bluntResist += teamStats.bluntResist;
+        this.bluntDamage += teamStats.bluntDamage;
+        this.magicResist += teamStats.magicResist;
+        this.magicDamage += teamStats.magicDamage;
+        this.actionSpeed += teamStats.actionSpeed;
     }
 
     private doMove(map: GameMap) {

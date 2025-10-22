@@ -45,6 +45,7 @@ export class GameMap {
                     const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
                     if (animation) {
                         this.tiles[x][y] = { passable: true, actor: new Actor(this.playerTeam.actors[x][y]!, x, y, ActorTeamType.FRIENDLY, animation) };
+                        this.tiles[x][y].actor!.addTeamStats(this.playerTeam.teamStats);
                         this.stage.addChild(animation);
                     }                    
                 } else if (x >= TILES_X - TILES_X_PER_SIDE && 
@@ -57,6 +58,7 @@ export class GameMap {
                     if (animation) {
                         animation.scale.x = -1; // flip for enemy
                         this.tiles[x][y] = { passable: true, actor: new Actor(actorData, x, y, ActorTeamType.ENEMY, animation) };
+                        this.tiles[x][y].actor!.addTeamStats(this.enemyTeam.teamStats);
                         this.stage.addChild(animation);
                     }
                 } else {

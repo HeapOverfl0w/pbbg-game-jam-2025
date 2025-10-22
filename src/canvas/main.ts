@@ -3,13 +3,16 @@ import { TeamData } from "../redux/actor-data";
 import { GameMap } from "./game-map";
 import { MAX_ROUND_TIME_MS } from "./constants";
 
+export type EndGameResult = 'PLAYER_DEFEAT' | 'ENEMY_DEFEAT' | 'TIE';
+
 export class Main {
     private gameMap: GameMap | undefined;
     private webglApplication: Application;
     private startTime: number = 0;
     private lastEndGameStateCheck: number = 0;
+    private endGameCallback: (result: EndGameResult) => void;
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, endGameCallback: (result: EndGameResult) => void) {
         const webglApplication = new Application();
         webglApplication.ticker.maxFPS = 30;
         webglApplication.ticker.add(this.update.bind(this));
@@ -22,6 +25,7 @@ export class Main {
             resolution: window.devicePixelRatio,
         });
         this.webglApplication = webglApplication;
+        this.endGameCallback = endGameCallback;
     }
 
     start(playerTeam: TeamData, enemyTeam: TeamData) {
@@ -44,10 +48,13 @@ export class Main {
     private checkEndGameState() {
         if (this.gameMap?.isPlayerTeamDefeated()) {
             // End the round with player team defeat.
+            this.endGameCallback('PLAYER_DEFEAT');
         } else if (this.gameMap?.isEnemyTeamDefeated()) {
             // End the round with enemy team defeat.
+            this.endGameCallback('ENEMY_DEFEAT');
         } else if (this.startTime && performance.now() - this.startTime > MAX_ROUND_TIME_MS) {
             // End the round in tie.
-        } 
+            this.endGameCallback('TIE');
+        }
     }
 }

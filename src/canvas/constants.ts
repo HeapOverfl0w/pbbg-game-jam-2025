@@ -1,4 +1,4 @@
-import { ActorActionTargetsType } from "../redux/actor-data";
+import { ActorActionTargetsType, ActorActionType, ActorColorType, ActorData, TeamData } from "../redux/actor-data";
 
 export const TILE_WIDTH = 24;
 export const TILE_HEIGHT = 24;
@@ -41,4 +41,53 @@ export const ACTION_TARGETS_TYPE_TO_TILE_OFFSETS: Record<ActorActionTargetsType,
 
 export const distanceFormula = (x1: number, y1: number, x2: number, y2: number): number => {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
+export const createTestTeamData = (): TeamData => {
+    const actors2dArray: (ActorData | undefined)[][] = [];
+    for (let x = 0; x < 4; x++) {
+        actors2dArray.push([]);
+        for (let y = 0; y < 5; y++) {
+            if (x == 0 || x == 4) {
+                actors2dArray[x].push({
+                    id: `actor-${x}-${y}`,
+                    name: `Knight`,
+                    description: "",
+                    color: Math.random() > 0.5 ? ActorColorType.GREEN : ActorColorType.BLUE,
+                    stats: {
+                        maxHealth: 10,
+                        pierceResist: 0.5,
+                        pierceDamage: 2,
+                        bluntResist: 0,
+                        bluntDamage: 0,
+                        magicResist: 0,
+                        magicDamage: 0,
+                        actionSpeed: 1500
+                    },
+                    action: {
+                        type: ActorActionType.ATTACK,
+                        range: 1,
+                        targets: ActorActionTargetsType.SINGLE,
+                        buffCurseStatType: undefined
+                    }
+                });
+            } else {
+                actors2dArray[x].push(undefined);
+            }
+        }
+    }
+
+    return {
+        actors: actors2dArray,
+        teamStats: {
+            maxHealth: 0,
+            pierceResist: 0,
+            pierceDamage: 0,
+            bluntResist: 0,
+            bluntDamage: 0,
+            magicResist: 0,
+            magicDamage: 0,
+            actionSpeed: 0
+        }
+    };
 }

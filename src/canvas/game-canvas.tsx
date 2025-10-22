@@ -1,20 +1,37 @@
-import React, { useRef, useMemo } from 'react';
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./constants";
-import { Main } from './main';
+import React, { useRef, useMemo, useEffect } from 'react';
+import { CANVAS_HEIGHT, CANVAS_WIDTH, createTestTeamData } from "./constants";
+import { EndGameResult, Main } from './main';
 
+export type GameCanvasProps = {
+    endGameCallback: (result: EndGameResult) => void;
+    showGame: boolean;
+}
 
-
-
-
-export function GameCanvas() {
+export function GameCanvas(props: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const gameApp = useRef<Main>(null);
 
     useMemo(() => {
         if (canvasRef.current && !gameApp.current) {
-            gameApp.current = new Main(canvasRef.current);
+            gameApp.current = new Main(canvasRef.current, endGameCallback);
+            startGame();
         }
-    }, [canvasRef.current])
+    }, [canvasRef.current]);
+
+    const endGameCallback = (result: EndGameResult) => {
+        console.log("Game ended with result:", result);
+        props.endGameCallback(result);
+    }
+
+    useEffect(() => {
+        startGame();
+    }, [props.showGame]);
+
+    const startGame = () => {
+        if (props.showGame && gameApp.current) {
+            gameApp.current.start(createTestTeamData(), createTestTeamData());
+        }
+    }
 
     return (
         <div>

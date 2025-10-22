@@ -66,8 +66,8 @@ export class Projectile {
         this.animation.y = this.y;
 
         // Check for collisions with the map
-        const tileX = Math.floor(this.x / TILE_WIDTH);
-        const tileY = Math.floor(this.y / TILE_HEIGHT);
+        const tileX = Math.round(this.x / TILE_WIDTH);
+        const tileY = Math.round(this.y / TILE_HEIGHT);
         const tile = map.tiles[tileX]?.[tileY];
 
         if (tile && ((tile.actor && tile.actor !== this.owner && tile.actor.teamType == this.owner.getTargetType()) || !tile.passable)) {
