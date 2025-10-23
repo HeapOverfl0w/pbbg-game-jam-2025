@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDrop } from 'react-dnd'
 
 import { ItemSlot } from './item-slot';
 import { ItemSlotStatic } from './item-slot-static';
@@ -7,32 +6,49 @@ import { useSelector } from 'react-redux';
 import { TeamData } from '../redux/actor-data';
 
 type BattlefieldProps = {
-  editable: boolean;
+  onStart: () => void;
 }
 
 /**
- * Base UI component for the Battlefield.
+ * Battlefield UI component.
  * 
  * @returns 
  */
 export function Battlefield(props: BattlefieldProps) {
-  //const { data, error, isLoading } = useGetInventoryQuery();
   const actors = useSelector((state: TeamData) => state.actors);
+  const enemies = useSelector((state: TeamData) => state.actors);
 
   return (
-    <div className='row no-space vertical'>
-      {
-        actors.map((_, i) => {
-          return <div className='row no-space horizontal'>
-            {
-              _.map((__, j) => props.editable ?
-                <ItemSlot data={__} x={i} y={j}/> :
-                <ItemSlotStatic data={__} />
-              )
-            }
-          </div>
-        })
-      }
+    <div className='row vertical'>
+      <div className='row horizontal'>
+        <div className='row no-space vertical'>
+          {
+            actors.map((_, i) => {
+              return <div className='row no-space horizontal'>
+                {
+                  _.map((__, j) => <ItemSlot data={__} x={i} y={j} />)
+                }
+              </div>
+            })
+          }
+        </div>
+        <div className='row no-space vertical'>
+          {
+            enemies.map((_, i) => {
+              return <div className='row no-space horizontal'>
+                {
+                  _.map((__, j) => <ItemSlotStatic data={__} />)
+                }
+              </div>
+            })
+          }
+        </div>
+      </div>
+      <div style={{alignSelf: 'end'}}>
+        <button disabled={actors.flatMap((_) => _.every(__ => __ === undefined)).every(_ => _ === true)} onClick={() => props.onStart()}>
+          Start
+        </button>
+      </div>
     </div>
   );
 }

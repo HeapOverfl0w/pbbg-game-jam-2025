@@ -1,5 +1,6 @@
 import { Rectangle, Texture, Assets, AnimatedSprite } from "pixi.js";
 import { ActorColorType } from "../redux/actor-data";
+import { animations } from "./animations";
 
 //texture list
 const TEXTURES = [
@@ -11,219 +12,66 @@ const TEXTURES = [
 class DataLoader {
     public textures: Record<string, Texture> = {};
     public animations: Record<string, AnimatedSprite> = {};
+    private status: Record<string, string> = {};
 
     constructor() {
-        
+
     }
 
     async load() {
         try {
             await this.loadTextures();
             await this.loadAnimations();
+            this.status = {
+                text: 'Loading Complete...',
+                percent: '100'
+            };
             console.log("Data loaded successfully");
         } catch (error) {
+            this.status = {
+                text: 'Loading Complete...',
+                percent: '100'
+            };
             console.error("Error loading data:", error);
         }
     }
 
     async loadTextures() {
         for (const textureName of TEXTURES) {
+            this.status = {
+                text: 'Loading Textures...',
+                percent: ((TEXTURES.indexOf(textureName) / (TEXTURES.length + 1)) * 100).toString()
+            };
             this.textures[textureName] = await Assets.load("./img/" + textureName + ".png");
             this.textures[textureName].source.scaleMode = "nearest"; // Set scale mode to nearest for pixel art
         }
     }
 
     async loadAnimations() {
-        this.createAnimation({
-            name: "background1",
-            textureName: "backdrops",
-            frameX: 0,
-            frameY: 0,
-            frameWidth: 320,
-            frameHeight: 200,
-            frameSpeed: 0,
-            frameCount: 0,
-            loop: false,
-            offsetX: 0,
-            offsetY: 0
-        });
+        this.status = {
+            text: 'Loading Animations...',
+            percent: ((TEXTURES.length / (TEXTURES.length + 1)) * 100).toString()
+        };
+        for (const animation of animations) {
+            this.createAnimation(animation);
+        }
+    }
 
-        this.createAnimation({
-            name: "green_knight",
-            textureName: "units",
-            frameX: 0,
-            frameY: 0,
-            frameWidth: 24,
-            frameHeight: 36,
-            frameSpeed: 0,
-            frameCount: 0,
-            loop: false,
-            offsetX: 0,
-            offsetY: 24
-        });
-
-        this.createAnimation({
-            name: "blue_knight",
-            textureName: "units",
-            frameX: 24,
-            frameY: 0,
-            frameWidth: 24,
-            frameHeight: 36,
-            frameSpeed: 0,
-            frameCount: 0,
-            loop: false,
-            offsetX: 0,
-            offsetY: 24
-        });
-
-        this.createAnimation({
-            name: "purple_knight",
-            textureName: "units",
-            frameX: 48,
-            frameY: 0,
-            frameWidth: 24,
-            frameHeight: 36,
-            frameSpeed: 0,
-            frameCount: 0,
-            loop: false,
-            offsetX: 0,
-            offsetY: 24
-        });
-
-        this.createAnimation({
-            name: "magic_projectile",
-            textureName: "other",
-            frameX: 0,
-            frameY: 0,
-            frameWidth: 16,
-            frameHeight: 10,
-            frameSpeed: 0,
-            frameCount: 0,
-            loop: false,
-            offsetX: -5,
-            offsetY: 8
-        });
-
-        this.createAnimation({
-            name: "blunt_projectile",
-            textureName: "other",
-            frameX: 16,
-            frameY: 0,
-            frameWidth: 17,
-            frameHeight: 15,
-            frameSpeed: 0,
-            frameCount: 0,
-            loop: false,
-            offsetX: -9,
-            offsetY: 8
-        });
-
-        this.createAnimation({
-            name: "pierce_projectile",
-            textureName: "other",
-            frameX: 33,
-            frameY: 0,
-            frameWidth: 18,
-            frameHeight: 7,
-            frameSpeed: 0,
-            frameCount: 0,
-            loop: false,
-            offsetX: -9,
-            offsetY: 4
-        });
-
-        //hit effects
-        this.createAnimation({
-            name: "effect_magic",
-            textureName: "other",
-            frameX: 72,
-            frameY: 0,
-            frameWidth: 24,
-            frameHeight: 24,
-            frameSpeed: 45,
-            frameCount: 5,
-            loop: false,
-            offsetX: 0,
-            offsetY: 0
-        });
-        this.createAnimation({
-            name: "effect_pierce",
-            textureName: "other",
-            frameX: 48,
-            frameY: 24,
-            frameWidth: 24,
-            frameHeight: 24,
-            frameSpeed: 35,
-            frameCount: 7,
-            loop: false,
-            offsetX: 0,
-            offsetY: 0
-        });
-        this.createAnimation({
-            name: "effect_blunt",
-            textureName: "other",
-            frameX: 48,
-            frameY: 48,
-            frameWidth: 24,
-            frameHeight: 24,
-            frameSpeed: 45,
-            frameCount: 5,
-            loop: false,
-            offsetX: 0,
-            offsetY: 0
-        });
-        this.createAnimation({
-            name: "effect_curse",
-            textureName: "other",
-            frameX: 0,
-            frameY: 24,
-            frameWidth: 24,
-            frameHeight: 24,
-            frameSpeed: 50,
-            frameCount: 2,
-            loop: true,
-            offsetX: 0,
-            offsetY: 0
-        });
-        this.createAnimation({
-            name: "effect_heal",
-            textureName: "other",
-            frameX: 0,
-            frameY: 48,
-            frameWidth: 24,
-            frameHeight: 24,
-            frameSpeed: 50,
-            frameCount: 2,
-            loop: true,
-            offsetX: 0,
-            offsetY: 0
-        });
-        this.createAnimation({
-            name: "effect_buff",
-            textureName: "other",
-            frameX: 0,
-            frameY: 48,
-            frameWidth: 24,
-            frameHeight: 24,
-            frameSpeed: 50,
-            frameCount: 2,
-            loop: true,
-            offsetX: 0,
-            offsetY: 0
-        });
+    public getStatus() {
+        return this.status;
     }
 
     private createAnimation(options: {
-        name: string; 
-        textureName: string; 
-        frameX: number; 
-        frameY: number; 
-        frameWidth: number; 
-        frameHeight: number; 
-        frameSpeed: number; 
-        frameCount: number; 
-        loop: boolean; 
-        offsetX: number; 
+        name: string;
+        textureName: string;
+        frameX: number;
+        frameY: number;
+        frameWidth: number;
+        frameHeight: number;
+        frameSpeed: number;
+        frameCount: number;
+        loop: boolean;
+        offsetX: number;
         offsetY: number
     }): void {
         const frames = [];
@@ -236,15 +84,17 @@ class DataLoader {
             }
         }
 
-        const animatedSprite = new AnimatedSprite(frames);
-        if (options.offsetX == 0 && options.offsetY == 0) {
-            animatedSprite.anchor.set(0.5, 0);
-        } else {
-            animatedSprite.anchor.set(options.offsetX / options.frameWidth, options.offsetY / options.frameHeight);
+        if (frames.length > 0) {
+            const animatedSprite = new AnimatedSprite(frames);
+            if (options.offsetX == 0 && options.offsetY == 0) {
+                animatedSprite.anchor.set(0.5, 0);
+            } else {
+                animatedSprite.anchor.set(options.offsetX / options.frameWidth, options.offsetY / options.frameHeight);
+            }
+            animatedSprite.animationSpeed = options.frameSpeed;
+            animatedSprite.loop = options.loop;
+            this.animations[options.name] = animatedSprite;
         }
-        animatedSprite.animationSpeed = options.frameSpeed;
-        animatedSprite.loop = options.loop;
-        this.animations[options.name] = animatedSprite;
     }
 
     public cloneAnimation(name: string): AnimatedSprite | undefined {

@@ -1,5 +1,9 @@
 import { ActorActionTargetsType, ActorActionType, ActorColorType, ActorData, TeamData } from "../redux/actor-data";
 
+export type UnitColor = 'green' | 'blue' | 'purple';
+export type ProjectileType = 'magic' | 'blunt' | 'pierce';
+export type EffectType = 'magic' | 'blunt' | 'pierce' | 'curse' | 'heal' | 'buff';
+
 export const TILE_WIDTH = 24;
 export const TILE_HEIGHT = 24;
 export const CANVAS_BORDER_WIDTH = 40;
@@ -78,6 +82,7 @@ export const createTestTeamData = (): TeamData => {
     }
 
     return {
+        inventory: [],
         actors: actors2dArray,
         teamStats: {
             maxHealth: 0,
