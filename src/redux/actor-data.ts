@@ -60,7 +60,7 @@ export type TeamData = {
 }
 
 export const getInitialState = (): TeamData => {
-    const inventory : (ActorData|undefined)[]  = Array(20).fill(undefined);
+    const inventory : (ActorData|undefined)[]  = Array(100).fill(undefined);
     inventory[0] = {
         id: "",
         name: "",
