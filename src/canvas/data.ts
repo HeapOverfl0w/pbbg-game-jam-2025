@@ -5,7 +5,7 @@ import { ActorColorType } from "../redux/actor-data";
 const TEXTURES = [
     "backdrops",
     "units",
-    "projectiles",
+    "other",
 ]
 
 class DataLoader {
@@ -92,7 +92,7 @@ class DataLoader {
 
         this.createAnimation({
             name: "magic_projectile",
-            textureName: "projectiles",
+            textureName: "other",
             frameX: 0,
             frameY: 0,
             frameWidth: 16,
@@ -106,7 +106,7 @@ class DataLoader {
 
         this.createAnimation({
             name: "blunt_projectile",
-            textureName: "projectiles",
+            textureName: "other",
             frameX: 16,
             frameY: 0,
             frameWidth: 17,
@@ -120,7 +120,7 @@ class DataLoader {
 
         this.createAnimation({
             name: "pierce_projectile",
-            textureName: "projectiles",
+            textureName: "other",
             frameX: 33,
             frameY: 0,
             frameWidth: 18,
@@ -130,6 +130,86 @@ class DataLoader {
             loop: false,
             offsetX: -9,
             offsetY: 4
+        });
+
+        //hit effects
+        this.createAnimation({
+            name: "effect_magic",
+            textureName: "other",
+            frameX: 72,
+            frameY: 0,
+            frameWidth: 24,
+            frameHeight: 24,
+            frameSpeed: 45,
+            frameCount: 5,
+            loop: false,
+            offsetX: 0,
+            offsetY: 0
+        });
+        this.createAnimation({
+            name: "effect_pierce",
+            textureName: "other",
+            frameX: 48,
+            frameY: 24,
+            frameWidth: 24,
+            frameHeight: 24,
+            frameSpeed: 35,
+            frameCount: 7,
+            loop: false,
+            offsetX: 0,
+            offsetY: 0
+        });
+        this.createAnimation({
+            name: "effect_blunt",
+            textureName: "other",
+            frameX: 48,
+            frameY: 48,
+            frameWidth: 24,
+            frameHeight: 24,
+            frameSpeed: 45,
+            frameCount: 5,
+            loop: false,
+            offsetX: 0,
+            offsetY: 0
+        });
+        this.createAnimation({
+            name: "effect_curse",
+            textureName: "other",
+            frameX: 0,
+            frameY: 24,
+            frameWidth: 24,
+            frameHeight: 24,
+            frameSpeed: 50,
+            frameCount: 2,
+            loop: true,
+            offsetX: 0,
+            offsetY: 0
+        });
+        this.createAnimation({
+            name: "effect_heal",
+            textureName: "other",
+            frameX: 0,
+            frameY: 48,
+            frameWidth: 24,
+            frameHeight: 24,
+            frameSpeed: 50,
+            frameCount: 2,
+            loop: true,
+            offsetX: 0,
+            offsetY: 0
+        });
+        this.createAnimation({
+            name: "effect_buff",
+            textureName: "other",
+            frameX: 0,
+            frameY: 48,
+            frameWidth: 24,
+            frameHeight: 24,
+            frameSpeed: 50,
+            frameCount: 2,
+            loop: true,
+            offsetX: 0,
+            offsetY: 0
         });
     }
 

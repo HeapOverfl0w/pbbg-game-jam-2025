@@ -78,6 +78,7 @@ export class Projectile {
         }
 
         if (this.distanceTraveled >= this.owner.data.action.range) {
+            this.animation.destroy();
             this.destroyed = true;
             return;
         }

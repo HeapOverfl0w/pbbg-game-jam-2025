@@ -4,6 +4,7 @@ import { TILES_X, TILES_X_PER_SIDE, TILES_Y } from "./constants";
 import { TeamData } from "../redux/actor-data";
 import { Projectile } from "./projectile";
 import { DATA } from "./data";
+import { Effect } from "./effect";
 
 export type Tile = {
     passable: boolean;
@@ -13,6 +14,7 @@ export type Tile = {
 export class GameMap {
     public tiles: Tile[][];
     public projectiles: Projectile[] = [];
+    public effects: Effect[] = [];
     private playerTeam: TeamData;
     private enemyTeam: TeamData;
     private stage: Container;
@@ -73,6 +75,11 @@ export class GameMap {
         this.projectiles.push(projectile);
     }
 
+    addEffect(effect: Effect) {
+        this.stage.addChild(effect.animation);
+        this.effects.push(effect);
+    }
+
     isPlayerTeamDefeated(): boolean {
         for (let x = 0; x < this.playerTeam.actors.length; x++) {
             for (let y = 0; y < this.playerTeam.actors[x].length; y++) {
@@ -103,19 +110,21 @@ export class GameMap {
                     tile.actor.update(this);
 
                     if (!tile.actor.isAlive()) {
+                        tile.actor.destroyAnimation();
+
                         if (tile.actor.teamType === ActorTeamType.FRIENDLY) {
-                            for (let x = 0; x < this.playerTeam.actors.length; x++) {
-                                for (let y = 0; y < this.playerTeam.actors[x].length; y++) {
-                                    if (this.playerTeam.actors[x][y] === tile.actor.data) {
-                                        this.playerTeam.actors[x][y] = undefined;
+                            for (let dataX = 0; dataX < this.playerTeam.actors.length; dataX++) {
+                                for (let dataY = 0; dataY < this.playerTeam.actors[dataX].length; dataY++) {
+                                    if (this.playerTeam.actors[dataX][dataY] === tile.actor.data) {
+                                        this.playerTeam.actors[dataX][dataY] = undefined;
                                     }
                                 }
                             } 
                         } else if (tile.actor.teamType === ActorTeamType.ENEMY) {
-                            for (let x = 0; x < this.enemyTeam.actors.length; x++) {
-                                for (let y = 0; y < this.enemyTeam.actors[x].length; y++) {
-                                    if (this.enemyTeam.actors[x][y] === tile.actor.data) {
-                                        this.enemyTeam.actors[x][y] = undefined;
+                            for (let dataX = 0; dataX < this.enemyTeam.actors.length; dataX++) {
+                                for (let dataY = 0; dataY < this.enemyTeam.actors[dataX].length; dataY++) {
+                                    if (this.enemyTeam.actors[dataX][dataY] === tile.actor.data) {
+                                        this.enemyTeam.actors[dataX][dataY] = undefined;
                                     }
                                 }
                             }
@@ -133,6 +142,15 @@ export class GameMap {
             if (projectile.destroyed) {
                 this.projectiles.splice(i, 1);
                 this.stage.removeChild(projectile.animation);
+            }
+        }
+
+        for (let i = this.effects.length - 1; i >= 0; i--) {
+            const effect = this.effects[i];
+
+            if (effect.destroyed) {
+                this.effects.splice(i, 1);
+                this.stage.removeChild(effect.animation);
             }
         }
     }

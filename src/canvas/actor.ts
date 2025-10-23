@@ -4,6 +4,7 @@ import { aStar, Position } from "./astar";
 import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH } from "./constants";
 import { GameMap } from "./game-map";
 import { ProjectileFactory } from "./projectile";
+import { EffectFactory } from "./effect";
 
 export enum ActorStateType {
     MOVING,
@@ -40,6 +41,7 @@ export class Actor {
     private state: ActorStateType = ActorStateType.IDLE;
     private waitTime: number = 0;
     private waitStart: number = 0;
+    private actionWalkBounceStart: number = 0;
     private actionStart: number = performance.now();
     private path: Position[] = [];
     private animation: AnimatedSprite;
@@ -158,6 +160,15 @@ export class Actor {
             return;
         }
 
+        //modify offset for little bounce animation
+        if (performance.now() - this.actionWalkBounceStart < 250) {
+            const bounceTime = (performance.now() - this.actionWalkBounceStart) / 250;
+            const bounceAmount = -Math.sin(bounceTime * Math.PI) * 4 * (1 - bounceTime);
+            this.animation.anchor.y += bounceAmount;
+        } else if (this.state === ActorStateType.MOVING) { //if we're still moving after a little bounce then keep animating
+            this.startBounce();
+        }
+
         switch (this.state) {
             case ActorStateType.IDLE:
                 this.doIdle(map);
@@ -169,6 +180,10 @@ export class Actor {
                 this.doAction(map);
                 break;
         }
+    }
+
+    destroyAnimation() {
+        this.animation.destroy();
     }
 
     private setState(state: ActorStateType) {
@@ -197,6 +212,8 @@ export class Actor {
             } else {
                 this.act(this.target.tileX, this.target.tileY, map);
             }
+
+            this.startBounce();
         }
     }
 
@@ -222,12 +239,17 @@ export class Actor {
                             targetTile.actor.heal(this.magicDamage);
                             break;
                         case ActorActionType.BUFF:
-                            targetTile.actor.buff('allResists', this.magicDamage);
+                            targetTile.actor.buff(this.data.action.buffCurseStatType ?? 'allResists', this.magicDamage);
                             break;
-                        case ActorActionType.CURSE:
-                            targetTile.actor.curse('allResists', this.magicDamage);
+                        default:
+                            targetTile.actor.curse(this.data.action.buffCurseStatType ?? 'allResists', this.magicDamage);
                             break;
                     }
+
+                    const newEffect = EffectFactory.createEffect(tileX, tileY, this);
+                    if (newEffect) {
+                        map.addEffect(newEffect);
+                    }                    
                 }
             }
         }
@@ -256,6 +278,10 @@ export class Actor {
     private wait(ms: number) {
         this.waitTime = ms;
         this.waitStart = performance.now();
+    }
+
+    private startBounce() {
+        this.actionWalkBounceStart = performance.now();
     }
 
     private findNearest(map: GameMap, findTeamType: ActorTeamType): Actor | undefined {
