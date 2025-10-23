@@ -12,11 +12,11 @@ export function Inventory() {
   const inventory = useSelector((state: TeamData) => state.inventory);
 
   return (
-    <div style={{ flex: 'auto', width: '100%', height: '100%'}}>
+    <div style={{ flex: 'auto', width: '100%', height: '100%', display: 'flex', flexDirection: 'column'}}>
       <div className='row horizontal'>
         <h3>Inventory</h3>
       </div>
-      <div style={{ width: '100%', height: '100%', overflowY: 'auto' }}>
+      <div style={{ width: '100%', height: '100%', overflowY: 'auto', padding: '1em' }}>
         <div className='row horizontal wrap'>
           {
             inventory.map((_, i) => {
