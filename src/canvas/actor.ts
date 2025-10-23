@@ -42,7 +42,8 @@ export class Actor {
     private waitTime: number = 0;
     private waitStart: number = 0;
     private actionWalkBounceStart: number = 0;
-    private actionStart: number = performance.now();
+    private actionStart: number = 0;
+    private tintChangeStart: number = 0;
     private path: Position[] = [];
     private animation: AnimatedSprite;
 
@@ -82,10 +83,12 @@ export class Actor {
                             Math.max(0, bluntDamage * (1 - Math.min(0.8, this.bluntResist))) +
                             Math.max(0, magicDamage * (1 - Math.min(0.8, this.magicResist)));
         this.health -= totalDamage;
+        this.setTint(0x8b3d3d); //red
     }
 
     heal(amount: number) {
         this.health = Math.min(this.maxHealth, this.health + amount);
+        this.setTint(0x3d9155); //green
     }
 
     buff(stat: ActorStatType, amount: number) {
@@ -117,6 +120,8 @@ export class Actor {
                 this.actionSpeed /= (1 + amount);
                 break;
         }
+
+        this.setTint(0x3d9155); //green
     }
 
     curse(stat: ActorStatType, amount: number) {
@@ -148,6 +153,8 @@ export class Actor {
                 this.actionSpeed *= (1 + amount);
                 break;
         }
+
+        this.setTint(0x4d3e93); //purple
     }
 
     update(map: GameMap) {
@@ -169,6 +176,11 @@ export class Actor {
             this.startBounce();
         }
 
+        if (this.tintChangeStart != 0 && performance.now() - this.tintChangeStart > 250) {
+            this.tintChangeStart = 0;
+            this.animation.tint = 0xffffff;
+        }
+
         switch (this.state) {
             case ActorStateType.IDLE:
                 this.doIdle(map);
@@ -183,7 +195,13 @@ export class Actor {
     }
 
     destroyAnimation() {
+        this.animation.stop();
         this.animation.destroy();
+    }
+
+    private setTint(tint: number) {
+        this.tintChangeStart = performance.now();
+        this.animation.tint = tint;
     }
 
     private setState(state: ActorStateType) {
@@ -287,12 +305,23 @@ export class Actor {
     private findNearest(map: GameMap, findTeamType: ActorTeamType): Actor | undefined {
         let nearestActor: Actor | undefined = undefined;
         let nearestDistance = Infinity;
+        let foundTargetInRow = false;
+
         for (let x = 0; x < map.tiles.length; x++) {
             for (let y = 0; y < map.tiles[x].length; y++) {
                 const tile = map.tiles[x][y];
                 if (tile.actor && tile.actor !== this && tile.actor.teamType === findTeamType) {
                     const distance = distanceFormula(this.tileX, this.tileY, tile.actor.tileX, tile.actor.tileY);
-                    if (distance < nearestDistance) {
+                    const isInRow = this.tileY == y;
+
+                    if (!foundTargetInRow && distance < nearestDistance) { //if we haven't found a target in our row then use the closest target outside of our row
+                        nearestDistance = distance;
+                        nearestActor = tile.actor;
+                    } else if (!foundTargetInRow && isInRow) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
+                        nearestDistance = distance;
+                        nearestActor = tile.actor;
+                        foundTargetInRow = true;
+                    } else if (foundTargetInRow && isInRow && distance < nearestDistance) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
                         nearestDistance = distance;
                         nearestActor = tile.actor;
                     }

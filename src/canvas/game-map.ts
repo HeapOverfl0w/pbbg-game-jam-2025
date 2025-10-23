@@ -140,6 +140,7 @@ export class GameMap {
             projectile.update(this);
 
             if (projectile.destroyed) {
+                projectile.animation.stop();
                 this.projectiles.splice(i, 1);
                 this.stage.removeChild(projectile.animation);
             }
@@ -149,6 +150,7 @@ export class GameMap {
             const effect = this.effects[i];
 
             if (effect.destroyed) {
+                effect.animation.stop();
                 this.effects.splice(i, 1);
                 this.stage.removeChild(effect.animation);
             }
