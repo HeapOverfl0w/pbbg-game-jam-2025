@@ -6,6 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Battlefield } from './grid/battlefield';
 import { Footer } from './footer/footer';
 import { Splashscreen } from './splashscreen/splashscreen';
+import { GameCanvas } from './canvas/game-canvas';
 
 function App() {
   const [battleRunning, setBattleRunning] = useState(false);
@@ -25,7 +26,7 @@ function App() {
                 <Battlefield onStart={() => setBattleRunning(true)} />
               }
               {battleRunning &&
-                <Battlefield onStart={() => setBattleRunning(false)} />
+                <GameCanvas endGameCallback={() => setBattleRunning(false)} showGame={true} />
               }
             </div>
           </main>
