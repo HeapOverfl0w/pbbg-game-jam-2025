@@ -11,7 +11,7 @@ export function GameCanvas(props: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const gameApp = useRef<Main>(null);
 
-    useMemo(() => {
+    useEffect(() => {
         if (canvasRef.current && !gameApp.current) {
             gameApp.current = new Main(canvasRef.current, endGameCallback);
             startGame();
@@ -23,9 +23,9 @@ export function GameCanvas(props: GameCanvasProps) {
         props.endGameCallback(result);
     }
 
-    useEffect(() => {
+    /* useEffect(() => {
         startGame();
-    }, [props.showGame]);
+    }, [props.showGame]); */
 
     const startGame = () => {
         if (props.showGame && gameApp.current) {
@@ -34,7 +34,7 @@ export function GameCanvas(props: GameCanvasProps) {
     }
 
     return (
-        <div>
+        <div style={{width: '100%', height: '100%'}}>
             <canvas style={{width: '100%', height: '100%'}}
                     id='scene' ref={canvasRef}
                     width={CANVAS_WIDTH} height={CANVAS_HEIGHT}

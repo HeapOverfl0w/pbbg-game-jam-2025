@@ -24,10 +24,12 @@ export class GameMap {
         this.enemyTeam = enemyTeam;
         this.stage = stage;
         this.init()
-        stage.removeChildren();
     }
 
     private init() {
+        this.stage.x = 160;
+
+        this.stage.removeChildren();
         const backdrop = DATA.cloneAnimation('background1');
         if (backdrop) {
             this.stage.addChild(backdrop);
@@ -106,7 +108,7 @@ export class GameMap {
         for (let x = 0; x < TILES_X; x++) {
             for (let y = 0; y < TILES_Y; y++) {
                 const tile = this.tiles[x][y];
-                if (tile.actor) {
+                if (tile && tile.actor) {
                     tile.actor.update(this);
 
                     if (!tile.actor.isAlive()) {

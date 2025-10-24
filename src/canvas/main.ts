@@ -1,7 +1,7 @@
 import { Application } from "pixi.js";
 import { TeamData } from "../redux/actor-data";
 import { GameMap } from "./game-map";
-import { MAX_ROUND_TIME_MS } from "./constants";
+import { MAX_ROUND_TIME_MS, TICK_RATE } from "./constants";
 
 export type EndGameResult = 'PLAYER_DEFEAT' | 'ENEMY_DEFEAT' | 'TIE';
 
@@ -11,24 +11,28 @@ export class Main {
     private startTime: number = 0;
     private lastEndGameStateCheck: number = 0;
     private endGameCallback: (result: EndGameResult) => void;
+    private canvas: HTMLCanvasElement;
 
     constructor(canvas: HTMLCanvasElement, endGameCallback: (result: EndGameResult) => void) {
-        const webglApplication = new Application();
-        webglApplication.ticker.maxFPS = 30;
-        webglApplication.ticker.add(this.update.bind(this));
-        webglApplication.init({
-            canvas: canvas,
-            antialias: false,
-            width: canvas.width,
-            height: canvas.height,
-            backgroundColor: 0x3f5592, // Default background color
-            resolution: window.devicePixelRatio,
-        });
+        this.canvas = canvas;
+        const webglApplication = new Application();      
+
         this.webglApplication = webglApplication;
         this.endGameCallback = endGameCallback;
     }
 
-    start(playerTeam: TeamData, enemyTeam: TeamData) {
+    async start(playerTeam: TeamData, enemyTeam: TeamData) {
+        await this.webglApplication.init({
+            canvas: this.canvas,
+            antialias: false,
+            width: this.canvas.width,
+            height: this.canvas.height,
+            backgroundColor: 0x3f5592, // Default background color
+            resolution: window.devicePixelRatio,
+        });
+        this.webglApplication.ticker.maxFPS = TICK_RATE;
+        this.webglApplication.ticker.add(this.update.bind(this));
+
         this.gameMap = new GameMap(this.webglApplication.stage, playerTeam, enemyTeam);
         this.webglApplication.start();
         this.startTime = performance.now();

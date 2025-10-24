@@ -104,8 +104,9 @@ class DataLoader {
 
         const sprite = new AnimatedSprite(animation.textures);
         sprite.anchor.set(animation.anchor.x, animation.anchor.y);
-        sprite.animationSpeed = 0.1;
+        sprite.animationSpeed = animation.animationSpeed;
         sprite.loop = animation.loop;
+        sprite.play();
         return sprite;
     }
 

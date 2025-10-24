@@ -45,7 +45,7 @@ export function Battlefield(props: BattlefieldProps) {
         </div>
       </div>
       <div style={{alignSelf: 'end'}}>
-        <button disabled={actors.flatMap((_) => _.every(__ => __ === undefined)).every(_ => _ === true)} onClick={() => props.onStart()}>
+        <button disabled={false/* actors.flatMap((_) => _.every(__ => __ === undefined)).every(_ => _ === true) */} onClick={() => props.onStart()}>
           Start
         </button>
       </div>
