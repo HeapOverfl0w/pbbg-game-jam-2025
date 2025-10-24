@@ -1,5 +1,5 @@
 import { AnimatedSprite } from "pixi.js";
-import { Actor } from "./actor";
+import { Actor, ActorTeamType } from "./actor";
 import { CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, PROJECTILE_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH } from "./constants";
 import { GameMap } from "./game-map";
 import { DATA } from "./data";
@@ -20,11 +20,11 @@ export class ProjectileFactory {
         }
 
         if (animation) {
-            const startX = owner.x + TILE_WIDTH / 2;
-            const startY = owner.y + TILE_HEIGHT / 2;
+            const startX = owner.x;
+            const startY = owner.y;
             if (owner.target) {
-                const endX = owner.target.x + TILE_WIDTH / 2;
-                const endY = owner.target.y + TILE_HEIGHT / 2;
+                const endX = owner.target.x;
+                const endY = owner.target.y;
                 const direction = Math.atan2(endY - startY, endX - startX);
                 animation.rotation = direction;
                 return new Projectile(owner, startX, startY, direction, animation);
@@ -49,8 +49,8 @@ export class Projectile {
         this.direction = direction;
         this.owner = owner;
         this.animation = animation;
-        this.animation.x = this.x + CANVAS_BORDER_WIDTH;
-        this.animation.y = this.y + CANVAS_BORDER_HEIGHT;
+        this.animation.x = this.x + CANVAS_BORDER_WIDTH + (owner.teamType == ActorTeamType.ENEMY ? animation.width : 0);
+        this.animation.y = this.y + CANVAS_BORDER_HEIGHT + (animation.height);
         this.animation.zIndex = 100;
     }
 

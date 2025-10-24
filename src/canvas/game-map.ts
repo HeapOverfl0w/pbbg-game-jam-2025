@@ -46,7 +46,6 @@ export class GameMap {
                     const actorData = this.playerTeam.actors[x][y]!;
                     const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
                     if (animation) {
-                        animation.anchor.set(-0.5, 0);
                         this.tiles[x][y] = { passable: true, actor: new Actor(this.playerTeam.actors[x][y]!, x, y, ActorTeamType.FRIENDLY, animation) };
                         this.tiles[x][y].actor!.addTeamStats(this.playerTeam.teamStats);
                         this.stage.addChild(animation);
@@ -58,9 +57,7 @@ export class GameMap {
                 ) {
                     const actorData = this.enemyTeam.actors[(x - TILES_X + TILES_X_PER_SIDE)][y]!;
                     const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
-                    if (animation) {
-                        animation.anchor.set(0.5, 0);
-                        animation.scale.x = -1; // flip for enemy
+                    if (animation) {                        
                         this.tiles[x][y] = { passable: true, actor: new Actor(actorData, x, y, ActorTeamType.ENEMY, animation) };
                         this.tiles[x][y].actor!.addTeamStats(this.enemyTeam.teamStats);
                         this.stage.addChild(animation);

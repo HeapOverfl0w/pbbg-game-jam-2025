@@ -1,6 +1,6 @@
 import { AnimatedSprite } from "pixi.js";
 import { CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, DEFAULT_EFFECT_DURATION, TILE_HEIGHT, TILE_WIDTH } from "./constants";
-import { Actor } from "./actor";
+import { Actor, ActorTeamType } from "./actor";
 import { DATA } from "./data";
 import { ActorActionType } from "../redux/actor-data";
 
@@ -27,6 +27,7 @@ export class EffectFactory {
         }
 
         if (animation) {
+            x -= (owner.teamType == ActorTeamType.FRIENDLY ? animation.width : 0)
             return new Effect(x, y, DEFAULT_EFFECT_DURATION, animation);
         }
     }

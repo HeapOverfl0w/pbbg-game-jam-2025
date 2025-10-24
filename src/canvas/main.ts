@@ -53,9 +53,11 @@ export class Main {
         if (this.gameMap?.isPlayerTeamDefeated()) {
             // End the round with player team defeat.
             this.endGameCallback('PLAYER_DEFEAT');
+            this.webglApplication.stop();
         } else if (this.gameMap?.isEnemyTeamDefeated()) {
             // End the round with enemy team defeat.
             this.endGameCallback('ENEMY_DEFEAT');
+            this.webglApplication.stop();
         } /* else if (this.startTime && performance.now() - this.startTime > MAX_ROUND_TIME_MS) {
             // End the round in tie.
             this.endGameCallback('TIE');

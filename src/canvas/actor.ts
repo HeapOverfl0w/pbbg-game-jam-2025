@@ -58,6 +58,16 @@ export class Actor {
         this.animation = animation;
         this.animation.x = this.x + CANVAS_BORDER_WIDTH;
         this.animation.y = this.y + CANVAS_BORDER_HEIGHT;
+
+        if (teamType == ActorTeamType.FRIENDLY) {
+            /* this.animation.anchor.x = -0.5;
+            this.animation.x -= Math.floor(this.animation.width * 0.5); */
+        } else {
+            //this.animation.anchor.set(0.5, 0);
+            animation.scale.x = -1; // flip for enemy
+            this.animation.x += this.animation.width;//Math.floor(this.animation.width * 0.5);
+        }
+        
         this.animation.zIndex = this.y;
 
         this.setStatsFromData();
@@ -171,8 +181,8 @@ export class Actor {
         //modify offset for little bounce animation
         if (performance.now() - this.actionWalkBounceStart < DEFAULT_EFFECT_DURATION) {
             const bounceTime = (performance.now() - this.actionWalkBounceStart) / DEFAULT_EFFECT_DURATION;
-            const bounceAmount = -Math.sin(bounceTime * Math.PI) * 4 * (0.5 - bounceTime);
-            this.animation.y += bounceAmount;
+            const bounceAmount = Math.sin(bounceTime * Math.PI) * 0.1 * (0.5 - bounceTime);
+            this.animation.anchor.y += bounceAmount;
         } else if (this.state === ActorStateType.MOVING) { //if we're still moving after a little bounce then keep animating
             this.startBounce();
         }
@@ -373,7 +383,7 @@ export class Actor {
             this.animation.x += changeX;
             this.animation.y += changeY;
 
-            const newTileX = Math.round(this.x / TILE_WIDTH);
+            const newTileX = changeX > 0 ? Math.floor(this.x / TILE_WIDTH) : Math.ceil(this.x / TILE_WIDTH);
             const newTileY = Math.round(this.y / TILE_HEIGHT);
 
             if (newTileX !== this.tileX || newTileY !== this.tileY) {
