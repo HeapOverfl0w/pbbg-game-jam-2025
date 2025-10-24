@@ -84,17 +84,15 @@ class DataLoader {
             }
         }
 
-        if (frames.length > 0) {
-            const animatedSprite = new AnimatedSprite(frames);
-            if (options.offsetX == 0 && options.offsetY == 0) {
-                animatedSprite.anchor.set(0.5, 0);
-            } else {
-                animatedSprite.anchor.set(options.offsetX / options.frameWidth, options.offsetY / options.frameHeight);
-            }
-            animatedSprite.animationSpeed = options.frameSpeed;
-            animatedSprite.loop = options.loop;
-            this.animations[options.name] = animatedSprite;
+        const animatedSprite = new AnimatedSprite(frames);
+        if (options.offsetX == 0 && options.offsetY == 0) {
+            animatedSprite.anchor.set(0.5, 0);
+        } else {
+            animatedSprite.anchor.set(options.offsetX / options.frameWidth, options.offsetY / options.frameHeight);
         }
+        animatedSprite.animationSpeed = options.frameSpeed;
+        animatedSprite.loop = options.loop;
+        this.animations[options.name] = animatedSprite;
     }
 
     public cloneAnimation(name: string): AnimatedSprite | undefined {

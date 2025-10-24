@@ -39,7 +39,7 @@ class KnightAnimation extends Animation {
     this.frameWidth = 24;
     this.frameHeight = 36;
     this.frameSpeed = 0;
-    this.frameCount = 0;
+    this.frameCount = 1;
     this.loop = false;
     this.offsetX = 0;
     this.offsetY = 24;
@@ -69,7 +69,7 @@ class ProjectileAnimation extends Animation {
     this.textureName = "other";
     this.frameY = 0;
     this.frameSpeed = 0;
-    this.frameCount = 0;
+    this.frameCount = 1;
     this.loop = false;
   }
 
@@ -173,7 +173,7 @@ const background1 = {
   frameWidth: 320,
   frameHeight: 200,
   frameSpeed: 0,
-  frameCount: 0,
+  frameCount: 1,
   loop: false,
   offsetX: 0,
   offsetY: 0
