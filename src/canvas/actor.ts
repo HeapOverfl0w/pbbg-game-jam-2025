@@ -1,7 +1,7 @@
 import { AnimatedSprite } from "pixi.js";
 import { ActorActionType, ActorData, ActorStats, ActorStatType } from "../redux/actor-data";
 import { aStar, Position } from "./astar";
-import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH } from "./constants";
+import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, DEFAULT_EFFECT_DURATION, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH } from "./constants";
 import { GameMap } from "./game-map";
 import { ProjectileFactory } from "./projectile";
 import { EffectFactory } from "./effect";
@@ -32,8 +32,8 @@ export class Actor {
 
     public teamType: ActorTeamType;
 
-    private x: number;
-    private y: number;
+    public x: number;
+    public y: number;
     public tileX: number;
     public tileY: number;
     public target: Actor | undefined = undefined;
@@ -58,6 +58,7 @@ export class Actor {
         this.animation = animation;
         this.animation.x = this.x + CANVAS_BORDER_WIDTH;
         this.animation.y = this.y + CANVAS_BORDER_HEIGHT;
+        this.animation.zIndex = this.y;
 
         this.setStatsFromData();
     }
@@ -168,15 +169,15 @@ export class Actor {
         }
 
         //modify offset for little bounce animation
-        if (performance.now() - this.actionWalkBounceStart < 250) {
-            const bounceTime = (performance.now() - this.actionWalkBounceStart) / 250;
-            const bounceAmount = -Math.sin(bounceTime * Math.PI) * 4 * (1 - bounceTime);
-            this.animation.anchor.y += bounceAmount;
+        if (performance.now() - this.actionWalkBounceStart < DEFAULT_EFFECT_DURATION) {
+            const bounceTime = (performance.now() - this.actionWalkBounceStart) / DEFAULT_EFFECT_DURATION;
+            const bounceAmount = -Math.sin(bounceTime * Math.PI) * 4 * (0.5 - bounceTime);
+            this.animation.y += bounceAmount;
         } else if (this.state === ActorStateType.MOVING) { //if we're still moving after a little bounce then keep animating
             this.startBounce();
         }
 
-        if (this.tintChangeStart != 0 && performance.now() - this.tintChangeStart > 250) {
+        if (this.tintChangeStart != 0 && performance.now() - this.tintChangeStart > DEFAULT_EFFECT_DURATION) {
             this.tintChangeStart = 0;
             this.animation.tint = 0xffffff;
         }
@@ -264,7 +265,7 @@ export class Actor {
                             break;
                     }
 
-                    const newEffect = EffectFactory.createEffect(tileX, tileY, this);
+                    const newEffect = EffectFactory.createEffect(targetTile.actor.animation.x, targetTile.actor.animation.y, this);
                     if (newEffect) {
                         map.addEffect(newEffect);
                     }                    
@@ -314,13 +315,13 @@ export class Actor {
                     const distance = distanceFormula(this.tileX, this.tileY, tile.actor.tileX, tile.actor.tileY);
                     const isInRow = this.tileY == y;
 
-                    if (!foundTargetInRow && distance < nearestDistance) { //if we haven't found a target in our row then use the closest target outside of our row
-                        nearestDistance = distance;
-                        nearestActor = tile.actor;
-                    } else if (!foundTargetInRow && isInRow) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
+                    if (!foundTargetInRow && isInRow) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
                         nearestDistance = distance;
                         nearestActor = tile.actor;
                         foundTargetInRow = true;
+                    } else if (!foundTargetInRow && distance < nearestDistance) { //if we haven't found a target in our row then use the closest target outside of our row
+                        nearestDistance = distance;
+                        nearestActor = tile.actor;
                     } else if (foundTargetInRow && isInRow && distance < nearestDistance) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
                         nearestDistance = distance;
                         nearestActor = tile.actor;
@@ -372,8 +373,8 @@ export class Actor {
             this.animation.x += changeX;
             this.animation.y += changeY;
 
-            const newTileX = Math.floor(this.x / TILE_WIDTH);
-            const newTileY = Math.floor(this.y / TILE_HEIGHT);
+            const newTileX = Math.round(this.x / TILE_WIDTH);
+            const newTileY = Math.round(this.y / TILE_HEIGHT);
 
             if (newTileX !== this.tileX || newTileY !== this.tileY) {
                 this.path.shift();
@@ -381,6 +382,7 @@ export class Actor {
                 this.tileX = newTileX;
                 this.tileY = newTileY;
                 map.tiles[this.tileX][this.tileY].actor = this;
+                this.animation.zIndex = this.y;
             }
         }
     }

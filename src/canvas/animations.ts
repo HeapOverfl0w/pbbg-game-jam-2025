@@ -42,7 +42,7 @@ class KnightAnimation extends Animation {
     this.frameCount = 1;
     this.loop = false;
     this.offsetX = 0;
-    this.offsetY = 24;
+    this.offsetY = 0;
   }
 
   private getFrameX(color: UnitColor): number {
@@ -65,7 +65,7 @@ class ProjectileAnimation extends Animation {
   constructor(type: ProjectileType) {
     super();
     this.setSpecifics(type);
-    this.name = `projectile_${type}`;
+    this.name = `${type}_projectile`;
     this.textureName = "other";
     this.frameY = 0;
     this.frameSpeed = 0;
@@ -108,7 +108,7 @@ class EffectAnimation extends Animation {
   constructor(type: EffectType) {
     super();
     this.setSpecifics(type);
-    this.name = `effect_${type}`;
+    this.name = `${type}_effect`;
     this.textureName = "other";
     this.frameWidth = 24;
     this.frameHeight = 24;

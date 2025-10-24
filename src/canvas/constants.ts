@@ -16,10 +16,12 @@ export const CANVAS_WIDTH = (TILES_X * TILE_WIDTH) + (CANVAS_BORDER_WIDTH * 2);
 export const CANVAS_HEIGHT = (TILES_Y * TILE_HEIGHT) + (CANVAS_BORDER_HEIGHT * 2);
 export const TICK_RATE = 30; // 30 ticks per second
 export const MS_PER_TICK = 1000 / TICK_RATE;
-export const MOVEMENT_SPEED = 1; // tiles per second
+export const MOVEMENT_SPEED = 10; // tiles per second
 export const MOVEMENT_TICKS_PER_TILE = MOVEMENT_SPEED / TICK_RATE;
-export const PROJECTILE_SPEED = 3; // tiles per second
+export const PROJECTILE_SPEED = 30; // tiles per second
 export const PROJECTILE_TICKS_PER_TILE = PROJECTILE_SPEED / TICK_RATE;
+
+export const DEFAULT_EFFECT_DURATION = 500;
 
 export const MAX_ROUND_TIME_MS = 60000; // 1 minute per round
 
@@ -47,14 +49,14 @@ export const distanceFormula = (x1: number, y1: number, x2: number, y2: number):
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-export const createTestTeamData = (): TeamData => {
+export const createTestTeamData = (name: string): TeamData => {
     const actors2dArray: (ActorData | undefined)[][] = [];
     for (let x = 0; x < 4; x++) {
         actors2dArray.push([]);
         for (let y = 0; y < 5; y++) {
-            if (x == 0 || x == 4) {
+            if (x == 0 || x == 3) {
                 actors2dArray[x].push({
-                    id: `actor-${x}-${y}`,
+                    id: `${name}-${x}-${y}`,
                     name: `Knight`,
                     description: "",
                     color: Math.random() > 0.5 ? ActorColorType.GREEN : ActorColorType.BLUE,

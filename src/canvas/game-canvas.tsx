@@ -29,7 +29,7 @@ export function GameCanvas(props: GameCanvasProps) {
 
     const startGame = () => {
         if (props.showGame && gameApp.current) {
-            gameApp.current.start(createTestTeamData(), createTestTeamData());
+            gameApp.current.start(createTestTeamData('friendly'), createTestTeamData('enemy'));
         }
     }
 

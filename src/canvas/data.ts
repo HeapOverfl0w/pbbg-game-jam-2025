@@ -86,7 +86,7 @@ class DataLoader {
 
         const animatedSprite = new AnimatedSprite(frames);
         if (options.offsetX == 0 && options.offsetY == 0) {
-            animatedSprite.anchor.set(0.5, 0);
+            animatedSprite.anchor.set(0, 0);
         } else {
             animatedSprite.anchor.set(options.offsetX / options.frameWidth, options.offsetY / options.frameHeight);
         }
@@ -104,7 +104,7 @@ class DataLoader {
 
         const sprite = new AnimatedSprite(animation.textures);
         sprite.anchor.set(animation.anchor.x, animation.anchor.y);
-        sprite.animationSpeed = animation.animationSpeed;
+        sprite.animationSpeed = 0.1;
         sprite.loop = animation.loop;
         sprite.play();
         return sprite;

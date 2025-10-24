@@ -27,8 +27,6 @@ export class GameMap {
     }
 
     private init() {
-        this.stage.x = 160;
-
         this.stage.removeChildren();
         const backdrop = DATA.cloneAnimation('background1');
         if (backdrop) {
@@ -48,18 +46,20 @@ export class GameMap {
                     const actorData = this.playerTeam.actors[x][y]!;
                     const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
                     if (animation) {
+                        animation.anchor.set(-0.5, 0);
                         this.tiles[x][y] = { passable: true, actor: new Actor(this.playerTeam.actors[x][y]!, x, y, ActorTeamType.FRIENDLY, animation) };
                         this.tiles[x][y].actor!.addTeamStats(this.playerTeam.teamStats);
                         this.stage.addChild(animation);
                     }                    
                 } else if (x >= TILES_X - TILES_X_PER_SIDE && 
-                    (TILES_X - x) < this.enemyTeam.actors.length && 
-                    y < this.enemyTeam.actors[(TILES_X - x)].length && 
-                    this.enemyTeam.actors[(TILES_X - x)][y]
+                    (x - TILES_X + TILES_X_PER_SIDE) < this.enemyTeam.actors.length && 
+                    y < this.enemyTeam.actors[(x - TILES_X + TILES_X_PER_SIDE)].length && 
+                    this.enemyTeam.actors[(x - TILES_X + TILES_X_PER_SIDE)][y]
                 ) {
-                    const actorData = this.enemyTeam.actors[(TILES_X - x)][y]!;
+                    const actorData = this.enemyTeam.actors[(x - TILES_X + TILES_X_PER_SIDE)][y]!;
                     const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
                     if (animation) {
+                        animation.anchor.set(0.5, 0);
                         animation.scale.x = -1; // flip for enemy
                         this.tiles[x][y] = { passable: true, actor: new Actor(actorData, x, y, ActorTeamType.ENEMY, animation) };
                         this.tiles[x][y].actor!.addTeamStats(this.enemyTeam.teamStats);
@@ -111,7 +111,7 @@ export class GameMap {
                 if (tile && tile.actor) {
                     tile.actor.update(this);
 
-                    if (!tile.actor.isAlive()) {
+                    if (tile.actor && !tile.actor.isAlive()) {
                         tile.actor.destroyAnimation();
 
                         if (tile.actor.teamType === ActorTeamType.FRIENDLY) {
@@ -150,6 +150,7 @@ export class GameMap {
 
         for (let i = this.effects.length - 1; i >= 0; i--) {
             const effect = this.effects[i];
+            effect.update();
 
             if (effect.destroyed) {
                 effect.animation.stop();

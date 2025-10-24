@@ -20,11 +20,11 @@ export class ProjectileFactory {
         }
 
         if (animation) {
-            const startX = owner.tileX * TILE_WIDTH + TILE_WIDTH / 2;
-            const startY = owner.tileY * TILE_HEIGHT + TILE_HEIGHT / 2;
+            const startX = owner.x + TILE_WIDTH / 2;
+            const startY = owner.y + TILE_HEIGHT / 2;
             if (owner.target) {
-                const endX = owner.target.tileX * TILE_WIDTH + TILE_WIDTH / 2;
-                const endY = owner.target.tileY * TILE_HEIGHT + TILE_HEIGHT / 2;
+                const endX = owner.target.x + TILE_WIDTH / 2;
+                const endY = owner.target.y + TILE_HEIGHT / 2;
                 const direction = Math.atan2(endY - startY, endX - startX);
                 animation.rotation = direction;
                 return new Projectile(owner, startX, startY, direction, animation);
@@ -51,6 +51,7 @@ export class Projectile {
         this.animation = animation;
         this.animation.x = this.x + CANVAS_BORDER_WIDTH;
         this.animation.y = this.y + CANVAS_BORDER_HEIGHT;
+        this.animation.zIndex = 100;
     }
 
     update(map: GameMap) {
@@ -58,12 +59,14 @@ export class Projectile {
             return;
         }
 
-        this.x += Math.cos(this.direction) * PROJECTILE_TICKS_PER_TILE;
-        this.y += Math.sin(this.direction) * PROJECTILE_TICKS_PER_TILE;
+        const changeX = Math.cos(this.direction) * PROJECTILE_TICKS_PER_TILE;
+        const changeY = Math.sin(this.direction) * PROJECTILE_TICKS_PER_TILE;
+        this.x += changeX;
+        this.y += changeY;
         this.distanceTraveled += PROJECTILE_TICKS_PER_TILE;
 
-        this.animation.x = this.x;
-        this.animation.y = this.y;
+        this.animation.x += changeX;
+        this.animation.y += changeY;
 
         // Check for collisions with the map
         const tileX = Math.round(this.x / TILE_WIDTH);
@@ -77,7 +80,7 @@ export class Projectile {
             return;
         }
 
-        if (this.distanceTraveled >= this.owner.data.action.range) {
+        if (this.distanceTraveled > this.owner.data.action.range * TILE_WIDTH) {
             this.animation.destroy();
             this.destroyed = true;
             return;
