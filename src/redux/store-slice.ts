@@ -11,7 +11,7 @@ const storeSlice = createSlice({
 
             ii = state.inventory.findIndex(_ => _?.id === action.payload.id);
             if (ii === -1) {
-                state.actors.forEach((_, i) => {
+                state.playerTeam.actors.forEach((_, i) => {
                     let j = _.findIndex(__ => __?.id === action.payload.id)
                     if (j !== -1) {
                         jj = j;
@@ -28,7 +28,7 @@ const storeSlice = createSlice({
             else if (jj === -1) {
                 temp = state.inventory[ii];
             } else {
-                temp = state.actors[ii][jj];
+                temp = state.playerTeam.actors[ii][jj];
             }
 
             // Update Inventory
@@ -43,7 +43,7 @@ const storeSlice = createSlice({
             });
 
             // Update Actor Grid
-            state.actors = state.actors.map((_, i) => {
+            state.playerTeam.actors = state.playerTeam.actors.map((_, i) => {
                 return _.map((__, j) => {
                     if (i === action.payload.x && j === action.payload.y) {
                         return temp;

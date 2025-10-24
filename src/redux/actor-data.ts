@@ -56,11 +56,17 @@ export type ActorActionData = {
 export type TeamData = {
     actors: (ActorData | undefined)[][];
     teamStats: ActorStats;
-    inventory: (ActorData | undefined)[];
 }
 
-export const getInitialState = (): TeamData => {
-    const inventory : (ActorData|undefined)[]  = Array(100).fill(undefined);
+export type StoreData = {
+    playerTeam: TeamData,
+    npcTeam: TeamData,
+    inventory: (ActorData | undefined)[]
+}
+
+
+export const getInitialState = (): StoreData => {
+    const inventory: (ActorData | undefined)[] = Array(100).fill(undefined);
     inventory[0] = {
         id: "",
         name: "",
@@ -85,17 +91,33 @@ export const getInitialState = (): TeamData => {
     };
 
     return {
-        actors: Array.from({ length: 4 }, () => Array(5).fill(undefined)),
+        playerTeam: {
+            actors: Array.from({ length: 4 }, () => Array(5).fill(undefined)),
+            teamStats: {
+                maxHealth: 0,
+                pierceResist: 0,
+                pierceDamage: 0,
+                bluntResist: 0,
+                bluntDamage: 0,
+                magicResist: 0,
+                magicDamage: 0,
+                actionSpeed: 0
+            }
+        },
+        npcTeam: {
+            actors: Array.from({ length: 4 }, () => Array(5).fill(undefined)),
+            teamStats: {
+                maxHealth: 0,
+                pierceResist: 0,
+                pierceDamage: 0,
+                bluntResist: 0,
+                bluntDamage: 0,
+                magicResist: 0,
+                magicDamage: 0,
+                actionSpeed: 0
+            }
+        },
         inventory: inventory,
-        teamStats: {
-            maxHealth: 0,
-            pierceResist: 0,
-            pierceDamage: 0,
-            bluntResist: 0,
-            bluntDamage: 0,
-            magicResist: 0,
-            magicDamage: 0,
-            actionSpeed: 0
-        }
+
     }
 }

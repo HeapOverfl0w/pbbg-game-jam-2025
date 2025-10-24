@@ -82,7 +82,6 @@ export const createTestTeamData = (): TeamData => {
     }
 
     return {
-        inventory: [],
         actors: actors2dArray,
         teamStats: {
             maxHealth: 0,

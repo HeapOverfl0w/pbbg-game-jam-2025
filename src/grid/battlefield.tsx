@@ -3,7 +3,7 @@ import React from 'react';
 import { ItemSlot } from './item-slot';
 import { ItemSlotStatic } from './item-slot-static';
 import { useSelector } from 'react-redux';
-import { TeamData } from '../redux/actor-data';
+import { StoreData } from '../redux/actor-data';
 
 type BattlefieldProps = {
   onStart: () => void;
@@ -15,8 +15,8 @@ type BattlefieldProps = {
  * @returns 
  */
 export function Battlefield(props: BattlefieldProps) {
-  const actors = useSelector((state: TeamData) => state.actors);
-  const enemies = useSelector((state: TeamData) => state.actors);
+  const actors = useSelector((state: StoreData) => state.playerTeam.actors);
+  const enemies = useSelector((state: StoreData) => state.npcTeam.actors);
 
   return (
     <div className='row vertical'>
