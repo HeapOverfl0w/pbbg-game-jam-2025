@@ -1,3 +1,8 @@
+@font-face  {
+  font-family: myFont;
+  src: url('../public/font/ancient_medium.ttf') format('truetype');
+}
+
 #root {
   height: 100%;
 }
@@ -9,6 +14,7 @@ body {
 }
 
 html, body {
+  font-family: myFont !important;
     height: 100%;
     width: 100%;
     margin: 0;
@@ -18,11 +24,6 @@ html, body {
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-  }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
   }
 
   :root,
@@ -63,4 +64,10 @@ html, body {
     --surface-container: #201f22;
     --surface-container-high: #2b292d;
     --surface-container-highest: #363438;
+  }
+
+  button {
+    border-radius: 0px;
+    font-size: 24px;
+    padding: 10px 20px;
   }

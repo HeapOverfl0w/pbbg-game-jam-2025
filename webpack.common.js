@@ -27,6 +27,13 @@ module.exports = {
         filename: 'img/[name].[ext]',
       },
     },
+    {
+      test: /\.(ttf)$/i,
+      type: 'asset/resource',
+      generator: {
+        filename: 'font/[name].[ext]'
+      }
+    }
   ]},
   devServer: {
     static: {
