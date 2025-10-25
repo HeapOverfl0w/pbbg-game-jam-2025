@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { AnimatedSprite, Application } from "pixi.js";
 import { TeamData } from "../redux/actor-data";
 import { GameMap } from "./game-map";
 import { MAX_ROUND_TIME_MS, TICK_RATE } from "./constants";
@@ -53,14 +53,29 @@ export class Main {
         if (this.gameMap?.isPlayerTeamDefeated()) {
             // End the round with player team defeat.
             this.endGameCallback('PLAYER_DEFEAT');
-            this.webglApplication.stop();
+            this.stopAndDestroyApplication();
         } else if (this.gameMap?.isEnemyTeamDefeated()) {
             // End the round with enemy team defeat.
             this.endGameCallback('ENEMY_DEFEAT');
-            this.webglApplication.stop();
+            this.stopAndDestroyApplication();
         } /* else if (this.startTime && performance.now() - this.startTime > MAX_ROUND_TIME_MS) {
             // End the round in tie.
             this.endGameCallback('TIE');
         } */
+    }
+
+    private stopAndDestroyApplication() {
+        const children = this.webglApplication.stage.children;
+        for (const child of children) {
+            const animation = child as AnimatedSprite;
+            if (animation) {
+                animation.stop();
+                animation.destroy();
+            }
+        }
+
+        this.webglApplication.stage.removeChildren();
+
+        this.webglApplication.stop();
     }
 }

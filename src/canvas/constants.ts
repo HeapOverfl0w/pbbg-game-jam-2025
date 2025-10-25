@@ -54,7 +54,7 @@ export const createTestTeamData = (name: string): TeamData => {
     for (let x = 0; x < 4; x++) {
         actors2dArray.push([]);
         for (let y = 0; y < 5; y++) {
-            if (x == 0 || x == 3) {
+            if (x == 0 || x == 3 && Math.random() > 0.25) {
                 actors2dArray[x].push({
                     id: `${name}-${x}-${y}`,
                     name: `Knight`,
@@ -74,6 +74,29 @@ export const createTestTeamData = (name: string): TeamData => {
                         type: ActorActionType.ATTACK,
                         range: 1,
                         targets: ActorActionTargetsType.SINGLE,
+                        buffCurseStatType: undefined
+                    }
+                });
+            } else if (x == 2 && Math.random() > 0.25) {
+                actors2dArray[x].push({
+                    id: `${name}-${x}-${y}`,
+                    name: `Witch`,
+                    description: "",
+                    color: Math.random() > 0.5 ? ActorColorType.PURPLE : ActorColorType.BLUE,
+                    stats: {
+                        maxHealth: 6,
+                        pierceResist: 0,
+                        pierceDamage: 2,
+                        bluntResist: 0,
+                        bluntDamage: 0,
+                        magicResist: 0.6,
+                        magicDamage: 3,
+                        actionSpeed: 2500
+                    },
+                    action: {
+                        type: ActorActionType.ATTACK,
+                        range: 4,
+                        targets: ActorActionTargetsType.CROSS,
                         buffCurseStatType: undefined
                     }
                 });

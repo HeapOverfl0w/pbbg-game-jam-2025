@@ -1,7 +1,7 @@
 import { AnimatedSprite } from "pixi.js";
 import { ActorActionType, ActorData, ActorStats, ActorStatType } from "../redux/actor-data";
 import { aStar, Position } from "./astar";
-import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, DEFAULT_EFFECT_DURATION, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH } from "./constants";
+import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, DEFAULT_EFFECT_DURATION, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH, TILES_X, TILES_Y } from "./constants";
 import { GameMap } from "./game-map";
 import { ProjectileFactory } from "./projectile";
 import { EffectFactory } from "./effect";
@@ -45,7 +45,7 @@ export class Actor {
     private actionStart: number = 0;
     private tintChangeStart: number = 0;
     private path: Position[] = [];
-    private animation: AnimatedSprite;
+    public animation: AnimatedSprite;
 
     constructor(data: ActorData, tileX: number, tileY: number, teamType: ActorTeamType, animation: AnimatedSprite) {
         this.data = data;
@@ -275,10 +275,12 @@ export class Actor {
                             break;
                     }
 
-                    const newEffect = EffectFactory.createEffect(targetTile.actor.animation.x, targetTile.actor.animation.y, this);
-                    if (newEffect) {
-                        map.addEffect(newEffect);
-                    }                    
+                    if (targetTile.actor.isAlive()) {
+                        const newEffect = EffectFactory.createEffect(targetTile.actor.animation.x, targetTile.actor.animation.y, this);
+                        if (newEffect) {
+                            map.addEffect(newEffect);
+                        }   
+                    }                                      
                 }
             }
         }
@@ -375,9 +377,14 @@ export class Actor {
             }
 
             const stepAngle = Math.atan2(nextStep.y - this.tileY, nextStep.x - this.tileX);
-            const changeX = Math.cos(stepAngle) * MOVEMENT_TICKS_PER_TILE;
-            const changeY = Math.sin(stepAngle) * MOVEMENT_TICKS_PER_TILE;
+            let changeX = Math.cos(stepAngle) * MOVEMENT_TICKS_PER_TILE;
+            let changeY = Math.sin(stepAngle) * MOVEMENT_TICKS_PER_TILE;
 
+            if (this.x + changeX < 0 || this.x + changeX > TILES_X * TILE_WIDTH) {
+                changeX = 0;
+            } else if (this.y + changeY < 0 || this.y + changeY > TILES_X * TILE_WIDTH) {
+                changeY = 0;
+            }
             this.x += changeX;
             this.y += changeY;
             this.animation.x += changeX;
@@ -386,7 +393,7 @@ export class Actor {
             const newTileX = changeX > 0 ? Math.floor(this.x / TILE_WIDTH) : Math.ceil(this.x / TILE_WIDTH);
             const newTileY = Math.round(this.y / TILE_HEIGHT);
 
-            if (newTileX !== this.tileX || newTileY !== this.tileY) {
+            if ((newTileX !== this.tileX || newTileY !== this.tileY)) {
                 this.path.shift();
                 map.tiles[this.tileX][this.tileY].actor = undefined;
                 this.tileX = newTileX;
@@ -394,6 +401,6 @@ export class Actor {
                 map.tiles[this.tileX][this.tileY].actor = this;
                 this.animation.zIndex = this.y;
             }
-        }
+        }            
     }
 }

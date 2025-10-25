@@ -69,21 +69,31 @@ export class Projectile {
         this.animation.y += changeY;
 
         // Check for collisions with the map
-        const tileX = Math.round(this.x / TILE_WIDTH);
-        const tileY = Math.round(this.y / TILE_HEIGHT);
-        const tile = map.tiles[tileX]?.[tileY];
+        const collisionChecks = [];
+        collisionChecks.push(Math.floor(this.x / TILE_WIDTH));
+        collisionChecks.push(Math.floor(this.y / TILE_HEIGHT));
+        collisionChecks.push(Math.ceil(this.x / TILE_WIDTH));
+        collisionChecks.push(Math.ceil(this.y / TILE_HEIGHT));
 
-        if (tile && ((tile.actor && tile.actor !== this.owner && tile.actor.teamType == this.owner.getTargetType()) || !tile.passable)) {
-            // If the tile has an actor, deal damage
-            this.owner.act(tileX, tileY, map);
-            this.destroyed = true;
-            return;
+        for (let i = 0; i < collisionChecks.length; i += 2) {
+            const tileX = collisionChecks[i];
+            const tileY = collisionChecks[i+1];
+
+            if (tileX != undefined && tileY != undefined) {
+                const tile = map.tiles[tileX]?.[tileY];
+
+                if (tile && ((tile.actor && tile.actor !== this.owner && tile.actor.teamType == this.owner.getTargetType()) || !tile.passable)) {
+                    // If the tile has an actor, deal damage
+                    this.owner.act(tileX, tileY, map);
+                    this.destroyed = true;
+                    return;
+                }
+            }            
         }
-
-        if (this.distanceTraveled > this.owner.data.action.range * TILE_WIDTH) {
+        
+        if (this.distanceTraveled > (this.owner.data.action.range + 0.5) * TILE_WIDTH) {
             this.animation.destroy();
             this.destroyed = true;
-            return;
         }
     }
 }

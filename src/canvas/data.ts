@@ -55,6 +55,47 @@ class DataLoader {
         for (const animation of animations) {
             this.createAnimation(animation);
         }
+
+        // witch
+        this.createAnimation({
+            name: 'green_witch',
+            textureName: 'units',
+            frameX: 0,
+            frameY: 36,
+            frameWidth: 27,
+            frameHeight: 32,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 0
+        });
+        this.createAnimation({
+            name: 'blue_witch',
+            textureName: 'units',
+            frameX: 27,
+            frameY: 36,
+            frameWidth: 27,
+            frameHeight: 32,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 0
+        });
+        this.createAnimation({
+            name: 'purple_witch',
+            textureName: 'units',
+            frameX: 54,
+            frameY: 36,
+            frameWidth: 27,
+            frameHeight: 32,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 0
+        });
     }
 
     public getStatus() {

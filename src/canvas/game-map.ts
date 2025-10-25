@@ -17,6 +17,8 @@ export class GameMap {
     public effects: Effect[] = [];
     private playerTeam: TeamData;
     private enemyTeam: TeamData;
+    private playerActors: Actor[] = [];
+    private enemyActors: Actor[] = [];
     private stage: Container;
 
     constructor(stage: Container, playerTeam: TeamData, enemyTeam: TeamData) {
@@ -46,7 +48,9 @@ export class GameMap {
                     const actorData = this.playerTeam.actors[x][y]!;
                     const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
                     if (animation) {
-                        this.tiles[x][y] = { passable: true, actor: new Actor(this.playerTeam.actors[x][y]!, x, y, ActorTeamType.FRIENDLY, animation) };
+                        const actor = new Actor(this.playerTeam.actors[x][y]!, x, y, ActorTeamType.FRIENDLY, animation);
+                        this.playerActors.push(actor);
+                        this.tiles[x][y] = { passable: true, actor};
                         this.tiles[x][y].actor!.addTeamStats(this.playerTeam.teamStats);
                         this.stage.addChild(animation);
                     }                    
@@ -57,8 +61,10 @@ export class GameMap {
                 ) {
                     const actorData = this.enemyTeam.actors[(x - TILES_X + TILES_X_PER_SIDE)][y]!;
                     const animation = DATA.getUnitAnimation(actorData.color, actorData.name.toLowerCase());
-                    if (animation) {                        
-                        this.tiles[x][y] = { passable: true, actor: new Actor(actorData, x, y, ActorTeamType.ENEMY, animation) };
+                    if (animation) {    
+                        const actor = new Actor(actorData, x, y, ActorTeamType.ENEMY, animation);    
+                        this.enemyActors.push(actor);                
+                        this.tiles[x][y] = { passable: true, actor };
                         this.tiles[x][y].actor!.addTeamStats(this.enemyTeam.teamStats);
                         this.stage.addChild(animation);
                     }
@@ -80,9 +86,10 @@ export class GameMap {
     }
 
     isPlayerTeamDefeated(): boolean {
-        for (let x = 0; x < this.playerTeam.actors.length; x++) {
-            for (let y = 0; y < this.playerTeam.actors[x].length; y++) {
-                if (this.playerTeam.actors[x][y]) {
+        for (let x = 0; x < TILES_X; x++) {
+            for (let y = 0; y < TILES_Y; y++) {
+                const tile = this.tiles[x][y];
+                if (tile && tile.actor?.teamType == ActorTeamType.FRIENDLY) {
                     return false;
                 }
             }
@@ -91,9 +98,10 @@ export class GameMap {
     }
 
     isEnemyTeamDefeated(): boolean {
-        for (let x = 0; x < this.enemyTeam.actors.length; x++) {
-            for (let y = 0; y < this.enemyTeam.actors[x].length; y++) {
-                if (this.enemyTeam.actors[x][y]) {
+        for (let x = 0; x < TILES_X; x++) {
+            for (let y = 0; y < TILES_Y; y++) {
+                const tile = this.tiles[x][y];
+                if (tile && tile.actor?.teamType == ActorTeamType.ENEMY) {
                     return false;
                 }
             }
@@ -102,38 +110,6 @@ export class GameMap {
     }
 
     update() {
-        for (let x = 0; x < TILES_X; x++) {
-            for (let y = 0; y < TILES_Y; y++) {
-                const tile = this.tiles[x][y];
-                if (tile && tile.actor) {
-                    tile.actor.update(this);
-
-                    if (tile.actor && !tile.actor.isAlive()) {
-                        tile.actor.destroyAnimation();
-
-                        if (tile.actor.teamType === ActorTeamType.FRIENDLY) {
-                            for (let dataX = 0; dataX < this.playerTeam.actors.length; dataX++) {
-                                for (let dataY = 0; dataY < this.playerTeam.actors[dataX].length; dataY++) {
-                                    if (this.playerTeam.actors[dataX][dataY] === tile.actor.data) {
-                                        this.playerTeam.actors[dataX][dataY] = undefined;
-                                    }
-                                }
-                            } 
-                        } else if (tile.actor.teamType === ActorTeamType.ENEMY) {
-                            for (let dataX = 0; dataX < this.enemyTeam.actors.length; dataX++) {
-                                for (let dataY = 0; dataY < this.enemyTeam.actors[dataX].length; dataY++) {
-                                    if (this.enemyTeam.actors[dataX][dataY] === tile.actor.data) {
-                                        this.enemyTeam.actors[dataX][dataY] = undefined;
-                                    }
-                                }
-                            }
-                        }
-                        tile.actor = undefined;
-                    }
-                }
-            }
-        }
-
         for (let i = this.projectiles.length - 1; i >= 0; i--) {
             const projectile = this.projectiles[i];
             projectile.update(this);
@@ -142,6 +118,30 @@ export class GameMap {
                 projectile.animation.stop();
                 this.projectiles.splice(i, 1);
                 this.stage.removeChild(projectile.animation);
+            }
+        }
+        
+        for (let i = this.playerActors.length - 1; i >= 0; i--) {
+            const actor = this.playerActors[i];
+            actor.update(this);
+
+            if (actor && !actor.isAlive()) {
+                actor.destroyAnimation();
+                this.stage.removeChild(actor.animation);
+                this.playerActors.splice(i, 1);
+                this.tiles[actor.tileX][actor.tileY].actor = undefined;
+            }
+        }
+
+        for (let i = this.enemyActors.length - 1; i >= 0; i--) {
+            const actor = this.enemyActors[i];
+            actor.update(this);
+
+            if (actor && !actor.isAlive()) {
+                actor.destroyAnimation();
+                this.stage.removeChild(actor.animation);
+                this.enemyActors.splice(i, 1);
+                this.tiles[actor.tileX][actor.tileY].actor = undefined;
             }
         }
 
