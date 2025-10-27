@@ -29,6 +29,7 @@ export class Actor {
     private magicResist: number;
     private magicDamage: number;
     private actionSpeed: number;
+    private critChance: number;
 
     public teamType: ActorTeamType;
 
@@ -83,52 +84,56 @@ export class Actor {
         this.magicResist = this.data.stats.magicResist;
         this.magicDamage = this.data.stats.magicDamage;
         this.actionSpeed = this.data.stats.actionSpeed;
+        this.critChance = this.data.stats.critChance;
     }
 
     isAlive(): boolean {
         return this.health > 0;
     }
 
-    damage(pierceDamage: number, bluntDamage: number, magicDamage: number) {
-        const totalDamage = Math.max(0, pierceDamage * (1 - Math.min(0.8, this.pierceResist))) +
-                            Math.max(0, bluntDamage * (1 - Math.min(0.8, this.bluntResist))) +
-                            Math.max(0, magicDamage * (1 - Math.min(0.8, this.magicResist)));
+    damage(pierceDamage: number, bluntDamage: number, magicDamage: number, critChance: number) {
+        const totalDamage = Math.max(0, pierceDamage * (1 - Math.min(0.8, this.pierceResist))) * (Math.random() < critChance ? 2 : 1) +
+                            Math.max(0, bluntDamage * (1 - Math.min(0.8, this.bluntResist))) * (Math.random() < critChance ? 2 : 1) +
+                            Math.max(0, magicDamage * (1 - Math.min(0.8, this.magicResist))) * (Math.random() < critChance ? 2 : 1);
         this.health -= totalDamage;
         this.setTint(0x8b3d3d); //red
     }
 
-    heal(amount: number) {
-        this.health = Math.min(this.maxHealth, this.health + amount);
+    heal(amount: number, critChance: number) {
+        this.health = Math.min(this.maxHealth, this.health + amount) * (Math.random() < critChance ? 2 : 1);
         this.setTint(0x3d9155); //green
     }
 
     buff(stat: ActorStatType, amount: number) {
         switch (stat) {
             case 'pierceResist':
-                this.pierceResist *= (1 + amount);
+                this.pierceResist += amount;
                 break;
             case 'bluntResist':
-                this.bluntResist *= (1 + amount);
+                this.bluntResist += amount;
                 break;
             case 'magicResist':
-                this.magicResist *= (1 + amount);
+                this.magicResist += amount;
                 break;
             case 'allResists':
-                this.pierceResist *= (1 + amount);
-                this.bluntResist *= (1 + amount);
-                this.magicResist *= (1 + amount);
+                this.pierceResist += amount;
+                this.bluntResist += amount;
+                this.magicResist += amount;
                 break;
             case 'pierceDamage':
-                this.pierceDamage *= (1 + amount);
+                this.pierceDamage += amount;
                 break;
             case 'bluntDamage':
-                this.bluntDamage *= (1 + amount);
+                this.bluntDamage += amount;
                 break;
             case 'magicDamage':
-                this.magicDamage *= (1 + amount);
+                this.magicDamage += amount;
                 break;
             case 'actionSpeed':
-                this.actionSpeed /= (1 + amount);
+                this.actionSpeed -= amount;
+                break;
+            case 'critChance':
+                this.critChance += amount;
                 break;
         }
 
@@ -138,30 +143,33 @@ export class Actor {
     curse(stat: ActorStatType, amount: number) {
         switch (stat) {
             case 'pierceResist':
-                this.pierceResist /= (1 + amount);
+                this.pierceResist -= amount;
                 break;
             case 'bluntResist':
-                this.bluntResist /= (1 + amount);
+                this.bluntResist -= amount;
                 break;
             case 'magicResist':
-                this.magicResist /= (1 + amount);
+                this.magicResist -= amount;
                 break;
             case 'allResists':
-                this.pierceResist /= (1 + amount);
-                this.bluntResist /= (1 + amount);
-                this.magicResist /= (1 + amount);
+                this.pierceResist -= amount;
+                this.bluntResist -= amount;
+                this.magicResist -= amount;
                 break;
             case 'pierceDamage':
-                this.pierceDamage /= (1 + amount);
+                this.pierceDamage -= amount;
                 break;
             case 'bluntDamage':
-                this.bluntDamage /= (1 + amount);
+                this.bluntDamage -= amount;
                 break;
             case 'magicDamage':
-                this.magicDamage /= (1 + amount);
+                this.magicDamage -= amount;
                 break;
             case 'actionSpeed':
-                this.actionSpeed *= (1 + amount);
+                this.actionSpeed += amount;
+                break;
+            case 'critChance':
+                this.critChance -= amount;
                 break;
         }
 
@@ -230,7 +238,7 @@ export class Actor {
             return;
         }
 
-        if (performance.now() - this.actionStart >= this.actionSpeed) {
+        if (performance.now() - this.actionStart >= Math.max(this.actionSpeed, 200)) {
             this.actionStart = performance.now();
 
             if (this.data.action.type == ActorActionType.ATTACK) {
@@ -262,10 +270,10 @@ export class Actor {
                 if (targetTile && targetTile.actor) {
                     switch (this.data.action.type) {
                         case ActorActionType.ATTACK:
-                            targetTile.actor.damage(this.pierceDamage, this.bluntDamage, this.magicDamage);
+                            targetTile.actor.damage(this.pierceDamage, this.bluntDamage, this.magicDamage, this.critChance);
                             break;
                         case ActorActionType.HEAL:
-                            targetTile.actor.heal(this.magicDamage);
+                            targetTile.actor.heal(this.magicDamage, this.critChance);
                             break;
                         case ActorActionType.BUFF:
                             targetTile.actor.buff(this.data.action.buffCurseStatType ?? 'allResists', this.magicDamage);

@@ -8,6 +8,7 @@ export type ActorData = {
 }
 
 export type ActorStats = {
+    level: number;
     maxHealth: number;
     pierceResist: number;
     pierceDamage: number;
@@ -16,6 +17,7 @@ export type ActorStats = {
     magicResist: number;
     magicDamage: number;
     actionSpeed: number;
+    critChance: number;
 }
 
 export enum ActorActionType {
@@ -73,6 +75,7 @@ export const getInitialState = (): StoreData => {
         description: "",
         color: ActorColorType.GREEN,
         stats: {
+            level: 1,
             maxHealth: 0,
             pierceResist: 0,
             pierceDamage: 0,
@@ -80,7 +83,8 @@ export const getInitialState = (): StoreData => {
             bluntDamage: 0,
             magicResist: 0,
             magicDamage: 0,
-            actionSpeed: 0
+            actionSpeed: 0,
+            critChance: 0,
         },
         action: {
             type: ActorActionType.ATTACK,
@@ -94,6 +98,7 @@ export const getInitialState = (): StoreData => {
         playerTeam: {
             actors: Array.from({ length: 4 }, () => Array(5).fill(undefined)),
             teamStats: {
+                level: 1,
                 maxHealth: 0,
                 pierceResist: 0,
                 pierceDamage: 0,
@@ -101,12 +106,14 @@ export const getInitialState = (): StoreData => {
                 bluntDamage: 0,
                 magicResist: 0,
                 magicDamage: 0,
-                actionSpeed: 0
+                actionSpeed: 0,
+                critChance: 0,
             }
         },
         npcTeam: {
             actors: Array.from({ length: 4 }, () => Array(5).fill(undefined)),
             teamStats: {
+                level: 1,
                 maxHealth: 0,
                 pierceResist: 0,
                 pierceDamage: 0,
@@ -114,7 +121,8 @@ export const getInitialState = (): StoreData => {
                 bluntDamage: 0,
                 magicResist: 0,
                 magicDamage: 0,
-                actionSpeed: 0
+                actionSpeed: 0,
+                critChance: 0,
             }
         },
         inventory: inventory,
