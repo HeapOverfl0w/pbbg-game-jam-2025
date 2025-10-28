@@ -50,7 +50,7 @@ export function ItemSlot(props: ItemSlotProps) {
     <div className='padding, border' ref={ref as any}>
       <div>
         {(props.data !== undefined) &&
-          <Item item={props.data} onMove={() => { }} />
+          <Item item={props.data} />
         }
         {(props.data === undefined) &&
           <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={''} alt='' />

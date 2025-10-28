@@ -1,5 +1,5 @@
 import { AnimatedSprite } from "pixi.js";
-import { ActorActionType, ActorData, ActorStats, ActorStatType } from "../redux/actor-data";
+import { ActorActionType, ActorData, ActorOtherEffectsType, ActorStats, ActorStatType } from "../redux/actor-data";
 import { aStar, Position } from "./astar";
 import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, DEFAULT_EFFECT_DURATION, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH, TILES_X, TILES_Y } from "./constants";
 import { GameMap } from "./game-map";
@@ -92,16 +92,23 @@ export class Actor {
     }
 
     damage(pierceDamage: number, bluntDamage: number, magicDamage: number, critChance: number) {
+        if (this.data.action.otherActionEffect == ActorOtherEffectsType.DODGE && Math.random() > 0.8) {
+            return 0;
+        }
+
         const totalDamage = Math.max(0, pierceDamage * (1 - Math.min(0.8, this.pierceResist))) * (Math.random() < critChance ? 2 : 1) +
                             Math.max(0, bluntDamage * (1 - Math.min(0.8, this.bluntResist))) * (Math.random() < critChance ? 2 : 1) +
                             Math.max(0, magicDamage * (1 - Math.min(0.8, this.magicResist))) * (Math.random() < critChance ? 2 : 1);
         this.health -= totalDamage;
         this.setTint(0x8b3d3d); //red
+        return totalDamage;
     }
 
     heal(amount: number, critChance: number) {
-        this.health = Math.min(this.maxHealth, this.health + amount) * (Math.random() < critChance ? 2 : 1);
+        const totalHeal = Math.min(this.maxHealth, (this.health + amount) * (Math.random() < critChance ? 2 : 1));
+        this.health = totalHeal;
         this.setTint(0x3d9155); //green
+        return totalHeal;
     }
 
     buff(stat: ActorStatType, amount: number) {
@@ -270,7 +277,11 @@ export class Actor {
                 if (targetTile && targetTile.actor) {
                     switch (this.data.action.type) {
                         case ActorActionType.ATTACK:
-                            targetTile.actor.damage(this.pierceDamage, this.bluntDamage, this.magicDamage, this.critChance);
+                            const damage = targetTile.actor.damage(this.pierceDamage, this.bluntDamage, this.magicDamage, this.critChance);
+                            //if lifesteal then heal for 30% of damage dealt
+                            if (this.data.action.otherActionEffect == ActorOtherEffectsType.LIFESTEAL) {
+                                this.heal(damage * 0.2, 0);
+                            }
                             break;
                         case ActorActionType.HEAL:
                             targetTile.actor.heal(this.magicDamage, this.critChance);
@@ -385,8 +396,8 @@ export class Actor {
             }
 
             const stepAngle = Math.atan2(nextStep.y - this.tileY, nextStep.x - this.tileX);
-            let changeX = Math.cos(stepAngle) * MOVEMENT_TICKS_PER_TILE;
-            let changeY = Math.sin(stepAngle) * MOVEMENT_TICKS_PER_TILE;
+            let changeX = Math.cos(stepAngle) * MOVEMENT_TICKS_PER_TILE * (this.data.action.otherActionEffect == ActorOtherEffectsType.FAST ? 2 : 1);
+            let changeY = Math.sin(stepAngle) * MOVEMENT_TICKS_PER_TILE * (this.data.action.otherActionEffect == ActorOtherEffectsType.FAST ? 2 : 1);;
 
             if (this.x + changeX < 0 || this.x + changeX > TILES_X * TILE_WIDTH) {
                 changeX = 0;

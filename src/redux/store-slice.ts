@@ -1,10 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ActorData, getInitialState } from "./actor-data";
 
 const storeSlice = createSlice({
     name: 'store',
     initialState: getInitialState(),
     reducers: {
+        addActor: (state, action: PayloadAction<ActorData>) => {
+            const newInventory = state.inventory;
+            const index = newInventory.findIndex((inv) => !inv);
+            newInventory[index] = action.payload;
+            state.inventory = newInventory;
+        },
         moveActor: (state, action: any) => {
             let ii = -1;
             let jj = -1;
@@ -58,6 +64,6 @@ const storeSlice = createSlice({
     }
 });
 
-export const { moveActor } = storeSlice.actions
+export const { moveActor, addActor } = storeSlice.actions
 
 export default storeSlice.reducer;

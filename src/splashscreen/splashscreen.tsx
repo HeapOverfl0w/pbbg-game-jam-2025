@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { DATA } from '../canvas/data';
+import { useDispatch } from 'react-redux';
+import { addActor } from '../redux/store-slice';
+import { createRandomUnit } from '../units';
 
 type SplashscreenProps = {
   onStart: () => void;
@@ -12,9 +15,21 @@ type SplashscreenProps = {
  */
 export function Splashscreen(props: SplashscreenProps) {
   const [status, setStatus] = useState<Record<string, any>>({ status: 'Loading...', percent: '0' });
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    DATA.load();
+    async function initialLoad() {
+      await DATA.load();
+
+      //TODO: Remove, just testing creating random units and unit tooltips
+      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
+      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
+      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
+      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
+      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
+    }
+    
+    initialLoad();
     const interval = setInterval(() => { setStatus(DATA.getStatus()); }, 10);
     return () => clearInterval(interval);
   }, []);

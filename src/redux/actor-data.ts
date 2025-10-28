@@ -2,6 +2,7 @@ export type ActorData = {
     id: string;
     name: string;
     description: string;
+    rarity: ActorRarityType;
     color: ActorColorType;
     stats: ActorStats;
     action: ActorActionData;
@@ -33,6 +34,12 @@ export enum ActorColorType {
     PURPLE
 }
 
+export enum ActorRarityType {
+    COMMON,
+    UNCOMMON,
+    RARE
+}
+
 export type ActorStatType = keyof ActorStats | 'allResists';
 
 export enum ActorActionTargetsType {
@@ -48,11 +55,20 @@ export enum ActorActionTargetsType {
     LARGE_CLEAVE, // target and y - 2 and y + 2
 }
 
+export enum ActorOtherEffectsType {
+    LIFESTEAL,
+    DODGE,
+    AOE,
+    DEFENSIVE,
+    FAST
+}
+
 export type ActorActionData = {
     type: ActorActionType;
     range: number;
     targets: ActorActionTargetsType;
     buffCurseStatType?: ActorStatType;
+    otherActionEffect?: ActorOtherEffectsType;
 }
 
 export type TeamData = {
@@ -74,6 +90,7 @@ export const getInitialState = (): StoreData => {
         name: "",
         description: "",
         color: ActorColorType.GREEN,
+        rarity: ActorRarityType.COMMON,
         stats: {
             level: 1,
             maxHealth: 0,
