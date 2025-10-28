@@ -53,7 +53,7 @@ export function ItemSlot(props: ItemSlotProps) {
           <Item item={props.data} onMove={() => { }} />
         }
         {(props.data === undefined) &&
-          <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={''} alt='' />
+          <img className='responsive small' style={{ aspectRatio: '1/1' }} src={''} alt='' />
         }
         {isOver && !canDrop &&
           <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, width: '100%', height: '100%', background: 'rgba(255, 0, 0, 0.35)' }} />

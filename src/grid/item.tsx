@@ -22,7 +22,7 @@ export function Item(props: any) {
         {hover &&
           <div style={{ position: 'absolute', zIndex: 1, width: '100%', height: '100%', background: 'rgba(172, 164, 164, 0.35)' }}></div>
         }
-        <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={'./img/logo192.png'} alt='' />
+        <img className='responsive small' style={{ aspectRatio: '1/1' }} src={'./img/logo192.png'} alt='' />
         {/* <div className='tooltip max left'>
         <b>Title</b>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>

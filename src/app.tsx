@@ -20,8 +20,8 @@ function App() {
       }
       {!loading &&
         <div style={{ width: '100%', height: '100%' }}>
-          <main className='responsive'>
-            <div className='row absolute center middle' style={{ userSelect: 'none' }}>
+          <main className='' style={{ userSelect: 'none' }}>
+            <div className='row middle-align center-align'>
               {!battleRunning &&
                 <Battlefield onStart={() => setBattleRunning(true)} />
               }

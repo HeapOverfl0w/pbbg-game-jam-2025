@@ -14,7 +14,7 @@ type ItemSlotStaticProps = {
 export function ItemSlotStatic(props: ItemSlotStaticProps) {
   return (
     <div className='no-padding border'>
-      <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={''} alt='' />
+      <img className='responsive small' style={{ aspectRatio: '1/1' }} src={''} alt='' />
     </div>
   );
 }
