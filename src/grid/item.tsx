@@ -32,7 +32,7 @@ export function Item({ item }: ItemProps) {
           {hover &&
             <div style={{ position: 'absolute', zIndex: 1, width: '100%', height: '100%', background: 'rgba(172, 164, 164, 0.35)' }}></div>
           }
-          <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={'./img/logo192.png'} alt='' />
+          <img className='responsive small' style={{ aspectRatio: '1/1' }} src={'./img/logo192.png'} alt='' />
           <Tooltip open={hover} targetRef={hoverTargetRef}>
             <div style={{display: 'flex', flexDirection: 'column', minWidth: '400px', maxWidth: '500px', alignItems: 'center'}}>
               <h2 style={{color: getColorFromType(item.color)}}>{item.name}</h2>
