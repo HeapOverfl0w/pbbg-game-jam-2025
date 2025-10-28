@@ -68,7 +68,9 @@ export const createTestTeamData = (name: string): TeamData => {
                         bluntDamage: 0,
                         magicResist: 0,
                         magicDamage: 0,
-                        actionSpeed: 1500
+                        actionSpeed: 1500,
+                        level: 0,
+                        critChance: 0
                     },
                     action: {
                         type: ActorActionType.ATTACK,
@@ -91,7 +93,9 @@ export const createTestTeamData = (name: string): TeamData => {
                         bluntDamage: 0,
                         magicResist: 0.6,
                         magicDamage: 3,
-                        actionSpeed: 2500
+                        actionSpeed: 2500,
+                        level: 0,
+                        critChance: 0
                     },
                     action: {
                         type: ActorActionType.ATTACK,
@@ -116,7 +120,9 @@ export const createTestTeamData = (name: string): TeamData => {
             bluntDamage: 0,
             magicResist: 0,
             magicDamage: 0,
-            actionSpeed: 0
+            actionSpeed: 0,
+            level: 0,
+            critChance: 0
         }
     };
 }
