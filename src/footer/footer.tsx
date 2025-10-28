@@ -18,7 +18,7 @@ export function Footer() {
   const [page, setPage] = useState<PageType>(PageType.INVENTORY);
 
   return (
-    <footer className='fill row padding wrap' style={{ userSelect: 'none', flexFlow: 'row', height: open ? '25em' : '' }}>
+    <footer className='fill row padding wrap' style={{ userSelect: 'none', flexFlow: 'row', height: open ? '26em' : '' }}>
       <div className='row vertical'>
         <button className='circle transparent' onClick={() => setOpen(!open)}>
           <i>menu</i>
