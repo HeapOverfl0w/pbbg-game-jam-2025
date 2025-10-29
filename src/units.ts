@@ -2,6 +2,7 @@
 
 import { roundValue2Decimals } from "./canvas/constants";
 import { ActorActionTargetsType, ActorActionType, ActorColorType, ActorData, ActorOtherEffectsType, ActorRarityType } from "./redux/actor-data";
+import { v4 as uuidv4 } from "uuid";
 
 
 export function createRandomUnit(currentLevel: number, isDemon: boolean) {
@@ -57,6 +58,8 @@ export function createUnit(currentLevel: number, isDemon: boolean, rarity: Actor
     addInRandomUnitEffect(returnValue);
     randomizeColor(returnValue);
 
+    returnValue.id = uuidv4();
+
     return returnValue;
 }
 
@@ -66,31 +69,31 @@ function randomizeBuffCurseUnit(unit: ActorData, type: ActorActionType) {
 
     if (randomStatType > 0.95) {
         unit.action.buffCurseStatType = 'actionSpeed';
-        unit.stats.magicDamage = 100 + Math.round(Math.random() * 200);
+        unit.stats.magicDamage = roundValue2Decimals(100 + Math.round(Math.random() * 200));
     } else if (randomStatType > 0.85) {
         unit.action.buffCurseStatType = 'pierceResist';
-        unit.stats.magicDamage = 0.05 + Math.random() * 0.1;
+        unit.stats.magicDamage = roundValue2Decimals(0.05 + Math.random() * 0.1);
     } else if (randomStatType > 0.75) {
         unit.action.buffCurseStatType = 'bluntResist';
-        unit.stats.magicDamage = 0.05 + Math.random() * 0.1;
+        unit.stats.magicDamage = roundValue2Decimals(0.05 + Math.random() * 0.1);
     } else if (randomStatType > 0.65) {
         unit.action.buffCurseStatType = 'magicResist';
-        unit.stats.magicDamage = 0.05 + Math.random() * 0.1;
+        unit.stats.magicDamage = roundValue2Decimals(0.05 + Math.random() * 0.1);
     } else if (randomStatType > 0.55) {
         unit.action.buffCurseStatType = 'pierceDamage';
-        unit.stats.magicDamage = 1 + Math.round(Math.random() * 2);
+        unit.stats.magicDamage = roundValue2Decimals(1 + Math.round(Math.random() * 2));
     } else if (randomStatType > 0.45) {
         unit.action.buffCurseStatType = 'bluntDamage';
-        unit.stats.magicDamage = 1 + Math.round(Math.random() * 2);
+        unit.stats.magicDamage = roundValue2Decimals(1 + Math.round(Math.random() * 2));
     } else if (randomStatType > 0.35) {
         unit.action.buffCurseStatType = 'magicDamage';
-        unit.stats.magicDamage = 1 + Math.round(Math.random() * 2);
+        unit.stats.magicDamage = roundValue2Decimals(1 + Math.round(Math.random() * 2));
     } else if (randomStatType > 0.25) {
         unit.action.buffCurseStatType = 'critChance';
-        unit.stats.magicDamage = 0.05 + Math.random() * 0.1;
+        unit.stats.magicDamage = roundValue2Decimals(0.05 + Math.random() * 0.1);
     } else {
         unit.action.buffCurseStatType = 'allResists';
-        unit.stats.magicDamage = 0.05 + Math.random() * 0.1;
+        unit.stats.magicDamage = roundValue2Decimals(0.05 + Math.random() * 0.1);
     }
 }
 
@@ -106,7 +109,7 @@ function modifyStatsForLevel(unit: ActorData, level: number) {
         unit.stats.maxHealth = Math.round(unit.stats.maxHealth * (1 + levelModifier - (Math.random() * 0.1)));
         unit.stats.pierceDamage = Math.round(unit.stats.pierceDamage * (1 + levelModifier - (Math.random() * 0.1)));
         unit.stats.bluntDamage = Math.round(unit.stats.bluntDamage * (1 + levelModifier - (Math.random() * 0.1)));
-        unit.stats.magicDamage = Math.round(unit.stats.magicDamage * (1 + levelModifier - (Math.random() * 0.1)));
+        unit.stats.magicDamage = unit.action.type == ActorActionType.BUFF || unit.action.type == ActorActionType.CURSE ? roundValue2Decimals(unit.stats.magicDamage * (1 + levelModifier - (Math.random() * 0.1))) : Math.round(unit.stats.magicDamage * (1 + levelModifier - (Math.random() * 0.1)));
         unit.stats.pierceResist = roundValue2Decimals(unit.stats.pierceResist * (1 + levelModifier - (Math.random() * 0.1)));
         unit.stats.bluntResist = roundValue2Decimals(unit.stats.bluntResist * (1 + levelModifier - (Math.random() * 0.1)));
         unit.stats.magicResist = roundValue2Decimals(unit.stats.magicResist * (1 + levelModifier - (Math.random() * 0.1)));

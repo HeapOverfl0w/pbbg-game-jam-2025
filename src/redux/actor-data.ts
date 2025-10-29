@@ -77,15 +77,26 @@ export type TeamData = {
 }
 
 export type StoreData = {
-    playerTeam: TeamData,
-    npcTeam: TeamData,
-    inventory: (ActorData | undefined)[]
+    playerTeam: TeamData;
+    npcTeam: TeamData;
+    inventory: ActorData[];
+    buildings: BuildingData[];
+    gold: number;
 }
 
+export type BuildingData = {
+    name: string;
+    description: string;
+    level: number;
+    statType: ActorStatType;
+    value: number;
+    increasePerLevel: number;
+    image: string;
+}
 
 export const getInitialState = (): StoreData => {
-    const inventory: (ActorData | undefined)[] = Array(100).fill(undefined);
-    inventory[0] = {
+    const inventory: ActorData[] = [];
+    inventory.push({
         id: "",
         name: "",
         description: "",
@@ -109,7 +120,7 @@ export const getInitialState = (): StoreData => {
             targets: ActorActionTargetsType.SINGLE,
             buffCurseStatType: undefined
         }
-    };
+    });
 
     return {
         playerTeam: {
@@ -143,6 +154,7 @@ export const getInitialState = (): StoreData => {
             }
         },
         inventory: inventory,
-
+        buildings: [],
+        gold: 0
     }
 }

@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { Tooltip } from './tooltip';
-import { ActorActionType, ActorData, ActorOtherEffectsType } from '../redux/actor-data';
+import { ActorActionType, ActorData, ActorOtherEffectsType, ActorStatType } from '../redux/actor-data';
 import { getBuffCurseTypeName, getColorFromType, getOtherEffectsTypeDescription, getRarityColorFromType, getRarityNameFromType, roundValue2Decimals } from '../canvas/constants';
 import { ActionTargetsIndicator } from './action-targets-indicator';
-import { getEmptyImage } from 'react-dnd-html5-backend';
 import { CustomDragIcon } from '../custom-cursor';
 
 export type ItemProps = {
@@ -23,9 +22,13 @@ export function Item({ item }: ItemProps) {
     }),
   }));
 
+  function isPercentageBasedStat(statType: ActorStatType) {
+    return statType == 'critChance' || statType == 'allResists' || statType == 'bluntResist' || statType == 'magicResist' || statType == 'pierceResist';
+  }
+
   return (
     <>
-      <div ref={drag as any} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ opacity: isDragging ? 0.5 : 1}}>
+      <div ref={drag as any} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
         <div ref={hoverTargetRef}>
           {hover &&
             <div style={{ position: 'absolute', zIndex: 1, width: '100%', height: '100%', background: 'rgba(172, 164, 164, 0.35)' }}></div>
@@ -106,11 +109,15 @@ export function Item({ item }: ItemProps) {
                         <p style={{marginLeft: 'auto'}}>{getBuffCurseTypeName(item.action.buffCurseStatType)}</p>
                       </div>
                     }
-                    {item.stats.magicDamage > 0 && 
-                      <div className='statline'>
+                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) ?
+                      (<div className='statline'>
+                        <p>Buff Amount</p>
+                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)} %</p>
+                      </div>) :
+                      (<div className='statline'>
                         <p>Buff Amount</p>
                         <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
-                      </div>
+                      </div>)
                     }
                   </div>
                 )}
@@ -126,11 +133,15 @@ export function Item({ item }: ItemProps) {
                         <p style={{marginLeft: 'auto'}}>{getBuffCurseTypeName(item.action.buffCurseStatType)}</p>
                       </div>
                     }
-                    {item.stats.magicDamage > 0 && 
-                      <div className='statline'>
+                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) ?
+                      (<div className='statline'>
+                        <p>Curse Amount</p>
+                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)} %</p>
+                      </div>) :
+                      (<div className='statline'>
                         <p>Curse Amount</p>
                         <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
-                      </div>
+                      </div>)
                     }
                   </div>
                 )}

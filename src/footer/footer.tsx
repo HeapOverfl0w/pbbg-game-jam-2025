@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Inventory } from './inventory';
-import { Buffs } from './buffs';
+import { Buildings } from './buildings';
 
 enum PageType {
   INVENTORY,
@@ -40,7 +40,7 @@ export function Footer() {
             <Inventory />
           }
           {page === PageType.BUFFS &&
-            <Buffs />
+            <Buildings />
           }
         </>
       }

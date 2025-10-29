@@ -155,4 +155,13 @@ html, body {
     height: 20px;
   }
 
+  .building {
+    width: 24rem;
+    height: 8rem;
+    display: flex;
+    flex-direction: row;
+    border: 2px solid white;
+    border-radius: 0px;
+  }
+
   

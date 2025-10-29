@@ -21,7 +21,6 @@ export const Tooltip: React.FC<TooltipProps> = ({ targetRef, children, open, mar
 
     const tooltipRect = tooltipEl.getBoundingClientRect();
     const vw = window.innerWidth;
-    const vh = window.innerHeight;
 
     let top = rect.top + window.scrollY - tooltipRect.height - margin;
     let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
