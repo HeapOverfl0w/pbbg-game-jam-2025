@@ -23,10 +23,10 @@ export function Battlefield(props: BattlefieldProps) {
     <div className='row vertical'>
       <h3 style={{alignSelf: 'center'}}>Round {round}</h3>
       <div className='row horizontal'>
-        <div className='row no-space vertical'>
+        <div className='row no-space horizontal'>
           {
             actors.map((_, i) => {
-              return <div className='row no-space horizontal'>
+              return <div className='row no-space vertical'>
                 {
                   _.map((__, j) => <ItemSlot data={__} x={i} y={j} />)
                 }
@@ -35,10 +35,10 @@ export function Battlefield(props: BattlefieldProps) {
           }
         </div>
         <h3 style={{color: '#b62a3c'}}>VS</h3>
-        <div className='row no-space vertical'>
+        <div className='row no-space horizontal'>
           {
             enemies.map((_, i) => {
-              return <div className='row no-space horizontal'>
+              return <div className='row no-space vertical'>
                 {
                   _.map((__, j) => <ItemSlotStatic data={__} />)
                 }
