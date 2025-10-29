@@ -16,10 +16,12 @@ type BattlefieldProps = {
  */
 export function Battlefield(props: BattlefieldProps) {
   const actors = useSelector((state: StoreData) => state.playerTeam.actors);
+  const round = useSelector((state: StoreData) => state.currentRound);
   const enemies = useSelector((state: StoreData) => state.npcTeam.actors);
 
   return (
     <div className='row vertical'>
+      <h3 style={{alignSelf: 'center'}}>Round {round}</h3>
       <div className='row horizontal'>
         <div className='row no-space vertical'>
           {
@@ -32,6 +34,7 @@ export function Battlefield(props: BattlefieldProps) {
             })
           }
         </div>
+        <h3 style={{color: '#b62a3c'}}>VS</h3>
         <div className='row no-space vertical'>
           {
             enemies.map((_, i) => {
@@ -44,7 +47,7 @@ export function Battlefield(props: BattlefieldProps) {
           }
         </div>
       </div>
-      <div style={{alignSelf: 'end'}}>
+      <div style={{alignSelf: 'center'}}>
         <button disabled={false/* actors.flatMap((_) => _.every(__ => __ === undefined)).every(_ => _ === true) */} onClick={() => props.onStart()}>
           Start
         </button>

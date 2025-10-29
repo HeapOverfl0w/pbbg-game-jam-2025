@@ -38,7 +38,7 @@ export function Inventory() {
   return (
     <div style={{ flex: 'auto', width: '100%', height: '100%', display: 'flex', flexDirection: 'column'}}>
       <div className='row horizontal'>
-        <h3>Inventory</h3>
+        <h3>Units</h3>
       </div>
       <div ref={ref as any} style={{ width: '100%', height: '100%', overflowY: 'auto', padding: '1em' }}>
         <div className='row horizontal wrap'>

@@ -397,7 +397,7 @@ export class Actor {
 
             const stepAngle = Math.atan2(nextStep.y - this.tileY, nextStep.x - this.tileX);
             let changeX = Math.cos(stepAngle) * MOVEMENT_TICKS_PER_TILE * (this.data.action.otherActionEffect == ActorOtherEffectsType.FAST ? 2 : 1);
-            let changeY = Math.sin(stepAngle) * MOVEMENT_TICKS_PER_TILE * (this.data.action.otherActionEffect == ActorOtherEffectsType.FAST ? 2 : 1);;
+            let changeY = Math.sin(stepAngle) * MOVEMENT_TICKS_PER_TILE * (this.data.action.otherActionEffect == ActorOtherEffectsType.FAST ? 2 : 1);
 
             if (this.x + changeX < 0 || this.x + changeX > TILES_X * TILE_WIDTH) {
                 changeX = 0;
@@ -406,8 +406,8 @@ export class Actor {
             }
             this.x += changeX;
             this.y += changeY;
-            this.animation.x += changeX;
-            this.animation.y += changeY;
+            this.animation.x = this.animation.x + changeX;
+            this.animation.y = this.animation.y + changeY;
 
             const newTileX = changeX > 0 ? Math.floor(this.x / TILE_WIDTH) : Math.ceil(this.x / TILE_WIDTH);
             const newTileY = Math.round(this.y / TILE_HEIGHT);

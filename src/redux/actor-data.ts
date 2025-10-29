@@ -82,6 +82,7 @@ export type StoreData = {
     inventory: ActorData[];
     buildings: BuildingData[];
     gold: number;
+    currentRound: number;
 }
 
 export type BuildingData = {
@@ -155,6 +156,7 @@ export const getInitialState = (): StoreData => {
         },
         inventory: inventory,
         buildings: [],
-        gold: 0
+        gold: 0,
+        currentRound: 1
     }
 }

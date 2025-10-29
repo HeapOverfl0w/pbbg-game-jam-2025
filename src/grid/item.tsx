@@ -51,34 +51,34 @@ export function Item({ item }: ItemProps) {
                 <ActionTargetsIndicator type={item.action.targets}/>
                 <div className='statline'>
                   <p>Health</p>
-                  <p style={{marginLeft: 'auto'}}>{item.stats.maxHealth}</p>
+                  <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{item.stats.maxHealth}</p>
                 </div>
                 <div className='statline'>
                   <p>Range</p>
-                  <p style={{marginLeft: 'auto'}}>{item.action.range}</p>
+                  <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{item.action.range}</p>
                 </div>
                 {item.action.type == ActorActionType.ATTACK && (
                   <div>
                     <div className='statline'>
                       <p>Attack Speed</p>
-                      <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.actionSpeed / 1000)} Seconds</p>
+                      <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.actionSpeed / 1000)} Seconds</p>
                     </div>
                     {item.stats.pierceDamage > 0 && 
                       <div className='statline'>
                         <p>Pierce Damage</p>
-                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.pierceDamage)}</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.pierceDamage)}</p>
                       </div>
                     }
                     {item.stats.bluntDamage > 0 && 
                       <div className='statline'>
                         <p>Blunt Damage</p>
-                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.bluntDamage)}</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.bluntDamage)}</p>
                       </div>
                     }
                     {item.stats.magicDamage > 0 && 
                       <div className='statline'>
                         <p>Magic Damage</p>
-                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
                       </div>
                     }
                   </div>
@@ -87,12 +87,12 @@ export function Item({ item }: ItemProps) {
                   <div>
                     <div className='statline'>
                       <p>Heal Speed</p>
-                      <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.actionSpeed / 1000)} Seconds</p>
+                      <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.actionSpeed / 1000)} Seconds</p>
                     </div>
                     {item.stats.magicDamage > 0 && 
                       <div className='statline'>
                         <p>Heal Amount</p>
-                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
                       </div>
                     }
                   </div>
@@ -101,22 +101,22 @@ export function Item({ item }: ItemProps) {
                   <div>
                     <div className='statline'>
                       <p>Buff Speed</p>
-                      <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.actionSpeed / 1000)} Seconds</p>
+                      <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.actionSpeed / 1000)} Seconds</p>
                     </div>
                     {item.action.buffCurseStatType && 
                       <div className='statline'>
                         <p>Buff Type</p>
-                        <p style={{marginLeft: 'auto'}}>{getBuffCurseTypeName(item.action.buffCurseStatType)}</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{getBuffCurseTypeName(item.action.buffCurseStatType)}</p>
                       </div>
                     }
                     {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) ?
                       (<div className='statline'>
                         <p>Buff Amount</p>
-                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)} %</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)} %</p>
                       </div>) :
                       (<div className='statline'>
                         <p>Buff Amount</p>
-                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
                       </div>)
                     }
                   </div>
@@ -125,22 +125,22 @@ export function Item({ item }: ItemProps) {
                   <div>
                     <div className='statline'>
                       <p>Curse Speed</p>
-                      <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.actionSpeed / 1000)} Seconds</p>
+                      <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.actionSpeed / 1000)} Seconds</p>
                     </div>
                     {item.action.buffCurseStatType && 
                       <div className='statline'>
                         <p>Curse Type</p>
-                        <p style={{marginLeft: 'auto'}}>{getBuffCurseTypeName(item.action.buffCurseStatType)}</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{getBuffCurseTypeName(item.action.buffCurseStatType)}</p>
                       </div>
                     }
                     {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) ?
                       (<div className='statline'>
                         <p>Curse Amount</p>
-                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)} %</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)} %</p>
                       </div>) :
                       (<div className='statline'>
                         <p>Curse Amount</p>
-                        <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
                       </div>)
                     }
                   </div>
@@ -148,19 +148,19 @@ export function Item({ item }: ItemProps) {
                 {item.stats.pierceResist > 0 && 
                   <div className='statline'>
                     <p>Pierce Resistance</p>
-                    <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.pierceResist * 100)} %</p>
+                    <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.pierceResist * 100)} %</p>
                   </div>
                 }
                 {item.stats.bluntResist > 0 && 
                   <div className='statline'>
                     <p>Blunt Resistance</p>
-                    <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.bluntResist * 100)} %</p>
+                    <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.bluntResist * 100)} %</p>
                   </div>
                 }
                 {item.stats.magicResist > 0 && 
                   <div className='statline'>
                     <p>Magic Resist</p>
-                    <p style={{marginLeft: 'auto'}}>{roundValue2Decimals(item.stats.magicResist * 100)} %</p>
+                    <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicResist * 100)} %</p>
                   </div>
                 }
               </div>
