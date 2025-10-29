@@ -15,16 +15,32 @@ body {
 
 html, body {
   font-family: myFont !important;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-crisp-edges;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-  }
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 128px;
+  height: 128px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.custom-icon-drag {
+  position: fixed;
+  transform: translate(-50%, -50%); 
+  pointer-events: none;
+  z-index: 9998;
+}
 
   :root,
   body.dark {
@@ -74,6 +90,7 @@ html, body {
     border: '2px';
     border-style: solid;
     border-color: white;
+    cursor: none;
   }
 
   article {
@@ -127,6 +144,11 @@ html, body {
     border: 2px solid white;
     background-color: #a62d31;
     border-radius: 0px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .td-transparent {
     width: 20px;
     height: 20px;
   }

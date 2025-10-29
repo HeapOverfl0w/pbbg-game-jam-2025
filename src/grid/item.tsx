@@ -4,6 +4,8 @@ import { Tooltip } from './tooltip';
 import { ActorActionType, ActorData, ActorOtherEffectsType } from '../redux/actor-data';
 import { getBuffCurseTypeName, getColorFromType, getOtherEffectsTypeDescription, getRarityColorFromType, getRarityNameFromType, roundValue2Decimals } from '../canvas/constants';
 import { ActionTargetsIndicator } from './action-targets-indicator';
+import { getEmptyImage } from 'react-dnd-html5-backend';
+import { CustomDragIcon } from '../custom-cursor';
 
 export type ItemProps = {
   item: ActorData;
@@ -21,18 +23,15 @@ export function Item({ item }: ItemProps) {
     }),
   }));
 
-  useEffect(() => {
-    
-  });
-
   return (
     <>
-      <div ref={drag as any} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ opacity: isDragging ? 0.5 : 1, cursor: 'move' }}>
+      <div ref={drag as any} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ opacity: isDragging ? 0.5 : 1}}>
         <div ref={hoverTargetRef}>
           {hover &&
             <div style={{ position: 'absolute', zIndex: 1, width: '100%', height: '100%', background: 'rgba(172, 164, 164, 0.35)' }}></div>
           }
           <img className='responsive small' style={{ aspectRatio: '1/1' }} src={'./img/logo192.png'} alt='' />
+          {isDragging && <CustomDragIcon src={'./img/logo192.png'}/>}
           <Tooltip open={hover} targetRef={hoverTargetRef}>
             <div style={{display: 'flex', flexDirection: 'column', minWidth: '400px', maxWidth: '500px', alignItems: 'center'}}>
               <h2 style={{color: getColorFromType(item.color)}}>{item.name}</h2>
