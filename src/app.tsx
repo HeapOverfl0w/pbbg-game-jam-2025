@@ -27,12 +27,12 @@ function App() {
                 {!battleRunning &&
                   <Battlefield onStart={() => setBattleRunning(true)} />
                 }
+                {battleRunning &&
+                  <GameCanvas endGameCallback={() => setBattleRunning(false)} showGame={true} />
+                }
               </div>
-              {battleRunning &&
-                <GameCanvas endGameCallback={() => setBattleRunning(false)} showGame={true} />
-              }
             </main>
-            <Footer />
+            {!battleRunning && <Footer />}
           </div>
         }
       </DndProvider>

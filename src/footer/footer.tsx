@@ -31,13 +31,12 @@ export function Footer() {
     <footer
   className='fill row padding wrap footer'
   style={{
-    position: 'relative', // make footer a positioning parent
+    position: 'relative',
     userSelect: 'none',
     flexFlow: 'row',
     height: open ? '26em' : '7.5em',
   }}
 >
-  {/* Menu button - floats top center */}
   <button
     onClick={() => setOpen(!open)}
     style={{
@@ -45,21 +44,20 @@ export function Footer() {
       top: '0.5em',
       left: '50%',
       transform: 'translateX(-50%)',
-      zIndex: 10, // ensure it sits above
+      zIndex: 10, 
     }}
   >
     {getExpandButtonText()} 
   </button>
 
-  {/* The rest of your footer content */}
   <div className='row vertical' style={{ marginTop: '3em' }}>
     {open && (
       <>
-        <button title='Inventory' onClick={() => setPage(PageType.UNITS)}>
+        <button title='Units' onClick={() => setPage(PageType.UNITS)}>
           <i>inventory_2</i>
         </button>
-        <button title='Buffs' onClick={() => setPage(PageType.BUFFS)}>
-          <i>equalizer</i>
+        <button title='Buildings' onClick={() => setPage(PageType.BUFFS)}>
+          <i>house</i>
         </button>
       </>
     )}
