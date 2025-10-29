@@ -29,8 +29,8 @@ html, body {
 
 .custom-cursor {
   position: fixed;
-  width: 128px;
-  height: 128px;
+  width: 6rem;
+  height: 6rem;
   pointer-events: none;
   z-index: 9999;
 }
@@ -39,6 +39,8 @@ html, body {
   position: fixed;
   transform: translate(-50%, -50%); 
   pointer-events: none;
+  width: 8rem;
+  height: 8rem;
   z-index: 9998;
 }
 

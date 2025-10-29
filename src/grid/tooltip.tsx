@@ -47,7 +47,7 @@ export const Tooltip: React.FC<TooltipProps> = ({ targetRef, children, open, mar
       position: "absolute",
       top,
       left,
-      zIndex: 9999,
+      zIndex: 9997,
       transform,
       opacity: 1,
     });
