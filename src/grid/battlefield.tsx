@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { ItemSlot } from './item-slot';
 import { ItemSlotStatic } from './item-slot-static';
@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { StoreData } from '../redux/actor-data';
 
 type BattlefieldProps = {
+  height: number,
+  width: number,
   onStart: () => void;
 }
 
@@ -18,9 +20,19 @@ export function Battlefield(props: BattlefieldProps) {
   const actors = useSelector((state: StoreData) => state.playerTeam.actors);
   const round = useSelector((state: StoreData) => state.currentRound);
   const enemies = useSelector((state: StoreData) => state.npcTeam.actors);
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (bodyRef && bodyRef.current) {
+      let hScale = props.height / bodyRef.current.offsetHeight;
+      let wScale = props.width / bodyRef.current.offsetWidth;
+
+      bodyRef.current.style.scale = Math.min(hScale, wScale).toString();
+    }
+  },[bodyRef, props.height, props.width])
 
   return (
-    <div className='row vertical'>
+    <div ref={bodyRef} className='row vertical'>
       <h3 style={{alignSelf: 'center'}}>Round {round}</h3>
       <div className='row horizontal'>
         <div className='row no-space horizontal'>

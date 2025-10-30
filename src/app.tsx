@@ -1,17 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
+import useResizeObserver from '@react-hook/resize-observer';
+
 import { Battlefield } from './grid/battlefield';
 import { Footer } from './footer/footer';
 import { Splashscreen } from './splashscreen/splashscreen';
 import { GameCanvas } from './canvas/game-canvas';
 import { CustomCursor } from './custom-cursor';
+import { Header } from './header/header';
+import { Modal } from './modals/modal';
+
+type Size = {
+  width: number,
+  height: number
+}
 
 function App() {
   const [battleRunning, setBattleRunning] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [size, setSize] = useState<Size>({width: 0, height: 0})
+
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  useResizeObserver(mainRef.current, (_) => setSize({width: _.contentRect.width, height: _.contentRect.height}));
+
+  useEffect(() => {
+    if (mainRef && mainRef.current)
+    {
+      setSize({height: mainRef.current.clientHeight, width: mainRef.current.clientWidth});
+    }
+  }, [loading]);
 
   return (
       <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
@@ -21,11 +42,11 @@ function App() {
           <Splashscreen onStart={() => setLoading(false)} />
         }
         {!loading &&
-          <div className='top-div' style={{ width: '100%', height: '100%' }}>
-            <main style={{ userSelect: 'none' }}>
+          <div className='top-div' style={{ width: '100%', height: '100%' }} onClick={() => { }}>
+            <main ref={mainRef} style={{ userSelect: 'none', overflow: 'hidden' }}>
               <div className='column middle-align center-align middle'>
                 {!battleRunning &&
-                  <Battlefield onStart={() => setBattleRunning(true)} />
+                  <Battlefield height={size.height} width={size.width} onStart={() => setBattleRunning(true)} />
                 }
                 {battleRunning &&
                   <GameCanvas endGameCallback={() => setBattleRunning(false)} showGame={true} />
