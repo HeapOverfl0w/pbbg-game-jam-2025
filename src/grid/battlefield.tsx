@@ -16,15 +16,17 @@ type BattlefieldProps = {
  */
 export function Battlefield(props: BattlefieldProps) {
   const actors = useSelector((state: StoreData) => state.playerTeam.actors);
+  const round = useSelector((state: StoreData) => state.currentRound);
   const enemies = useSelector((state: StoreData) => state.npcTeam.actors);
 
   return (
     <div className='row vertical'>
+      <h3 style={{alignSelf: 'center'}}>Round {round}</h3>
       <div className='row horizontal'>
-        <div className='row no-space vertical'>
+        <div className='row no-space horizontal'>
           {
             actors.map((_, i) => {
-              return <div className='row no-space horizontal'>
+              return <div className='row no-space vertical'>
                 {
                   _.map((__, j) => <ItemSlot data={__} x={i} y={j} />)
                 }
@@ -32,10 +34,11 @@ export function Battlefield(props: BattlefieldProps) {
             })
           }
         </div>
-        <div className='row no-space vertical'>
+        <h3 style={{color: '#b62a3c'}}>VS</h3>
+        <div className='row no-space horizontal'>
           {
             enemies.map((_, i) => {
-              return <div className='row no-space horizontal'>
+              return <div className='row no-space vertical'>
                 {
                   _.map((__, j) => <ItemSlotStatic data={__} />)
                 }
@@ -44,7 +47,7 @@ export function Battlefield(props: BattlefieldProps) {
           }
         </div>
       </div>
-      <div style={{alignSelf: 'end'}}>
+      <div style={{alignSelf: 'center'}}>
         <button disabled={false/* actors.flatMap((_) => _.every(__ => __ === undefined)).every(_ => _ === true) */} onClick={() => props.onStart()}>
           Start
         </button>
