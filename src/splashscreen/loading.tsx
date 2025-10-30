@@ -3,6 +3,8 @@ import { DATA } from '../canvas/data';
 import { useDispatch } from 'react-redux';
 import { addActor } from '../redux/store-slice';
 import { createRandomUnit } from '../units';
+import { saveState, store } from '../redux/store';
+import * as debounce from 'debounce';
 
 type SplashscreenProps = {
   onStart: () => void;
@@ -27,6 +29,15 @@ export function Loading(props: SplashscreenProps) {
       dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
       dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
       dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
+
+      //TODO: Uncomment later for auto saving of our redux state
+      /* store.subscribe(
+        // we use debounce to save the state once each 800ms
+        // for better performances in case multiple changes occur in a short time
+        debounce(() => {
+          saveState(store.getState());
+        }, 800)
+      ); */
     }
 
     initialLoad();

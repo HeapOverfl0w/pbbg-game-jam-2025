@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Loading } from './loading';
 import { NewGame } from './new-game';
+import { doesStateExist } from '../redux/store';
 
 type SplashscreenProps = {
   onStart: () => void;
@@ -13,10 +14,10 @@ type SplashscreenProps = {
  */
 export function Splashscreen(props: SplashscreenProps) {
   const [loading, setLoading] = useState(true);
+  const [stateExists] = useState(doesStateExist());
 
   const handleStart = () => {
-    // TODO - temp check for starting new game
-    if (loading) {
+    if (loading && !stateExists) {
       setLoading(false);
     } else {
       props.onStart();

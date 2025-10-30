@@ -8,6 +8,8 @@ import { Footer } from './footer/footer';
 import { Splashscreen } from './splashscreen/splashscreen';
 import { GameCanvas } from './canvas/game-canvas';
 import { CustomCursor } from './custom-cursor';
+import { saveState, store } from './redux/store';
+import debounce from 'debounce';
 
 function App() {
   const [battleRunning, setBattleRunning] = useState(false);
