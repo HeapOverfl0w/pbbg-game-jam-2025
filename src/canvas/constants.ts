@@ -147,11 +147,7 @@ export const createTestTeamData = (name: string): TeamData => {
                         magicResist: 0,
                         magicDamage: 0,
                         actionSpeed: 1500,
-<<<<<<< HEAD
-                        level: 0,
-=======
                         level: 1,
->>>>>>> 38a2b35eb4748af05c1ab9945f2b5a1011866966
                         critChance: 0
                     },
                     action: {
@@ -177,11 +173,7 @@ export const createTestTeamData = (name: string): TeamData => {
                         magicResist: 0.6,
                         magicDamage: 3,
                         actionSpeed: 2500,
-<<<<<<< HEAD
-                        level: 0,
-=======
                         level: 1,
->>>>>>> 38a2b35eb4748af05c1ab9945f2b5a1011866966
                         critChance: 0
                     },
                     action: {
