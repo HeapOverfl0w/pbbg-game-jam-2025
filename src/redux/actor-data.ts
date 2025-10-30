@@ -97,32 +97,6 @@ export type BuildingData = {
 
 export const getInitialState = (): StoreData => {
     const inventory: ActorData[] = [];
-    inventory.push({
-        id: "",
-        name: "",
-        description: "",
-        color: ActorColorType.GREEN,
-        rarity: ActorRarityType.COMMON,
-        stats: {
-            level: 1,
-            maxHealth: 0,
-            pierceResist: 0,
-            pierceDamage: 0,
-            bluntResist: 0,
-            bluntDamage: 0,
-            magicResist: 0,
-            magicDamage: 0,
-            actionSpeed: 0,
-            critChance: 0,
-        },
-        action: {
-            type: ActorActionType.ATTACK,
-            range: 0,
-            targets: ActorActionTargetsType.SINGLE,
-            buffCurseStatType: undefined
-        }
-    });
-
     return {
         playerTeam: {
             actors: Array.from({ length: 4 }, () => Array(5).fill(undefined)),
