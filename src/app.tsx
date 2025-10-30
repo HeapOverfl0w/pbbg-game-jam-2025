@@ -8,8 +8,6 @@ import { Footer } from './footer/footer';
 import { Splashscreen } from './splashscreen/splashscreen';
 import { GameCanvas } from './canvas/game-canvas';
 import { CustomCursor } from './custom-cursor';
-import { saveState, store } from './redux/store';
-import debounce from 'debounce';
 
 function App() {
   const [battleRunning, setBattleRunning] = useState(false);
@@ -23,8 +21,8 @@ function App() {
           <Splashscreen onStart={() => setLoading(false)} />
         }
         {!loading &&
-          <div style={{ width: '100%', height: '100%' }}>
-            <main className='' style={{ userSelect: 'none' }}>
+          <div className='top-div' style={{ width: '100%', height: '100%' }}>
+            <main style={{ userSelect: 'none' }}>
               <div className='column middle-align center-align middle'>
                 {!battleRunning &&
                   <Battlefield onStart={() => setBattleRunning(true)} />

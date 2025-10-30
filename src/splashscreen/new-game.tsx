@@ -16,17 +16,17 @@ export function NewGame(props: SplashscreenProps) {
       <h3 style={{ color: '#b62a3c' }}>Choose A Side</h3>
       <div className='grid medium-space' style={{width: '100%', height: '100%'}}>
         <div className='s6'>
-          <button style={{width: '100%', height: '100%', padding: '0'}} onClick={() => props.onStart()}>
-            <article>
-
-            </article>
+          <button style={{width: '100%', height: '100%', padding: '0', display: 'flex'}} onClick={() => props.onStart()}>
+            <article style={{width: '90%', height: '90%', alignSelf: 'center'}}>
+              <img src='./img/angels.png' style={{width: '100%', height: '100%', display: 'block', alignSelf: 'center'}}/>   
+            </article>     
           </button>
         </div>
         <div className='s6'>
           <button style={{width: '100%', height: '100%', padding: '0'}} onClick={() => props.onStart()}>
-            <article>
-
-            </article>
+            <article style={{width: '90%', height: '90%', alignSelf: 'center'}}>
+              <img src='./img/demons.png' style={{width: '100%', height: '100%', display: 'block', alignSelf: 'center'}}/>   
+            </article>  
           </button>
         </div>
       </div>

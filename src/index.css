@@ -17,6 +17,7 @@ html, body {
   font-family: myFont !important;
   height: 100%;
   width: 100%;
+  padding: 0;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -82,6 +83,13 @@ html, body {
     --surface-container: #201f22;
     --surface-container-high: #2b292d;
     --surface-container-highest: #363438;
+  }
+
+  .top-div {
+    background-image: url('../public/img/background.png') ;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   button {
