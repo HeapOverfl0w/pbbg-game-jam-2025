@@ -25,10 +25,10 @@ export function Splashscreen(props: SplashscreenProps) {
   };
 
   return (
-    <div className='absolute top left' style={{ width: '100%', height: '100%' }}>
+    <div className='absolute top left' style={{ width: '100%', height: '100%', userSelect: 'none' }}>
       <article className='padding absolute center middle' style={{ width: '70%', height: '70%', display: 'flex', flexDirection: 'row' }} >
         {loading && <Loading onStart={() => handleStart()} />}
-        {!loading && <NewGame onStart={() => handleStart()}/>}
+        {!loading && <NewGame onStart={() => handleStart()} />}
       </article>
     </div>
   );
