@@ -44,7 +44,7 @@ export function Footer() {
       top: '0.7em',
       left: '50%',
       transform: 'translateX(-50%)',
-      zIndex: 10, 
+      zIndex: 1
     }}
   >
     {getExpandButtonText()} 

@@ -116,7 +116,7 @@ export function Item({ item }: ItemProps) {
                     {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) ?
                       (<div className='statline'>
                         <p>Buff Amount</p>
-                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)} %</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage * 100)} %</p>
                       </div>) :
                       (<div className='statline'>
                         <p>Buff Amount</p>
@@ -140,7 +140,7 @@ export function Item({ item }: ItemProps) {
                     {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) ?
                       (<div className='statline'>
                         <p>Curse Amount</p>
-                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)} %</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage * 100)} %</p>
                       </div>) :
                       (<div className='statline'>
                         <p>Curse Amount</p>
