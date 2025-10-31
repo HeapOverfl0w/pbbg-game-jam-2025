@@ -41,7 +41,7 @@ export function Footer() {
     onClick={() => setOpen(!open)}
     style={{
       position: 'absolute',
-      top: '0.5em',
+      top: '0.7em',
       left: '50%',
       transform: 'translateX(-50%)',
       zIndex: 10, 

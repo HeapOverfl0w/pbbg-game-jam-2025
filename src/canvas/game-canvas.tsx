@@ -1,9 +1,10 @@
 import React, { useRef, useMemo, useEffect } from 'react';
 import { CANVAS_HEIGHT, CANVAS_WIDTH, createTestTeamData } from "./constants";
-import { EndGameResult, Main } from './main';
+import { EndGameResult, GameUpdateInfo, Main } from './main';
 
 export type GameCanvasProps = {
     endGameCallback: (result: EndGameResult) => void;
+    gameUpdateCallback: (info: GameUpdateInfo) => void;
     showGame: boolean;
 }
 
@@ -13,7 +14,7 @@ export function GameCanvas(props: GameCanvasProps) {
 
     useEffect(() => {
         if (canvasRef.current && !gameApp.current) {
-            gameApp.current = new Main(canvasRef.current, endGameCallback);
+            gameApp.current = new Main(canvasRef.current, endGameCallback, props.gameUpdateCallback);
             startGame();
         }
     }, [canvasRef.current]);

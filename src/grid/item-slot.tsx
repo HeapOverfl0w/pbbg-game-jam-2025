@@ -47,7 +47,7 @@ export function ItemSlot(props: ItemSlotProps) {
   );
 
   return (
-    <div className='no-padding gridcell' ref={ref as any}>
+    <div className={'no-padding'} ref={ref as any} style={props.data == undefined ? {border: '2px solid white'} : {}}>
       <div>
         {(props.data !== undefined) &&
           <Item item={props.data} />

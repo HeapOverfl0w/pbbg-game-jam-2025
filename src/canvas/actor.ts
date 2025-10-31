@@ -20,7 +20,7 @@ export enum ActorTeamType {
 
 export class Actor {
     public data: ActorData;
-    private health: number;
+    public health: number;
     private maxHealth: number;
     private pierceResist: number;
     private pierceDamage: number;
@@ -274,7 +274,7 @@ export class Actor {
 
                 const targetTile = map.tiles[targetTileX]?.[targetTileY];
 
-                if (targetTile && targetTile.actor) {
+                if (targetTile && targetTile.actor && targetTile.actor.teamType == this.getTargetType()) {
                     switch (this.data.action.type) {
                         case ActorActionType.ATTACK:
                             const damage = targetTile.actor.damage(this.pierceDamage, this.bluntDamage, this.magicDamage, this.critChance);

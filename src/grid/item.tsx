@@ -149,6 +149,12 @@ export function Item({ item }: ItemProps) {
                     }
                   </div>
                 )}
+                {item.stats.critChance > 0 && 
+                  <div className='statline'>
+                    <p>Critical Chance</p>
+                    <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.critChance * 100)} %</p>
+                  </div>
+                }
                 {item.stats.pierceResist > 0 && 
                   <div className='statline'>
                     <p>Pierce Resistance</p>

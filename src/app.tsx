@@ -10,6 +10,8 @@ import { Footer } from './footer/footer';
 import { Splashscreen } from './splashscreen/splashscreen';
 import { GameCanvas } from './canvas/game-canvas';
 import { CustomCursor } from './custom-cursor';
+import { GameUpdateInfo } from './canvas/main';
+import { GameInfo } from './canvas/game-info';
 
 type Size = {
   width: number,
@@ -19,7 +21,9 @@ type Size = {
 function App() {
   const [battleRunning, setBattleRunning] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [size, setSize] = useState<Size>({width: 0, height: 0})
+  const [size, setSize] = useState<Size>({width: 0, height: 0});
+  const [gameUpdateInfo, setGameUpdateInfo] = useState<GameUpdateInfo | undefined>(undefined);
+
 
   const mainRef = useRef<HTMLDivElement>(null);
 
@@ -46,8 +50,11 @@ function App() {
                 {!battleRunning &&
                   <Battlefield height={size.height} width={size.width} onStart={() => setBattleRunning(true)} />
                 }
-                {battleRunning &&
-                  <GameCanvas endGameCallback={() => setBattleRunning(false)} showGame={true} />
+                {battleRunning && 
+                  <GameCanvas endGameCallback={() => setBattleRunning(false)} gameUpdateCallback={(updateInfo) => setGameUpdateInfo(updateInfo)} showGame={true} />  
+                }
+                {battleRunning && gameUpdateInfo && 
+                  <GameInfo info={gameUpdateInfo}/>
                 }
               </div>
             </main>

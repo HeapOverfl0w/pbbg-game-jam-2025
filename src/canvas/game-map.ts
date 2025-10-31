@@ -75,6 +75,14 @@ export class GameMap {
         }
     }
 
+    getPlayerTeamHealth() {
+        return this.playerActors.reduce((sum, actor) => sum + actor.health, 0);
+    }
+
+    getEnemyTeamHealth() {
+        return this.enemyActors.reduce((sum, actor) => sum + actor.health, 0);
+    }
+
     addProjectile(projectile: Projectile) {
         this.stage.addChild(projectile.animation);
         this.projectiles.push(projectile);
