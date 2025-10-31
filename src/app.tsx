@@ -10,8 +10,6 @@ import { Footer } from './footer/footer';
 import { Splashscreen } from './splashscreen/splashscreen';
 import { GameCanvas } from './canvas/game-canvas';
 import { CustomCursor } from './custom-cursor';
-import { Header } from './header/header';
-import { Modal } from './modals/modal';
 
 type Size = {
   width: number,
