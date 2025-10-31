@@ -39,7 +39,9 @@ function App() {
     <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
       <CustomCursor />
       <ToastContainer position="top-center" theme="dark" autoClose={3000} />
-      <Header gameRunning={battleRunning} loading={loading} />
+      {!battleRunning &&
+        <Header gameRunning={battleRunning} loading={loading} />
+      }
       {loading &&
         <Splashscreen onStart={() => setLoading(false)} />
       }

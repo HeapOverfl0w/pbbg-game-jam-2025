@@ -350,10 +350,10 @@ export class Actor {
                         nearestDistance = distance;
                         nearestActor = tile.actor;
                         foundTargetInRow = true;
-                    } else if (!foundTargetInRow && distance < nearestDistance) { //if we haven't found a target in our row then use the closest target outside of our row
+                    } else if (!foundTargetInRow && distance < nearestDistance && this.isRowClearToTarget(map, y, tile.actor)) { //if we haven't found a target in our row then use the closest target outside of our row
                         nearestDistance = distance;
                         nearestActor = tile.actor;
-                    } else if (foundTargetInRow && isInRow && distance < nearestDistance) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
+                    } else if (foundTargetInRow && isInRow && distance < nearestDistance && this.isRowClearToTarget(map, y, tile.actor)) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
                         nearestDistance = distance;
                         nearestActor = tile.actor;
                     }
@@ -361,6 +361,22 @@ export class Actor {
             }
         }
         return nearestActor;
+    }
+
+    private isRowClearToTarget(map: GameMap, y: number, target: Actor) {
+        if (y < 0 || y > map.tiles[0].length) {
+            return false;
+        }
+
+        const direction = target.tileX - this.tileX / Math.abs(target.tileX - this.tileX);
+        for (let x = this.tileX; x < map.tiles.length && x > -1; x += direction) {
+            const tileActor = map.tiles[x][y].actor;
+            if (tileActor && tileActor != target) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
     addTeamStats(teamStats: ActorStats) {
