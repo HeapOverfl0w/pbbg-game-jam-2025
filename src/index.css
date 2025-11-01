@@ -166,12 +166,17 @@ html, body {
   }
 
   .building {
-    width: 24rem;
-    height: 8rem;
     display: flex;
     flex-direction: row;
     border: 2px solid white;
     border-radius: 0px;
+    align-items: 'center';
+    width: 700px;
+  }
+
+  .building p {
+    font-size: 20px;
+    margin: 0;
   }
 
   .footer {
@@ -183,6 +188,14 @@ html, body {
   .gridcell {
     border: 2px solid white;
     border-radius: 0px;
+  }
+
+  dialog {
+    border-radius: 0px;
+  }
+
+  dialog p {
+    font-size: 20px;
   }
 
   

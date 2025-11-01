@@ -118,7 +118,7 @@ function modifyStatsForLevel(unit: ActorData, level: number) {
 }
 
 function addInRandomUnitEffect(unit: ActorData) {
-    if (Math.random() > 0.95) {
+    if (Math.random() > 0.90) {
         const enumValues = Object.values(ActorOtherEffectsType).filter(e => typeof e === "number");
         unit.action.otherActionEffect = enumValues[Math.floor(Math.random() * enumValues.length)];
 

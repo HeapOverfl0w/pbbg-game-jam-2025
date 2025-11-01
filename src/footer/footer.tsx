@@ -34,14 +34,14 @@ export function Footer() {
     position: 'relative',
     userSelect: 'none',
     flexFlow: 'row',
-    height: open ? '26em' : '7.5em',
+    height: open ? '26em' : '3em',
   }}
 >
   <button
     onClick={() => setOpen(!open)}
     style={{
       position: 'absolute',
-      top: '0.7em',
+      top: '0.7rem',
       left: '50%',
       transform: 'translateX(-50%)',
       zIndex: 1

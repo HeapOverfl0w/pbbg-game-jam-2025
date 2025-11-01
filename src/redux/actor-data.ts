@@ -129,7 +129,17 @@ export const getInitialState = (): StoreData => {
             }
         },
         inventory: inventory,
-        buildings: [],
+        buildings: [
+            {
+                name: "Swordsmith",
+                description: "Increases pierce damage of all units.",
+                level: 0,
+                statType: "pierceDamage",
+                value: 0,
+                increasePerLevel: 0.05,
+                image: "./img/icons/swordsmith.png"
+            }
+        ],
         gold: 0,
         currentRound: 1
     }
