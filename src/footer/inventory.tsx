@@ -37,7 +37,7 @@ export function Inventory() {
 
   return (
     <div style={{ flex: 'auto', width: '100%', height: '100%', display: 'flex', flexDirection: 'column'}}>
-      <div className='row horizontal' style={{marginBottom: '20px', alignItems: 'center'}}>
+      <div className='row horizontal' style={{marginBottom: '20px'}}>
         <h3>Reinforcements</h3>
       </div>
       <div ref={ref as any} style={{ width: '100%', height: '100%', overflowY: 'auto', padding: '1em' }}>

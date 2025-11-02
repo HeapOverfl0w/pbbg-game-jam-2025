@@ -83,6 +83,8 @@ export type StoreData = {
     buildings: BuildingData[];
     gold: number;
     currentRound: number;
+    playerIsDemon: boolean;
+    maxReinforcements: number;
 }
 
 export type BuildingData = {
@@ -141,6 +143,8 @@ export const getInitialState = (): StoreData => {
             }
         ],
         gold: 0,
-        currentRound: 1
+        currentRound: 1,
+        playerIsDemon: false,
+        maxReinforcements: 4
     }
 }

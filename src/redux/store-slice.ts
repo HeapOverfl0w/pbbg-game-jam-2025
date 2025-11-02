@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ActorData, ActorStats, getInitialState } from "./actor-data";
+import { createRandomUnit, getEnemyArmy, getEnemyStarterArmy, getStarterArmy } from '../units';
 
 const storeSlice = createSlice({
     name: 'store',
@@ -17,7 +18,7 @@ const storeSlice = createSlice({
                 const cost = getBuildingCost(building.level + 1);
                 if (cost <= state.gold) {
                     building.level++;
-                    building.value = building.level * building.increasePerLevel;
+                    building.value += building.increasePerLevel;
                     state.gold -= cost;
                     state.buildings = newBuildings;
 
@@ -27,6 +28,108 @@ const storeSlice = createSlice({
                     }                    
                 }                
             }
+        },
+        newGame: (state, action: PayloadAction<boolean>) => {
+            state.playerIsDemon = action.payload;
+
+            state.playerTeam = {
+                actors: getStarterArmy(state.playerIsDemon),
+                teamStats: {
+                    level: 0,
+                    maxHealth: 0,
+                    pierceResist: 0,
+                    pierceDamage: 0,
+                    bluntResist: 0,
+                    bluntDamage: 0,
+                    magicResist: 0,
+                    magicDamage: 0,
+                    actionSpeed: 0,
+                    critChance: 0
+                }
+            };
+
+            state.npcTeam = {
+                actors: getEnemyStarterArmy(!state.playerIsDemon),
+                teamStats: {
+                    level: 0,
+                    maxHealth: 0,
+                    pierceResist: 0,
+                    pierceDamage: 0,
+                    bluntResist: 0,
+                    bluntDamage: 0,
+                    magicResist: 0,
+                    magicDamage: 0,
+                    actionSpeed: 0,
+                    critChance: 0
+                }
+            };
+            
+        },
+        victory: (state) => {
+            state.currentRound++;
+
+            const newInventory = [...state.inventory];
+            newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
+            newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
+            state.inventory = newInventory;
+
+            state.npcTeam = {
+                actors: getEnemyArmy(state.currentRound, !state.playerIsDemon),
+                teamStats: {
+                    level: 0,
+                    maxHealth: 0,
+                    pierceResist: 0,
+                    pierceDamage: 0,
+                    bluntResist: 0,
+                    bluntDamage: 0,
+                    magicResist: 0,
+                    magicDamage: 0,
+                    actionSpeed: 0,
+                    critChance: 0
+                }
+            };
+        },
+        lose: (state) => {
+            state.currentRound = 1;
+
+            state.playerTeam = {
+                actors: getStarterArmy(state.playerIsDemon),
+                teamStats: {
+                    level: 0,
+                    maxHealth: 0,
+                    pierceResist: 0,
+                    pierceDamage: 0,
+                    bluntResist: 0,
+                    bluntDamage: 0,
+                    magicResist: 0,
+                    magicDamage: 0,
+                    actionSpeed: 0,
+                    critChance: 0
+                }
+            };
+
+            state.npcTeam = {
+                actors: getEnemyStarterArmy(!state.playerIsDemon),
+                teamStats: {
+                    level: 0,
+                    maxHealth: 0,
+                    pierceResist: 0,
+                    pierceDamage: 0,
+                    bluntResist: 0,
+                    bluntDamage: 0,
+                    magicResist: 0,
+                    magicDamage: 0,
+                    actionSpeed: 0,
+                    critChance: 0
+                }
+            };
+
+            const newInventory = [...state.inventory];
+            newInventory.sort(() => Math.random() - 0.5);
+            if (newInventory.length > state.maxReinforcements)
+            newInventory.splice(state.maxReinforcements, newInventory.length - state.maxReinforcements);
+
+            state.inventory = newInventory;
         },
         moveActor: (state, action: any) => {
             const newPlayerTeam = Object.assign({}, state.playerTeam);

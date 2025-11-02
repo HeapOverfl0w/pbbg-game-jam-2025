@@ -132,6 +132,64 @@ function addInRandomUnitEffect(unit: ActorData) {
     }
 }
 
+export function getStarterArmy(isDemon: boolean) {
+    const returnValue = Array.from({ length: 4 }, () => Array(5).fill(undefined));
+
+    if (isDemon) {
+        returnValue[3][2] = structuredClone(Hellhound);
+        returnValue[3][3] = structuredClone(Hellhound);
+        returnValue[3][4] = structuredClone(Hellhound);
+    } else {
+        returnValue[3][3] = structuredClone(Knight);
+        returnValue[2][3] = structuredClone(Ranger);
+    }
+
+    return returnValue;
+}
+
+export function getEnemyStarterArmy(isDemon: boolean) {
+    const returnValue = Array.from({ length: 4 }, () => Array(5).fill(undefined));
+
+    if (isDemon) {
+        returnValue[0][2] = structuredClone(Hellhound);
+        returnValue[1][2] = structuredClone(ImpArcher);
+    } else {
+        returnValue[0][2] = structuredClone(Knight);
+        returnValue[0][3] = structuredClone(Knight);
+    }
+
+    return returnValue;
+}
+
+export function getEnemyArmy(level: number, isDemon: boolean) {
+    const returnValue = Array.from({ length: 4 }, () => Array(5).fill(undefined));
+    const enemyCount = 1 + level * 2;
+    const enemies = [];
+    for (let i = 0; i < enemyCount; i++) {
+        //use level -5 to try to ensure the enemy is a slight handicap on randomly getting great units
+        enemies.push(createRandomUnit(level - 5, isDemon));
+    }
+
+    //if the enemy count is over the board size then cut units based on their rarity
+    if (enemyCount > 20) {
+        enemies.sort((enemy1, enemy2) => enemy2.rarity - enemy1.rarity);
+        enemies.splice(20, enemyCount - 20);
+    }
+
+    //make sure melee units are in the front
+    enemies.sort((enemy1, enemy2) => enemy1.action.range - enemy2.action.range);
+
+    const locationPositionsY = [2, 3, 1, 4, 0];
+    let currentX = 0;
+    
+    for (let i = 0; i < enemies.length; i++) {
+        returnValue[currentX][locationPositionsY[i % 5]] = enemies[i];
+        currentX = Math.floor(i / 5);
+    }
+
+    return returnValue;
+}
+
 // #region ANGELS
 const Knight: ActorData = {
     id: "knight-data",
