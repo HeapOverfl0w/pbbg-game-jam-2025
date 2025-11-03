@@ -44,7 +44,7 @@ export function ItemSlot(props: ItemSlotProps) {
         canDrop: !!monitor.canDrop()
       })
     }),
-    []
+    [props.data]
   );
 
   return (

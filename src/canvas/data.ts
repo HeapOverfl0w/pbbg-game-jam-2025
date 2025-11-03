@@ -68,7 +68,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -4
         });
         this.createAnimation({
             name: 'blue_witch',
@@ -81,7 +81,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -4
         });
         this.createAnimation({
             name: 'purple_witch',
@@ -94,7 +94,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -4
         });
 
         //dominator
@@ -109,7 +109,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 4
         });
         this.createAnimation({
             name: 'blue_dominator',
@@ -122,7 +122,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 4
         });
         this.createAnimation({
             name: 'purple_dominator',
@@ -135,7 +135,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 4
         });
 
         //hellhound
@@ -150,7 +150,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -16
         });
         this.createAnimation({
             name: 'blue_hellhound',
@@ -163,7 +163,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -16
         });
         this.createAnimation({
             name: 'purple_hellhound',
@@ -176,7 +176,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -16
         });
 
         //hellraiser
@@ -191,7 +191,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 5
         });
         this.createAnimation({
             name: 'blue_hellraiser',
@@ -204,7 +204,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 5
         });
         this.createAnimation({
             name: 'purple_hellraiser',
@@ -217,7 +217,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 5
         });
 
         //balrog
@@ -232,7 +232,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 11
         });
         this.createAnimation({
             name: 'blue_balrog',
@@ -245,7 +245,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 11
         });
         this.createAnimation({
             name: 'purple_balrog',
@@ -258,7 +258,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 11
         });
 
         //imp soldier
@@ -273,7 +273,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -7
         });
         this.createAnimation({
             name: 'blue_imp_soldier',
@@ -286,7 +286,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -7
         });
         this.createAnimation({
             name: 'purple_imp_soldier',
@@ -299,7 +299,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -7
         });
 
         //imp archer
@@ -314,7 +314,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -7
         });
         this.createAnimation({
             name: 'blue_imp_archer',
@@ -327,7 +327,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -7
         });
         this.createAnimation({
             name: 'purple_imp_archer',
@@ -340,7 +340,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -7
         });
 
         //bugler
@@ -355,7 +355,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -2
         });
         this.createAnimation({
             name: 'blue_bugler',
@@ -368,7 +368,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -2
         });
         this.createAnimation({
             name: 'purple_bugler',
@@ -381,7 +381,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -2
         });
 
         //valkyrie
@@ -396,7 +396,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 6
         });
         this.createAnimation({
             name: 'blue_valkyrie',
@@ -409,7 +409,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 6
         });
         this.createAnimation({
             name: 'purple_valkyrie',
@@ -422,7 +422,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 6
         });
 
         //seraphim
@@ -437,7 +437,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 7
         });
         this.createAnimation({
             name: 'blue_seraphim',
@@ -450,7 +450,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 7
         });
         this.createAnimation({
             name: 'purple_seraphim',
@@ -463,7 +463,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 7
         });
 
         //skeleton king
@@ -478,7 +478,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 13
         });
         this.createAnimation({
             name: 'blue_skeleton_king',
@@ -491,7 +491,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 13
         });
         this.createAnimation({
             name: 'purple_skeleton_king',
@@ -504,7 +504,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 13
         });
 
         //skeleton
@@ -519,7 +519,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -6
         });
         this.createAnimation({
             name: 'blue_skeleton',
@@ -532,7 +532,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -6
         });
         this.createAnimation({
             name: 'purple_skeleton',
@@ -545,7 +545,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -6
         });
 
         //monk
@@ -560,7 +560,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -3
         });
         this.createAnimation({
             name: 'blue_monk',
@@ -573,7 +573,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -3
         });
         this.createAnimation({
             name: 'purple_monk',
@@ -586,7 +586,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -3
         });
 
         //eagle
@@ -601,7 +601,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -3
         });
         this.createAnimation({
             name: 'blue_eagle',
@@ -614,7 +614,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -3
         });
         this.createAnimation({
             name: 'purple_eagle',
@@ -627,7 +627,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -3
         });
 
         //sin slayer
@@ -642,7 +642,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 1
         });
         this.createAnimation({
             name: 'blue_sin_slayer',
@@ -655,7 +655,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 1
         });
         this.createAnimation({
             name: 'purple_sin_slayer',
@@ -668,7 +668,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: 1
         });
 
         //ranger
@@ -683,7 +683,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -1
         });
         this.createAnimation({
             name: 'blue_ranger',
@@ -696,7 +696,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -1
         });
         this.createAnimation({
             name: 'purple_ranger',
@@ -709,7 +709,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 0
+            offsetY: -1
         });
 
         //penitent

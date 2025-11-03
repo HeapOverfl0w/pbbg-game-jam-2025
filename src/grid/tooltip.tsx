@@ -8,7 +8,7 @@ interface TooltipProps {
   margin?: number;
 }
 
-export const Tooltip: React.FC<TooltipProps> = ({ targetRef, children, open, margin = 0 }) => {
+export const Tooltip: React.FC<TooltipProps> = ({ targetRef, children, open}) => {
   const [style, setStyle] = useState<React.CSSProperties>({});
   const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -21,16 +21,27 @@ export const Tooltip: React.FC<TooltipProps> = ({ targetRef, children, open, mar
 
     const tooltipRect = tooltipEl.getBoundingClientRect();
     const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-    let top = rect.top + window.scrollY - tooltipRect.height - margin;
+    let top = rect.top + window.scrollY - tooltipRect.height;
     let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
 
     let transform = "translate(0, 0)";
 
     // --- Flip below if going off top
-    if (top < window.scrollY + 0) {
-      top = rect.bottom + window.scrollY + margin;
+    if (top < window.scrollY) {
+      top = rect.bottom + window.scrollY;
       transform = "translate(0, 0)";
+    }
+    //if it's too long and going off screen then put it to the right
+    if (top + tooltipRect.height > vh) {
+      top = rect.top + rect.height / 2 - tooltipRect.height / 2;
+      left = rect.right;
+    }
+    //if it's running off the left side of the screen, put it on the right
+    if (left + tooltipRect.width > vw) {
+      top = rect.top + rect.height / 2 - tooltipRect.height / 2;
+      left = rect.left - tooltipRect.width;
     }
 
     // --- Clamp horizontally

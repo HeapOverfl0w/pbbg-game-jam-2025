@@ -41,6 +41,38 @@ const storeSlice = createSlice({
         },
         newGame: (state, action: PayloadAction<boolean>) => {
             state.playerIsDemon = action.payload;
+            state.maxReinforcements = 2;
+            state.currentRound = 1;
+            state.gold = 0;
+            state.buildings = [
+                {
+                    name: "Swordsmith",
+                    description: "Increases pierce damage of all units.",
+                    level: 0,
+                    statType: "pierceDamage",
+                    value: 0,
+                    increasePerLevel: 0.05,
+                    image: "./img/icons/swordsmith.png"
+                },
+                {
+                    name: "Mallet Maker",
+                    description: "Increases blunt damage of all units.",
+                    level: 0,
+                    statType: "bluntDamage",
+                    value: 0,
+                    increasePerLevel: 0.05,
+                    image: "./img/icons/malletmaker.png"
+                },
+                {
+                    name: "Mystic Hut",
+                    description: "Increases magic damage of all units.",
+                    level: 0,
+                    statType: "magicDamage",
+                    value: 0,
+                    increasePerLevel: 0.05,
+                    image: "./img/icons/mystichut.png"
+                },
+            ];
 
             state.playerTeam = {
                 actors: getStarterArmy(state.playerIsDemon),
@@ -143,6 +175,7 @@ const storeSlice = createSlice({
         },
         moveActor: (state, action: any) => {
             const newPlayerTeam = Object.assign({}, state.playerTeam);
+            newPlayerTeam.actors = [...state.playerTeam.actors];
             const newInventory = [...state.inventory];
 
             //move from grid to inventory
@@ -192,7 +225,6 @@ const storeSlice = createSlice({
 
                     if (itemInGrid) {
                         newPlayerTeam.actors[action.payload.x][action.payload.y] = itemInGrid;
-                        state.inventory = newInventory;
                         state.playerTeam = newPlayerTeam;
                     } 
                 }
