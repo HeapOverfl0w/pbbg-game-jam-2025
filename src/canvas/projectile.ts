@@ -74,14 +74,14 @@ export class Projectile {
         collisionChecks.push(Math.floor(this.y / TILE_HEIGHT));
         collisionChecks.push(Math.ceil(this.x / TILE_WIDTH));
         collisionChecks.push(Math.ceil(this.y / TILE_HEIGHT));
-        collisionChecks.push(Math.round(this.x + TILE_WIDTH/2 / TILE_WIDTH));
+        collisionChecks.push(Math.round((this.x + TILE_WIDTH/2) / TILE_WIDTH));
         collisionChecks.push(Math.round(this.y / TILE_HEIGHT));
         collisionChecks.push(Math.round(this.x / TILE_WIDTH));
-        collisionChecks.push(Math.round(this.y + TILE_HEIGHT/2 / TILE_HEIGHT));
-        collisionChecks.push(Math.round(this.x - TILE_WIDTH/2 / TILE_WIDTH));
+        collisionChecks.push(Math.round((this.y + TILE_HEIGHT/2) / TILE_HEIGHT));
+        collisionChecks.push(Math.round((this.x - TILE_WIDTH/2) / TILE_WIDTH));
         collisionChecks.push(Math.round(this.y / TILE_HEIGHT));
         collisionChecks.push(Math.round(this.x / TILE_WIDTH));
-        collisionChecks.push(Math.round(this.y - TILE_HEIGHT/2 / TILE_HEIGHT));
+        collisionChecks.push(Math.round((this.y - TILE_HEIGHT/2) / TILE_HEIGHT));
         collisionChecks.push(Math.round((this.x + TILE_WIDTH/2) / TILE_WIDTH));
         collisionChecks.push(Math.round((this.y + TILE_HEIGHT/2) / TILE_HEIGHT));
         collisionChecks.push(Math.round((this.x - TILE_WIDTH/2) / TILE_WIDTH));

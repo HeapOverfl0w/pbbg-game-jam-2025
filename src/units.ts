@@ -544,7 +544,7 @@ const Balrog: ActorData = {
     rarity: ActorRarityType.RARE,
     stats: {
         level: 1,
-        maxHealth: 18,
+        maxHealth: 20,
         pierceResist: 0.3,
         pierceDamage: 0,
         bluntResist: 0.3,
