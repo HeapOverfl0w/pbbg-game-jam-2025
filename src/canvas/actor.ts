@@ -350,11 +350,11 @@ export class Actor {
                     const distance = distanceFormula(this.tileX, this.tileY, tile.actor.tileX, tile.actor.tileY);
                     const isInRow = this.tileY == y;
 
-                    if (!foundTargetInRow && isInRow) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
+                    if (!foundTargetInRow && isInRow && this.isRowClearToTarget(map, y, tile.actor)) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
                         nearestDistance = distance;
                         nearestActor = tile.actor;
                         foundTargetInRow = true;
-                    } else if (!foundTargetInRow && distance < nearestDistance && this.isRowClearToTarget(map, y, tile.actor)) { //if we haven't found a target in our row then use the closest target outside of our row
+                    } else if (!foundTargetInRow && distance < nearestDistance) { //if we haven't found a target in our row then use the closest target outside of our row
                         nearestDistance = distance;
                         nearestActor = tile.actor;
                     } else if (foundTargetInRow && isInRow && distance < nearestDistance && this.isRowClearToTarget(map, y, tile.actor)) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
@@ -364,6 +364,10 @@ export class Actor {
                 }
             }
         }
+
+        if (this.teamType == ActorTeamType.ENEMY) {
+            console.log(nearestActor?.data.name);
+        }
         return nearestActor;
     }
 
@@ -372,15 +376,19 @@ export class Actor {
             return false;
         }
 
-        const direction = target.tileX - this.tileX / Math.abs(target.tileX - this.tileX);
+        const direction = Math.sign(target.tileX - this.tileX);
+        if (direction == 0) {
+            return false;
+        }
+        
         for (let x = this.tileX; x < map.tiles.length && x > -1; x += direction) {
             const tileActor = map.tiles[x][y].actor;
             if (tileActor && tileActor != target) {
                 return false;
-            } else {
-                return true;
             }
         }
+
+        return true;
     }
 
     addTeamStats(teamStats: ActorStats) {

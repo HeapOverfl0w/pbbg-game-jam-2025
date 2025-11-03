@@ -20,11 +20,11 @@ export class ProjectileFactory {
         }
 
         if (animation) {
-            const startX = owner.x;
-            const startY = owner.y;
+            const startX = owner.tileX * TILE_WIDTH;
+            const startY = owner.tileY * TILE_HEIGHT;
             if (owner.target) {
-                const endX = owner.target.x;
-                const endY = owner.target.y + 8;
+                const endX = owner.target.tileX * TILE_WIDTH;
+                const endY = owner.target.tileY * TILE_HEIGHT;
                 const direction = Math.atan2(endY - startY, endX - startX);
                 animation.rotation = direction;
                 return new Projectile(owner, startX, startY, direction, animation);
@@ -74,6 +74,14 @@ export class Projectile {
         collisionChecks.push(Math.floor(this.y / TILE_HEIGHT));
         collisionChecks.push(Math.ceil(this.x / TILE_WIDTH));
         collisionChecks.push(Math.ceil(this.y / TILE_HEIGHT));
+        collisionChecks.push(Math.ceil(this.x + TILE_WIDTH/2 / TILE_WIDTH));
+        collisionChecks.push(Math.ceil(this.y / TILE_HEIGHT));
+        collisionChecks.push(Math.ceil(this.x / TILE_WIDTH));
+        collisionChecks.push(Math.ceil(this.y + TILE_HEIGHT/2 / TILE_HEIGHT));
+        collisionChecks.push(Math.ceil(this.x - TILE_WIDTH/2 / TILE_WIDTH));
+        collisionChecks.push(Math.ceil(this.y / TILE_HEIGHT));
+        collisionChecks.push(Math.ceil(this.x / TILE_WIDTH));
+        collisionChecks.push(Math.ceil(this.y - TILE_HEIGHT/2 / TILE_HEIGHT));
         collisionChecks.push(Math.ceil((this.x + TILE_WIDTH/2) / TILE_WIDTH));
         collisionChecks.push(Math.ceil((this.y + TILE_HEIGHT/2) / TILE_HEIGHT));
         collisionChecks.push(Math.ceil((this.x - TILE_WIDTH/2) / TILE_WIDTH));
@@ -95,7 +103,7 @@ export class Projectile {
             }            
         }
         
-        if (this.distanceTraveled > (this.owner.data.action.range + 0.5) * TILE_WIDTH) {
+        if (this.distanceTraveled > (this.owner.data.action.range + 1) * TILE_WIDTH) {
             this.animation.destroy();
             this.destroyed = true;
         }

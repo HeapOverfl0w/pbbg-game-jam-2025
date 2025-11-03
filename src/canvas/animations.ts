@@ -148,7 +148,7 @@ class EffectAnimation extends Animation {
         return;
       case 'buff':
         this.frameX = 0;
-        this.frameY = 48;
+        this.frameY = 72;
         this.frameSpeed = 50;
         this.frameCount = 2;
         this.loop = true;

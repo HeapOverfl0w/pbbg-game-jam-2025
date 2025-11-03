@@ -46,10 +46,6 @@ export function createUnit(currentLevel: number, isDemon: boolean, rarity: Actor
 
     let returnValue = structuredClone(unitOptions[Math.round(Math.random() * (unitOptions.length - 1))]);
 
-    if (!returnValue) {
-        console.log('here');
-    }
-
     if (type == ActorActionType.BUFF || type == ActorActionType.CURSE) {
         randomizeBuffCurseUnit(returnValue, type);
     }
@@ -137,12 +133,18 @@ export function getStarterArmy(isDemon: boolean) {
 
     if (isDemon) {
         returnValue[3][1] = structuredClone(Hellhound);
+        returnValue[3][1].id = uuidv4();
         returnValue[3][2] = structuredClone(Hellhound);
+        returnValue[3][2].id = uuidv4();
         returnValue[3][3] = structuredClone(Hellhound);
+        returnValue[3][3].id = uuidv4();
     } else {
         returnValue[3][2] = structuredClone(Knight);
+        returnValue[3][2].id = uuidv4();
         returnValue[3][3] = structuredClone(Knight);
+        returnValue[3][3].id = uuidv4();
         returnValue[2][2] = structuredClone(Ranger);
+        returnValue[2][2].id = uuidv4();
     }
 
     return returnValue;
@@ -153,10 +155,14 @@ export function getEnemyStarterArmy(isDemon: boolean) {
 
     if (isDemon) {
         returnValue[0][2] = structuredClone(Hellhound);
+        returnValue[0][2].id = uuidv4();
         returnValue[1][2] = structuredClone(ImpArcher);
+        returnValue[1][2].id = uuidv4();
     } else {
         returnValue[0][2] = structuredClone(Knight);
+        returnValue[0][2].id = uuidv4();
         returnValue[0][3] = structuredClone(Knight);
+        returnValue[0][3].id = uuidv4();
     }
 
     return returnValue;
@@ -164,7 +170,7 @@ export function getEnemyStarterArmy(isDemon: boolean) {
 
 export function getEnemyArmy(level: number, isDemon: boolean) {
     const returnValue = Array.from({ length: 4 }, () => Array(5).fill(undefined));
-    const enemyCount = 1 + level * 2;
+    const enemyCount = 1 + level * 2 + Math.round(Math.random() * level / 3);
     const enemies = [];
     for (let i = 0; i < enemyCount; i++) {
         //use level -5 to try to ensure the enemy is a slight handicap on randomly getting great units
@@ -285,7 +291,7 @@ const Monk: ActorData = {
         bluntDamage: 0,
         magicResist: 0.3,
         magicDamage: 3,
-        actionSpeed: 1500,
+        actionSpeed: 2000,
         critChance: 0.2
     },
     action: {
@@ -439,7 +445,7 @@ const Seraphim: ActorData = {
         bluntResist: 0.3,
         bluntDamage: 0,
         magicResist: 0.6,
-        magicDamage: 5,
+        magicDamage: 4,
         actionSpeed: 1500,
         critChance: 0.2
     },
@@ -539,13 +545,13 @@ const Balrog: ActorData = {
     stats: {
         level: 1,
         maxHealth: 18,
-        pierceResist: 0.2,
+        pierceResist: 0.3,
         pierceDamage: 0,
-        bluntResist: 0.2,
+        bluntResist: 0.3,
         bluntDamage: 6,
-        magicResist: 0.2,
+        magicResist: 0.3,
         magicDamage: 0,
-        actionSpeed: 2000,
+        actionSpeed: 1500,
         critChance: 0.2
     },
     action: {
@@ -616,7 +622,7 @@ const ImpSoldier: ActorData = {
     rarity: ActorRarityType.COMMON,
     stats: {
         level: 1,
-        maxHealth: 6,
+        maxHealth: 7,
         pierceResist: 0.2,
         pierceDamage: 2,
         bluntResist: 0.2,
@@ -642,7 +648,7 @@ const ImpArcher: ActorData = {
     rarity: ActorRarityType.COMMON,
     stats: {
         level: 1,
-        maxHealth: 6,
+        maxHealth: 7,
         pierceResist: 0,
         pierceDamage: 2,
         bluntResist: 0,

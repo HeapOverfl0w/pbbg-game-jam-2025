@@ -95,7 +95,7 @@ function App() {
         <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur">
           <dialog className="active absolute center middle" style={{maxWidth: '800px'}}>
             <p>{getEndGameStringFromResult(endGameResult)}</p>
-            <nav className='right-align no-space'>
+            <nav className="center-align">
               <button onClick={() => setEndGameResult(undefined)}>OK</button>
             </nav>
           </dialog>

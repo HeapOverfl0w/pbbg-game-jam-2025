@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
 import { ItemSlot } from './item-slot';
-import { ItemSlotStatic } from './item-slot-static';
 import { useSelector } from 'react-redux';
 import { StoreData } from '../redux/actor-data';
 
