@@ -1,6 +1,8 @@
 import React, { useRef, useMemo, useEffect } from 'react';
 import { CANVAS_HEIGHT, CANVAS_WIDTH, createTestTeamData } from "./constants";
 import { EndGameResult, GameUpdateInfo, Main } from './main';
+import { useSelector } from 'react-redux';
+import { StoreData } from '../redux/actor-data';
 
 export type GameCanvasProps = {
     endGameCallback: (result: EndGameResult) => void;
@@ -10,6 +12,8 @@ export type GameCanvasProps = {
 
 export function GameCanvas(props: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const playerTeamData = useSelector((state: StoreData) => state.playerTeam);
+    const enemyTeamData = useSelector((state: StoreData) => state.npcTeam);
     const gameApp = useRef<Main>(null);
 
     useEffect(() => {
@@ -20,7 +24,6 @@ export function GameCanvas(props: GameCanvasProps) {
     }, [canvasRef.current]);
 
     const endGameCallback = (result: EndGameResult) => {
-        console.log("Game ended with result:", result);
         props.endGameCallback(result);
     }
 
@@ -30,7 +33,7 @@ export function GameCanvas(props: GameCanvasProps) {
 
     const startGame = () => {
         if (props.showGame && gameApp.current) {
-            gameApp.current.start(createTestTeamData('friendly'), createTestTeamData('enemy'));
+            gameApp.current.start(playerTeamData, enemyTeamData);
         }
     }
 

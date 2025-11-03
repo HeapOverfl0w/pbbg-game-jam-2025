@@ -1,11 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ActorData, ActorStats, getInitialState } from "./actor-data";
+import { ActorData, ActorStats, getInitialState, StoreData } from "./actor-data";
 import { createRandomUnit, getEnemyArmy, getEnemyStarterArmy, getStarterArmy } from '../units';
 
 const storeSlice = createSlice({
     name: 'store',
     initialState: getInitialState(),
     reducers: {
+        loadStoreState: (state, action: PayloadAction<StoreData>) => {
+            state.buildings = action.payload.buildings;
+            state.currentRound = action.payload.currentRound;
+            state.gold = action.payload.gold;
+            state.inventory = action.payload.inventory;
+            state.maxReinforcements = action.payload.maxReinforcements;
+            state.npcTeam = action.payload.npcTeam;
+            state.playerIsDemon = action.payload.playerIsDemon;
+            state.playerTeam = action.payload.playerTeam;
+        },
         addActor: (state, action: PayloadAction<ActorData>) => {
             const newInventory = [...state.inventory];
             newInventory.push(action.payload);
@@ -155,7 +165,8 @@ const storeSlice = createSlice({
                     state.inventory = newInventory;
                     state.playerTeam = newPlayerTeam;
                 }                
-            } else { //move from inventory to grid
+            } else { 
+                //move from inventory to grid
                 const index = newInventory.findIndex((actor) => actor.id == action.payload.id);
                 if (index > -1) {
                     const actor = newInventory[index];
@@ -164,6 +175,26 @@ const storeSlice = createSlice({
 
                     state.inventory = newInventory;
                     state.playerTeam = newPlayerTeam;
+                } else {
+                    //if it's not in inventory then it's in the grid moving from one location to another
+                    let itemInGrid = undefined;
+
+                    for(let x = 0; x < newPlayerTeam.actors.length; x++){
+                        for (let y = 0; y < newPlayerTeam.actors[x].length; y++) {
+                            const actor = newPlayerTeam.actors[x][y];
+                            if (actor && actor.id == action.payload.id) {
+                                itemInGrid = actor;
+                                newPlayerTeam.actors[x][y] = undefined;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (itemInGrid) {
+                        newPlayerTeam.actors[action.payload.x][action.payload.y] = itemInGrid;
+                        state.inventory = newInventory;
+                        state.playerTeam = newPlayerTeam;
+                    } 
                 }
             }
         },
@@ -174,6 +205,6 @@ export function getBuildingCost(level: number) {
     return level * 10;
 }
 
-export const { moveActor, addActor, levelUpBuilding } = storeSlice.actions
+export const { loadStoreState, moveActor, addActor, levelUpBuilding, newGame, victory, lose } = storeSlice.actions
 
 export default storeSlice.reducer;

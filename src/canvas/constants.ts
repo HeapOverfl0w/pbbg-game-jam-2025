@@ -23,7 +23,7 @@ export const PROJECTILE_TICKS_PER_TILE = PROJECTILE_SPEED / TICK_RATE;
 
 export const DEFAULT_EFFECT_DURATION = 500;
 
-export const MAX_ROUND_TIME_MS = 60000; // 1 minute per round
+export const MAX_ROUND_TIME_MS = 100000; // 100 seconds per round
 
 export const ACTION_TARGETS_TYPE_TO_TILE_OFFSETS: Record<ActorActionTargetsType, {x: number, y: number}[]> = {
     [ActorActionTargetsType.SINGLE]: [{ x: 0, y: 0 }],

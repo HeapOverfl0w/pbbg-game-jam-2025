@@ -136,12 +136,13 @@ export function getStarterArmy(isDemon: boolean) {
     const returnValue = Array.from({ length: 4 }, () => Array(5).fill(undefined));
 
     if (isDemon) {
+        returnValue[3][1] = structuredClone(Hellhound);
         returnValue[3][2] = structuredClone(Hellhound);
         returnValue[3][3] = structuredClone(Hellhound);
-        returnValue[3][4] = structuredClone(Hellhound);
     } else {
+        returnValue[3][2] = structuredClone(Knight);
         returnValue[3][3] = structuredClone(Knight);
-        returnValue[2][3] = structuredClone(Ranger);
+        returnValue[2][2] = structuredClone(Ranger);
     }
 
     return returnValue;

@@ -380,14 +380,14 @@ export class Actor {
     }
 
     addTeamStats(teamStats: ActorStats) {
-        this.maxHealth += teamStats.maxHealth;
-        this.pierceResist += teamStats.pierceResist;
-        this.pierceDamage += teamStats.pierceDamage;
-        this.bluntResist += teamStats.bluntResist;
-        this.bluntDamage += teamStats.bluntDamage;
-        this.magicResist += teamStats.magicResist;
-        this.magicDamage += teamStats.magicDamage;
-        this.actionSpeed += teamStats.actionSpeed;
+        this.maxHealth *= (1 + teamStats.maxHealth);
+        this.pierceResist *= (1 + teamStats.pierceResist);
+        this.pierceDamage *= (1 + teamStats.pierceDamage);
+        this.bluntResist *= (1 + teamStats.bluntResist);
+        this.bluntDamage *= (1 + teamStats.bluntDamage);
+        this.magicResist *= (1 + teamStats.magicResist);
+        this.magicDamage *= (1 + teamStats.magicDamage);
+        this.actionSpeed *= (1 + teamStats.actionSpeed);
     }
 
     private doMove(map: GameMap) {

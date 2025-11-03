@@ -140,7 +140,25 @@ export const getInitialState = (): StoreData => {
                 value: 0,
                 increasePerLevel: 0.05,
                 image: "./img/icons/swordsmith.png"
-            }
+            },
+            {
+                name: "Mallet Maker",
+                description: "Increases blunt damage of all units.",
+                level: 0,
+                statType: "bluntDamage",
+                value: 0,
+                increasePerLevel: 0.05,
+                image: "./img/icons/malletmaker.png"
+            },
+            {
+                name: "Mystic Hut",
+                description: "Increases magic damage of all units.",
+                level: 0,
+                statType: "magicDamage",
+                value: 0,
+                increasePerLevel: 0.05,
+                image: "./img/icons/mystichut.png"
+            },
         ],
         gold: 0,
         currentRound: 1,

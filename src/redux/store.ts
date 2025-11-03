@@ -3,8 +3,6 @@ import StoreReducer from './store-slice';
 
 export const store = configureStore({
     reducer: StoreReducer,
-    //TODO: remove later to load in persisted data from local storage
-    //preloadedState: loadState()
 });
 
 //save and load state from local storage

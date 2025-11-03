@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { DATA } from '../canvas/data';
 import { useDispatch } from 'react-redux';
-import { addActor } from '../redux/store-slice';
+import { addActor, loadStoreState } from '../redux/store-slice';
 import { createRandomUnit } from '../units';
-import { saveState, store } from '../redux/store';
+import { doesStateExist, loadState, saveState, store } from '../redux/store';
 import * as debounce from 'debounce';
 
 type SplashscreenProps = {
@@ -17,27 +17,24 @@ type SplashscreenProps = {
  */
 export function Loading(props: SplashscreenProps) {
   const [status, setStatus] = useState<Record<string, any>>({ status: 'Loading...', percent: '0' });
+  const [stateExists] = useState(doesStateExist());
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function initialLoad() {
       await DATA.load();
 
-      //TODO: Remove, just testing creating random units and unit tooltips
-      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
-      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
-      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
-      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
-      dispatch(addActor(createRandomUnit(Math.round(Math.random() * 10), Math.random() < 0.5)));
+      if (stateExists) {
+        dispatch(loadStoreState(loadState()));
+      }
 
-      //TODO: Uncomment later for auto saving of our redux state
-      /* store.subscribe(
+      store.subscribe(
         // we use debounce to save the state once each 800ms
         // for better performances in case multiple changes occur in a short time
         debounce(() => {
           saveState(store.getState());
         }, 800)
-      ); */
+      );
     }
 
     initialLoad();

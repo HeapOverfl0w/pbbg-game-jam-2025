@@ -40,7 +40,7 @@ export function Battlefield(props: BattlefieldProps) {
             actors.map((_, i) => {
               return <div className='row no-space vertical'>
                 {
-                  _.map((__, j) => <ItemSlot data={__} x={i} y={j} />)
+                  _.map((__, j) => <ItemSlot data={__} x={i} y={j} canDrag/>)
                 }
               </div>
             })
@@ -52,7 +52,7 @@ export function Battlefield(props: BattlefieldProps) {
             enemies.map((_, i) => {
               return <div className='row no-space vertical'>
                 {
-                  _.map((__, j) => <ItemSlotStatic data={__} />)
+                  _.map((__, j) => <ItemSlot data={__} x={i} y={j} canDrag={false}/>)
                 }
               </div>
             })

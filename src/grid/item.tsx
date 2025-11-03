@@ -8,17 +8,18 @@ import { CustomDragIcon } from '../custom-cursor';
 
 export type ItemProps = {
   item: ActorData;
+  canDrag: boolean;
 }
 
-export function Item({ item }: ItemProps) {
+export function Item({ item, canDrag }: ItemProps) {
   const [hover, setHover] = useState(false);
   const hoverTargetRef = useRef<HTMLDivElement>(null);
 
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [{ isDragging}, drag] = useDrag(() => ({
     type: 'item',
     item: { name: item?.name, id: item?.id },
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: !!monitor.isDragging() && canDrag,
     }),
   }));
 

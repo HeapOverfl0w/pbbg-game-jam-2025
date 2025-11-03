@@ -1,4 +1,5 @@
 import React from 'react';
+import { clearState } from '../redux/store';
 
 type NewGameModalProps = {
   onClose: () => void;
@@ -10,6 +11,11 @@ type NewGameModalProps = {
  * @returns 
  */
 export function NewGameModal(props: NewGameModalProps) {
+  function createNewGame() {
+    clearState();
+    location.reload();
+  }
+
   return (
     <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur" onClick={() => props.onClose()}>
       <dialog className="active absolute center middle" onClick={(e) => { e.stopPropagation() }}>
@@ -18,14 +24,14 @@ export function NewGameModal(props: NewGameModalProps) {
         </div>
         <div className='padding'>
           <p>Are you sure you want to start a new game?</p>
-          <p>All collected units will be lost.</p>
+          <p>All units and buildings will be reset.</p>
         </div>
         <nav className="center-align">
-          <button className="circle transparent" title='' onClick={() => props.onClose()}>
-            <i>close</i>
+          <button title='' onClick={createNewGame}>
+            Yes
           </button>
-          <button className="circle transparent" title='' onClick={() => props.onClose()}>
-            <i>close</i>
+          <button title='' onClick={() => props.onClose()}>
+            No
           </button>
         </nav>
       </dialog>

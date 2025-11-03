@@ -9,6 +9,7 @@ type ItemSlotProps = {
   data: ActorData|undefined;
   x: number;
   y: number;
+  canDrag: boolean;
 }
 
 
@@ -36,7 +37,7 @@ export function ItemSlot(props: ItemSlotProps) {
   const [{ isOver, canDrop }, ref] = useDrop(
     () => ({
       accept: "item",
-      canDrop: () => props.data === undefined,
+      canDrop: () => (props.data === undefined || props.data === null) && props.canDrag,
       drop: (actor: ActorData) => handleDrop(actor),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
@@ -49,10 +50,10 @@ export function ItemSlot(props: ItemSlotProps) {
   return (
     <div className={'no-padding'} ref={ref as any} style={props.data == undefined ? {border: '2px solid white'} : {}}>
       <div>
-        {(props.data !== undefined) &&
-          <Item item={props.data} />
+        {(props.data !== undefined && props.data !== null) &&
+          <Item item={props.data} canDrag={props.canDrag}/>
         }
-        {(props.data === undefined) &&
+        {(props.data === undefined || props.data === null) &&
           <img className='responsive small' style={{ aspectRatio: '1/1' }} src={''} alt='' />
         }
         {isOver && !canDrop &&
