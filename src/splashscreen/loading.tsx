@@ -59,7 +59,7 @@ export function Loading(props: SplashscreenProps) {
           }
           {status.percent === '100' &&
             <button onClick={() => props.onStart()}>
-              {stateExists ? 'Start' : 'Continue'}
+              {stateExists ? 'Continue' : 'Start'}
             </button>
           }
         </div>

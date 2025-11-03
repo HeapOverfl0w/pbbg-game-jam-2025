@@ -21,7 +21,7 @@ export function Item({ item, canDrag }: ItemProps) {
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging() && canDrag,
     }),
-  }));
+  }), [item, canDrag]);
 
   function isPercentageBasedStat(statType: ActorStatType) {
     return statType == 'critChance' || statType == 'allResists' || statType == 'bluntResist' || statType == 'magicResist' || statType == 'pierceResist';

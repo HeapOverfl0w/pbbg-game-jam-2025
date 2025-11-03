@@ -12,9 +12,9 @@ export function createRandomUnit(currentLevel: number, isDemon: boolean) {
     let type = ActorActionType.ATTACK;
 
     const currentLevelRandomModifier = (currentLevel - 1) * 0.01;
-    if (randomRarity > 0.9 - currentLevelRandomModifier) {
+    if (randomRarity > 0.95 - currentLevelRandomModifier) {
         rarity = ActorRarityType.RARE;
-    } else if (randomRarity > 0.7 - currentLevelRandomModifier) {
+    } else if (randomRarity > 0.75 - currentLevelRandomModifier) {
         rarity = ActorRarityType.UNCOMMON;
     }
 
@@ -132,12 +132,12 @@ export function getStarterArmy(isDemon: boolean) {
     const returnValue = Array.from({ length: 4 }, () => Array(5).fill(undefined));
 
     if (isDemon) {
-        returnValue[3][1] = structuredClone(Hellhound);
+        returnValue[3][1] = structuredClone(ImpSoldier);
         returnValue[3][1].id = uuidv4();
         returnValue[3][2] = structuredClone(Hellhound);
         returnValue[3][2].id = uuidv4();
-        returnValue[3][3] = structuredClone(Hellhound);
-        returnValue[3][3].id = uuidv4();
+        returnValue[2][2] = structuredClone(ImpArcher);
+        returnValue[2][2].id = uuidv4();
     } else {
         returnValue[3][2] = structuredClone(Knight);
         returnValue[3][2].id = uuidv4();
@@ -161,8 +161,8 @@ export function getEnemyStarterArmy(isDemon: boolean) {
     } else {
         returnValue[0][2] = structuredClone(Knight);
         returnValue[0][2].id = uuidv4();
-        returnValue[0][3] = structuredClone(Knight);
-        returnValue[0][3].id = uuidv4();
+        returnValue[1][2] = structuredClone(Knight);
+        returnValue[1][2].id = uuidv4();
     }
 
     return returnValue;
@@ -340,10 +340,10 @@ const Valkyrie: ActorData = {
         pierceResist: 0.4,
         pierceDamage: 0,
         bluntResist: 0.4,
-        bluntDamage: 4,
+        bluntDamage: 3,
         magicResist: 0.3,
         magicDamage: 0,
-        actionSpeed: 1000,
+        actionSpeed: 1300,
         critChance: 0.2
     },
     action: {
@@ -369,7 +369,7 @@ const Penitent: ActorData = {
         bluntDamage: 0,
         magicResist: 0.3,
         magicDamage: 0.1,
-        actionSpeed: 10000,
+        actionSpeed: 8000,
         critChance: 0
     },
     action: {
@@ -395,7 +395,7 @@ const Bugler: ActorData = {
         bluntDamage: 0,
         magicResist: 0.3,
         magicDamage: 0.1,
-        actionSpeed: 10000,
+        actionSpeed: 8000,
         critChance: 0
     },
     action: {
@@ -476,7 +476,7 @@ const Dominator: ActorData = {
         magicResist: 0.1,
         magicDamage: 0,
         actionSpeed: 1500,
-        critChance: 0
+        critChance: 0.4
     },
     action: {
         type: ActorActionType.ATTACK,
@@ -493,7 +493,7 @@ const Hellhound: ActorData = {
     rarity: ActorRarityType.COMMON,
     stats: {
         level: 1,
-        maxHealth: 7,
+        maxHealth: 8,
         pierceResist: 0,
         pierceDamage: 1,
         bluntResist: 0.2,
@@ -577,7 +577,7 @@ const Witch: ActorData = {
         bluntDamage: 4,
         magicResist: 0.3,
         magicDamage: 0.1,
-        actionSpeed: 10000,
+        actionSpeed: 8000,
         critChance: 0
     },
     action: {

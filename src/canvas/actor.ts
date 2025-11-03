@@ -1,5 +1,5 @@
 import { AnimatedSprite } from "pixi.js";
-import { ActorActionType, ActorData, ActorOtherEffectsType, ActorStats, ActorStatType } from "../redux/actor-data";
+import { ActorActionType, ActorColorType, ActorData, ActorOtherEffectsType, ActorStats, ActorStatType } from "../redux/actor-data";
 import { aStar, Position } from "./astar";
 import { ACTION_TARGETS_TYPE_TO_TILE_OFFSETS, CANVAS_BORDER_HEIGHT, CANVAS_BORDER_WIDTH, DEFAULT_EFFECT_DURATION, distanceFormula, MOVEMENT_TICKS_PER_TILE, TILE_HEIGHT, TILE_WIDTH, TILES_X, TILES_Y } from "./constants";
 import { GameMap } from "./game-map";
@@ -91,7 +91,7 @@ export class Actor {
         return this.health > 0;
     }
 
-    damage(pierceDamage: number, bluntDamage: number, magicDamage: number, critChance: number) {
+    damage(pierceDamage: number, bluntDamage: number, magicDamage: number, critChance: number, color?: ActorColorType) {
         if (this.data.action.otherActionEffect == ActorOtherEffectsType.DODGE && Math.random() > 0.8) {
             return 0;
         }
@@ -99,7 +99,8 @@ export class Actor {
         const totalDamage = Math.max(0, pierceDamage * (1 - Math.min(0.8, this.pierceResist))) * (Math.random() < critChance ? 2 : 1) +
                             Math.max(0, bluntDamage * (1 - Math.min(0.8, this.bluntResist))) * (Math.random() < critChance ? 2 : 1) +
                             Math.max(0, magicDamage * (1 - Math.min(0.8, this.magicResist))) * (Math.random() < critChance ? 2 : 1);
-        this.health -= totalDamage;
+
+        this.health -= totalDamage * this.getColorMultiplier(color);
         this.setTint(0x8b3d3d); //red
         return totalDamage;
     }
@@ -109,6 +110,20 @@ export class Actor {
         this.health = totalHeal;
         this.setTint(0x3d9155); //green
         return totalHeal;
+    }
+
+    private getColorMultiplier(color?: ActorColorType) {
+        if (this.data.color == ActorColorType.BLUE && color == ActorColorType.GREEN) {
+            return 1.5;
+        }
+        if (this.data.color == ActorColorType.PURPLE && color == ActorColorType.BLUE) {
+            return 1.5;
+        }
+        if (this.data.color == ActorColorType.GREEN && color == ActorColorType.PURPLE) {
+            return 1.5;
+        }
+
+        return 1;
     }
 
     buff(stat: ActorStatType, amount: number) {
@@ -277,7 +292,7 @@ export class Actor {
                 if (targetTile && targetTile.actor && targetTile.actor.teamType == this.getTargetType()) {
                     switch (this.data.action.type) {
                         case ActorActionType.ATTACK:
-                            const damage = targetTile.actor.damage(this.pierceDamage, this.bluntDamage, this.magicDamage, this.critChance);
+                            const damage = targetTile.actor.damage(this.pierceDamage, this.bluntDamage, this.magicDamage, this.critChance, this.data.color);
                             //if lifesteal then heal for 30% of damage dealt
                             if (this.data.action.otherActionEffect == ActorOtherEffectsType.LIFESTEAL) {
                                 this.heal(damage * 0.2, 0);
@@ -328,10 +343,6 @@ export class Actor {
             this.target = nearestEnemy;
             this.path = aStar(new Position(this.tileX, this.tileY), new Position(this.target.tileX, this.target.tileY), map.tiles);
 
-            if (this.data.name == 'Ranger') {
-                console.log(this.path.length);
-            }
-
             if (!this.path || this.path.length == 0) {
                 this.wait(500);
             } else {
@@ -362,6 +373,10 @@ export class Actor {
                     const distance = distanceFormula(this.tileX, this.tileY, tile.actor.tileX, tile.actor.tileY);
                     const isInRow = this.tileY == y;
 
+                    if (this.data.name == 'Witch' && isInRow) {
+                        console.log(this.path.length);
+                    }
+
                     if (!foundTargetInRow && isInRow && this.isRowClearToTarget(map, y, tile.actor)) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
                         nearestDistance = distance;
                         nearestActor = tile.actor;
@@ -376,6 +391,7 @@ export class Actor {
                 }
             }
         }
+
         return nearestActor;
     }
 
@@ -389,14 +405,21 @@ export class Actor {
             return false;
         }
 
-        for (let x = this.tileX; x < map.tiles.length && x > -1; x += direction) {
+        //only search forward
+        if ((direction == -1 && this.teamType == ActorTeamType.FRIENDLY) || (direction == 1 && this.teamType == ActorTeamType.ENEMY)) {
+            return false;
+        }
+
+        for (let x = this.tileX + direction; x < map.tiles.length && x > -1; x += direction) {
             const tileActor = map.tiles[x][y].actor;
             if (tileActor && tileActor != target) {
                 return false;
+            } else if (tileActor && tileActor == target) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     addTeamStats(teamStats: ActorStats) {

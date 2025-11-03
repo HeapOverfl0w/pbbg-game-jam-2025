@@ -109,6 +109,9 @@ const storeSlice = createSlice({
         },
         victory: (state) => {
             const newInventory = [...state.inventory];
+            if (state.playerIsDemon) {
+                newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
+            }
             newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
             newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
             state.inventory = newInventory;
