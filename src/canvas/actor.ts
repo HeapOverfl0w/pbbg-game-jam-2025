@@ -316,9 +316,21 @@ export class Actor {
     private doIdle(map: GameMap) {
         //find nearest enemy, make target and attempt to get path
         const nearestEnemy = this.findNearest(map, this.getTargetType());
+
+        //if we're already close enough to our target then don't wait or move
+        if (nearestEnemy && distanceFormula(this.tileX, this.tileY, nearestEnemy.tileX, nearestEnemy.tileY) <= this.data.action.range) {
+            this.target = nearestEnemy;
+            this.setState(ActorStateType.ACTIONING);
+            return;
+        }
+
         if (nearestEnemy) {
             this.target = nearestEnemy;
             this.path = aStar(new Position(this.tileX, this.tileY), new Position(this.target.tileX, this.target.tileY), map.tiles);
+
+            if (this.data.name == 'Ranger') {
+                console.log(this.path.length);
+            }
 
             if (!this.path || this.path.length == 0) {
                 this.wait(500);
@@ -364,10 +376,6 @@ export class Actor {
                 }
             }
         }
-
-        if (this.teamType == ActorTeamType.ENEMY) {
-            console.log(nearestActor?.data.name);
-        }
         return nearestActor;
     }
 
@@ -380,7 +388,7 @@ export class Actor {
         if (direction == 0) {
             return false;
         }
-        
+
         for (let x = this.tileX; x < map.tiles.length && x > -1; x += direction) {
             const tileActor = map.tiles[x][y].actor;
             if (tileActor && tileActor != target) {

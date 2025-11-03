@@ -78,9 +78,8 @@ export function aStar(start: Position, end: Position, collisionMap: Tile[][], se
             if ((child.x != end.x || child.y != end.y) &&
                 (child.x < 0 || child.x >= collisionMap.length ||
                 child.y < 0 || child.y >= collisionMap[0].length || 
-                !collisionMap[child.x][child.y] ||
-                !collisionMap[child.x][child.y].passable || 
-                (stepCount < 5 && collisionMap[child.x][child.y].actor && !(child.x === end.x && child.y === end.y)))) {
+                collisionMap[child.x][child.y].actor ||
+                !collisionMap[child.x][child.y].passable)) {
                 continue;
             }
 
