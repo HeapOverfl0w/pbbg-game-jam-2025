@@ -24,7 +24,7 @@ export class ProjectileFactory {
             const startY = owner.y;
             if (owner.target) {
                 const endX = owner.target.x;
-                const endY = owner.target.y;
+                const endY = owner.target.y + 8;
                 const direction = Math.atan2(endY - startY, endX - startX);
                 animation.rotation = direction;
                 return new Projectile(owner, startX, startY, direction, animation);
@@ -74,6 +74,10 @@ export class Projectile {
         collisionChecks.push(Math.floor(this.y / TILE_HEIGHT));
         collisionChecks.push(Math.ceil(this.x / TILE_WIDTH));
         collisionChecks.push(Math.ceil(this.y / TILE_HEIGHT));
+        collisionChecks.push(Math.ceil((this.x + TILE_WIDTH/2) / TILE_WIDTH));
+        collisionChecks.push(Math.ceil((this.y + TILE_HEIGHT/2) / TILE_HEIGHT));
+        collisionChecks.push(Math.ceil((this.x - TILE_WIDTH/2) / TILE_WIDTH));
+        collisionChecks.push(Math.ceil((this.y - TILE_HEIGHT/2) / TILE_HEIGHT));
 
         for (let i = 0; i < collisionChecks.length; i += 2) {
             const tileX = collisionChecks[i];

@@ -27,7 +27,7 @@ export class EffectFactory {
         }
 
         if (animation) {
-            x -= (owner.teamType == ActorTeamType.FRIENDLY ? animation.width : 0);
+            x -= owner.target?.teamType == ActorTeamType.ENEMY ? animation.width : 0;
             return new Effect(x, y, DEFAULT_EFFECT_DURATION, animation);
         }
     }

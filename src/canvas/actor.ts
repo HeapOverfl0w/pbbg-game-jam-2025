@@ -306,7 +306,11 @@ export class Actor {
     }
 
     getTargetType(): ActorTeamType {
-        return this.teamType === ActorTeamType.FRIENDLY ? ActorTeamType.ENEMY : ActorTeamType.FRIENDLY;
+        if (this.data.action.type == ActorActionType.ATTACK || this.data.action.type == ActorActionType.CURSE) {
+            return this.teamType === ActorTeamType.FRIENDLY ? ActorTeamType.ENEMY : ActorTeamType.FRIENDLY;
+        } else {
+            return this.teamType === ActorTeamType.FRIENDLY ? ActorTeamType.FRIENDLY : ActorTeamType.ENEMY;
+        }
     }
 
     private doIdle(map: GameMap) {

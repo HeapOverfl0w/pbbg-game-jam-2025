@@ -108,12 +108,13 @@ const storeSlice = createSlice({
             
         },
         victory: (state) => {
-            state.currentRound++;
-
             const newInventory = [...state.inventory];
             newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
             newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
             state.inventory = newInventory;
+            state.gold += state.currentRound * 5;
+
+            state.currentRound++;
 
             state.npcTeam = {
                 actors: getEnemyArmy(state.currentRound, !state.playerIsDemon),
@@ -175,7 +176,6 @@ const storeSlice = createSlice({
         },
         moveActor: (state, action: any) => {
             const newPlayerTeam = Object.assign({}, state.playerTeam);
-            newPlayerTeam.actors = [...state.playerTeam.actors];
             const newInventory = [...state.inventory];
 
             //move from grid to inventory

@@ -163,6 +163,6 @@ export const getInitialState = (): StoreData => {
         gold: 0,
         currentRound: 1,
         playerIsDemon: false,
-        maxReinforcements: 4
+        maxReinforcements: 2
     }
 }

@@ -57,7 +57,7 @@ function App() {
     if (result == "PLAYER_DEFEAT") {
       return "DEFEAT! Your army has been slain, but " + maxReinforcements + " reinforcements managed to survive.";
     } else if (result == "ENEMY_DEFEAT") {
-      return "VICTORY! Your army has destroyed all foes leaving none alive. The next battle awaits against a stronger foe. +2 reinforcements +" + currentRound * 5 + "gold";
+      return "VICTORY! Your army has destroyed all foes leaving none alive. The next battle awaits against a stronger foe. +2 reinforcements +" + currentRound * 5 + " gold";
     } else {
       return "TIE! The battle timer has ran out before a victor was decided. Try with a new formation to vanquish the enemy.";
     }
@@ -93,7 +93,7 @@ function App() {
       }
       {endGameResult && 
         <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur">
-          <dialog className="active absolute center middle">
+          <dialog className="active absolute center middle" style={{maxWidth: '800px'}}>
             <p>{getEndGameStringFromResult(endGameResult)}</p>
             <nav className='right-align no-space'>
               <button onClick={() => setEndGameResult(undefined)}>OK</button>
