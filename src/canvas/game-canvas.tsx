@@ -38,7 +38,7 @@ export function GameCanvas(props: GameCanvasProps) {
     }
 
     return (
-        <div style={{width: '75vw', border: 'white 2px solid'}}>
+        <div style={{width: '70vw', border: 'white 2px solid'}}>
             <canvas style={{width: '100%', height: '100%'}}
                     id='scene' ref={canvasRef}
                     width={CANVAS_WIDTH} height={CANVAS_HEIGHT}
