@@ -65,7 +65,8 @@ function randomizeBuffCurseUnit(unit: ActorData, type: ActorActionType) {
 
     if (randomStatType > 0.95) {
         unit.action.buffCurseStatType = 'actionSpeed';
-        unit.stats.magicDamage = roundValue2Decimals(100 + Math.round(Math.random() * 200));
+        unit.stats.magicDamage = roundValue2Decimals(100 + Math.round(Math.random() * 100));
+        unit.rarity = ActorRarityType.RARE;
     } else if (randomStatType > 0.85) {
         unit.action.buffCurseStatType = 'pierceResist';
         unit.stats.magicDamage = roundValue2Decimals(0.05 + Math.random() * 0.1);

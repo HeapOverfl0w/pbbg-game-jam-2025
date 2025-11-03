@@ -21,10 +21,10 @@ export class ProjectileFactory {
 
         if (animation) {
             const startX = owner.tileX * TILE_WIDTH;
-            const startY = owner.tileY * TILE_HEIGHT;
+            const startY = owner.tileY * TILE_HEIGHT + 8;
             if (owner.target) {
                 const endX = owner.target.tileX * TILE_WIDTH;
-                const endY = owner.target.tileY * TILE_HEIGHT;
+                const endY = owner.target.tileY * TILE_HEIGHT + 8;
                 const direction = Math.atan2(endY - startY, endX - startX);
                 animation.rotation = direction;
                 return new Projectile(owner, startX, startY, direction, animation);
