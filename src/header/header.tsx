@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { NewGameModal } from './new-game-confirmation';
-import { EndGameModal } from './end-game-confirmation';
 import { TutorialModal } from './tutorial';
 import { AboutModal } from './about';
 
@@ -62,9 +61,6 @@ export function Header(props: HeaderProps) {
       </header>
       {activeModal === ModalType.NEW_GAME &&
         <NewGameModal onClose={() => setActiveModal(undefined)} />
-      }
-      {activeModal === ModalType.END_GAME &&
-        <EndGameModal onClose={() => setActiveModal(undefined)} />
       }
       {activeModal === ModalType.TUTORIAL &&
         <TutorialModal onClose={() => setActiveModal(undefined)} />
