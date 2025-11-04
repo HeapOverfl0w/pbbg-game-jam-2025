@@ -752,6 +752,88 @@ class DataLoader {
             offsetX: 0,
             offsetY: 0
         });
+
+        //cherubim
+        this.createAnimation({
+            name: 'green_cherubim',
+            textureName: 'units',
+            frameX: 465,
+            frameY: 0,
+            frameWidth: 40,
+            frameHeight: 49,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
+        this.createAnimation({
+            name: 'blue_cherubim',
+            textureName: 'units',
+            frameX: 505,
+            frameY: 0,
+            frameWidth: 40,
+            frameHeight: 49,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
+        this.createAnimation({
+            name: 'purple_cherubim',
+            textureName: 'units',
+            frameX: 545,
+            frameY: 0,
+            frameWidth: 40,
+            frameHeight: 49,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
+
+        //drake
+        this.createAnimation({
+            name: 'green_drake',
+            textureName: 'units',
+            frameX: 442,
+            frameY: 60,
+            frameWidth: 43,
+            frameHeight: 49,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
+        this.createAnimation({
+            name: 'blue_drake',
+            textureName: 'units',
+            frameX: 485,
+            frameY: 60,
+            frameWidth: 43,
+            frameHeight: 49,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
+        this.createAnimation({
+            name: 'purple_drake',
+            textureName: 'units',
+            frameX: 527,
+            frameY: 60,
+            frameWidth: 43,
+            frameHeight: 49,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
     }
 
     public getStatus() {

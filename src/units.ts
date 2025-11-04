@@ -51,12 +51,21 @@ export function createUnit(currentLevel: number, isDemon: boolean, rarity: Actor
     }
 
     modifyStatsForLevel(returnValue, unitLevel);
-    addInRandomUnitEffect(returnValue);
+    addInRandomUnitEffect(returnValue, currentLevel);
     randomizeColor(returnValue);
 
     returnValue.id = uuidv4();
 
+    checkForMaximums(returnValue);
+
     return returnValue;
+}
+
+function checkForMaximums(unit: ActorData) {
+    unit.stats.critChance = Math.min(1, unit.stats.critChance);
+    unit.stats.bluntResist = Math.min(0.8, unit.stats.bluntResist);
+    unit.stats.pierceResist = Math.min(0.8, unit.stats.pierceResist);
+    unit.stats.magicResist = Math.min(0.8, unit.stats.magicResist);
 }
 
 function randomizeBuffCurseUnit(unit: ActorData, type: ActorActionType) {
@@ -114,8 +123,8 @@ function modifyStatsForLevel(unit: ActorData, level: number) {
     }  
 }
 
-function addInRandomUnitEffect(unit: ActorData) {
-    if (Math.random() > 0.90) {
+function addInRandomUnitEffect(unit: ActorData, level: number) {
+    if (Math.random() > 0.90 - (level * 0.01)) {
         const enumValues = Object.values(ActorOtherEffectsType).filter(e => typeof e === "number");
         unit.action.otherActionEffect = enumValues[Math.floor(Math.random() * enumValues.length)];
 
@@ -181,7 +190,7 @@ export function getEnemyArmy(level: number, isDemon: boolean) {
     //if the enemy count is over the board size then cut units based on their rarity
     if (enemyCount > 20) {
         enemies.sort((enemy1, enemy2) => enemy2.rarity - enemy1.rarity);
-        enemies.splice(20, enemyCount - 20);
+        enemies.splice(21, enemyCount - 20);
     }
 
     //make sure melee units are in the front
@@ -445,8 +454,8 @@ const Seraphim: ActorData = {
         pierceDamage: 0,
         bluntResist: 0.3,
         bluntDamage: 0,
-        magicResist: 0.6,
-        magicDamage: 4,
+        magicResist: 0.4,
+        magicDamage: 3,
         actionSpeed: 1500,
         critChance: 0.2
     },
@@ -457,7 +466,33 @@ const Seraphim: ActorData = {
     }
 }
 
-const ALL_ANGELS = [Knight, Ranger, SinSlayer, Monk, HealMonk, Valkyrie, Penitent, Bugler, Eagle, Seraphim];
+const Cherubim: ActorData = {
+    id: "cherubim-data",
+    name: "Cherubim",
+    description: "Its eagle wings allow it to sore into combat at break neck speed with swiping paws and a ferocious bite.",
+    color: ActorColorType.GREEN,
+    rarity: ActorRarityType.RARE,
+    stats: {
+        level: 1,
+        maxHealth: 16,
+        pierceResist: 0.4,
+        pierceDamage: 3,
+        bluntResist: 0.2,
+        bluntDamage: 0,
+        magicResist: 0.4,
+        magicDamage: 0,
+        actionSpeed: 1000,
+        critChance: 0.1
+    },
+    action: {
+        type: ActorActionType.ATTACK,
+        range: 1,
+        targets: ActorActionTargetsType.SINGLE,
+        otherActionEffect: ActorOtherEffectsType.FAST
+    }
+}
+
+const ALL_ANGELS = [Knight, Ranger, SinSlayer, Monk, HealMonk, Valkyrie, Penitent, Bugler, Eagle, Seraphim, Cherubim];
 // #endregion
 
 // #region DEMONS
@@ -559,7 +594,31 @@ const Balrog: ActorData = {
         type: ActorActionType.ATTACK,
         range: 1,
         targets: ActorActionTargetsType.SINGLE,
-        buffCurseStatType: undefined
+    }
+}
+
+const Drake: ActorData = {
+    id: "drake-data",
+    name: "Drake",
+    description: "Dragon hell spawns that launch fireballs across the battlefield.",
+    color: ActorColorType.GREEN,
+    rarity: ActorRarityType.RARE,
+    stats: {
+        level: 1,
+        maxHealth: 10,
+        pierceResist: 0,
+        pierceDamage: 0,
+        bluntResist: 0.2,
+        bluntDamage: 0,
+        magicResist: 0.3,
+        magicDamage: 2,
+        actionSpeed: 2000,
+        critChance: 0.65
+    },
+    action: {
+        type: ActorActionType.ATTACK,
+        range: 5,
+        targets: ActorActionTargetsType.SINGLE,
     }
 }
 
@@ -716,5 +775,5 @@ const SkeletonKing: ActorData = {
     }
 }
 
-const ALL_DEMONS = [Dominator, Hellhound, Hellraiser, Balrog, Witch, HealWitch, ImpSoldier, ImpArcher, Skeleton, SkeletonKing];
+const ALL_DEMONS = [Dominator, Hellhound, Hellraiser, Balrog, Witch, HealWitch, ImpSoldier, ImpArcher, Skeleton, SkeletonKing, Drake];
 // #endregion

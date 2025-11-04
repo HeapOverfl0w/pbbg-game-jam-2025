@@ -373,10 +373,6 @@ export class Actor {
                     const distance = distanceFormula(this.tileX, this.tileY, tile.actor.tileX, tile.actor.tileY);
                     const isInRow = this.tileY == y;
 
-                    if (this.data.name == 'Witch' && isInRow) {
-                        console.log(this.path.length);
-                    }
-
                     if (!foundTargetInRow && isInRow && this.isRowClearToTarget(map, y, tile.actor)) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
                         nearestDistance = distance;
                         nearestActor = tile.actor;
