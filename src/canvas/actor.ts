@@ -263,7 +263,7 @@ export class Actor {
         if (performance.now() - this.actionStart >= Math.max(this.actionSpeed, 200)) {
             this.actionStart = performance.now();
 
-            if (this.data.action.type == ActorActionType.ATTACK) {
+            if (this.data.action.type == ActorActionType.ATTACK && this.data.action.otherActionEffect != ActorOtherEffectsType.INSTANT) {
                 const newProjectile = ProjectileFactory.createProjectile(this);
                 if (newProjectile) {
                     map.addProjectile(newProjectile);

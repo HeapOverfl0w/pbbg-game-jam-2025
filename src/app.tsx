@@ -86,7 +86,7 @@ function App() {
       {(endGameResult && endGameResult !== "ENEMY_DEFEAT") &&
         <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur">
           <dialog className="active absolute center middle" style={{ maxWidth: '800px' }}>
-            <h3>{endGameResult === "PLAYER_DEFEAT" ? "DEFEAT!" : "TIE!"}</h3>
+            <h3 style={{ justifySelf: 'center' }}>{endGameResult === "PLAYER_DEFEAT" ? "DEFEAT!" : "TIE!"}</h3>
             <p>{endGameResult === "PLAYER_DEFEAT" ?
               "Your army has been slain, but " + maxReinforcements + " reinforcements managed to survive." :
               "The battle timer has ran out before a victor was decided. Try with a new formation to vanquish the enemy."}</p>

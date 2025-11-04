@@ -175,7 +175,7 @@ const storeSlice = createSlice({
             };
 
             const newInventory = [...state.inventory];
-            newInventory.sort((item1, item2) => item2.stats.level - item1.stats.level);
+            newInventory.sort((item1, item2) => (item2.stats.level + (item2.action.otherActionEffect ? 1 : 0)) - (item1.stats.level + (item1.action.otherActionEffect ? 1 : 0)));
             newInventory.sort((item1, item2) => item2.rarity - item1.rarity);
             if (newInventory.length > state.maxReinforcements) {
                 newInventory.splice(state.maxReinforcements, newInventory.length - state.maxReinforcements);
@@ -213,13 +213,20 @@ const storeSlice = createSlice({
                 if (index > -1) {
                     const actor = newInventory[index];
                     newInventory.splice(index, 1);
+                    const actorCurrentlyAtLocation = newPlayerTeam.actors[action.payload.x][action.payload.y];
                     newPlayerTeam.actors[action.payload.x][action.payload.y] = actor;
+
+                    if (actorCurrentlyAtLocation) {
+                        newInventory.push(actorCurrentlyAtLocation);
+                    }
 
                     state.inventory = newInventory;
                     state.playerTeam = newPlayerTeam;
                 } else {
                     //if it's not in inventory then it's in the grid moving from one location to another
                     let itemInGrid = undefined;
+                    let locationX = 0;
+                    let locationY = 0;
 
                     for(let x = 0; x < newPlayerTeam.actors.length; x++){
                         for (let y = 0; y < newPlayerTeam.actors[x].length; y++) {
@@ -227,12 +234,15 @@ const storeSlice = createSlice({
                             if (actor && actor.id == action.payload.id) {
                                 itemInGrid = actor;
                                 newPlayerTeam.actors[x][y] = undefined;
+                                locationX = x;
+                                locationY = y;
                                 break;
                             }
                         }
                     }
 
                     if (itemInGrid) {
+                        newPlayerTeam.actors[locationX][locationY] = newPlayerTeam.actors[action.payload.x][action.payload.y];
                         newPlayerTeam.actors[action.payload.x][action.payload.y] = itemInGrid;
                         state.playerTeam = newPlayerTeam;
                     } 

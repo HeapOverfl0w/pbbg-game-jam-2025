@@ -72,6 +72,8 @@ export function UnitSelection(props: UnitSelectionProps) {
                   onClick={() => handleSelection(index)}>
                   <article className={'border'} style={{ borderColor: selections.includes(index) ? 'white' : 'transparent' }}>
                     <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={getIconSource(unit)} alt='' />
+                    <p style={{position: 'absolute', bottom: '0px', right: '10px'}}>{unit.stats.level}</p>
+                    {unit.action.otherActionEffect && <p style={{position: 'absolute', top: '5px', left: '5px', margin: '0px', color: '#dfcd7a'}}>X</p>}
                   </article>
                 </button>
                 <div className={"tooltip " + position} style={{ width: 'auto', height: 'auto' }}>

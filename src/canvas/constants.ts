@@ -100,6 +100,8 @@ export const getOtherEffectsTypeDescription = (otherActionType: ActorOtherEffect
             return 'Accurate : +30% to Critical Chance.'
         case ActorOtherEffectsType.THORNS:
             return 'Thorns : 30% damage reflected back to attacker.'
+        case ActorOtherEffectsType.INSTANT:
+            return 'Instant : Damage dealt instantly instead of a projectile.'
         default:
             return '';
     }

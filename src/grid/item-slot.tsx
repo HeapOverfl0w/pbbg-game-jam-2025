@@ -37,7 +37,7 @@ export function ItemSlot(props: ItemSlotProps) {
   const [{ isOver, canDrop }, ref] = useDrop(
     () => ({
       accept: "item",
-      canDrop: () => (props.data === undefined || props.data === null) && props.canDrag,
+      canDrop: () => props.canDrag,
       drop: (actor: ActorData) => handleDrop(actor),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),

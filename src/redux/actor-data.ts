@@ -64,7 +64,8 @@ export enum ActorOtherEffectsType {
     REACH,
     PIERCE,
     ACCURATE,
-    THORNS
+    THORNS,
+    INSTANT
 }
 
 export type ActorActionData = {
