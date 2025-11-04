@@ -50,19 +50,21 @@ export function UnitSelection(props: UnitSelectionProps) {
         <h3 style={{ justifySelf: 'center' }}>{"VICTORY!"}</h3>
         <p>{"Your army has destroyed all foes leaving none alive. You have been awarded " + currentRound * 5 + " gold."}</p>
         <p>{"Select 2 souls to bolster your forces, but beware, the unchosen souls will be " + (isDemon ? "purified" : "twisted") + " and join your enemy in the next battle."}</p>
-        <div style={{ justifySelf: 'center' }}>
+        <div className='row' style={{ justifySelf: 'center' }}>
           {units.map((unit, index) => {
             return (
-              <button
-                key={index}
-                disabled={selections.length === 2 && !selections.includes(index)}
-                style={{ border: 'none', height: 'auto', width: 'auto' }}
-                onClick={() => handleSelection(index)}>
-                <article className={'border'} style={{ borderColor: selections.includes(index) ? 'white' : 'transparent' }}>
-                  <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={getIconSource(unit)} alt='' />
-                </article>
-                <div className="tooltip right max" style={{width: 'auto', height: 'auto'}}>
-                <div style={{ display: 'flex', flexDirection: 'column', minWidth: '400px', maxWidth: '500px', alignItems: 'center' }}>
+              <div>
+                <button
+                  key={index}
+                  disabled={selections.length === 2 && !selections.includes(index)}
+                  style={{ border: 'none', height: 'auto', width: 'auto' }}
+                  onClick={() => handleSelection(index)}>
+                  <article className={'border'} style={{ borderColor: selections.includes(index) ? 'white' : 'transparent' }}>
+                    <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={getIconSource(unit)} alt='' />
+                  </article>
+                </button>
+                <div className="tooltip right" style={{ width: 'auto', height: 'auto' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', minWidth: '400px', maxWidth: '500px', alignItems: 'center' }}>
                     <h2 style={{ color: getColorFromType(unit.color) }}>{unit.name}</h2>
                     <div className='statline' style={{ textAlign: 'center', justifyContent: 'center' }}>
                       <p>Level {unit.stats.level}</p>
@@ -203,7 +205,7 @@ export function UnitSelection(props: UnitSelectionProps) {
                     </div>
                   </div>
                 </div>
-              </button>);
+              </div>);
           })
           }
         </div>

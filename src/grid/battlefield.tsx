@@ -37,7 +37,7 @@ export function Battlefield(props: BattlefieldProps) {
         <div className='row no-space horizontal'>
           {
             actors.map((_, i) => {
-              return <div className='row no-space vertical'>
+              return <div key={i} className='row no-space vertical'>
                 {
                   _.map((__, j) => <ItemSlot data={__} x={i} y={j} canDrag/>)
                 }
