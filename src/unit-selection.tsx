@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ActorActionType, ActorColorType, ActorData, ActorStatType, StoreData } from './redux/actor-data';
 import { createRandomUnit } from './units';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ export function UnitSelection(props: UnitSelectionProps) {
   const isDemon = useSelector((state: StoreData) => state.playerIsDemon);
   const currentRound = useSelector((state: StoreData) => state.currentRound);
   const [selections, setSelections] = useState<number[]>([]);
+  const [position, setPosition] = useState<string>('right');
   const [units] = useState<ActorData[]>([
     createRandomUnit(currentRound, isDemon),
     createRandomUnit(currentRound, isDemon),
@@ -43,8 +44,18 @@ export function UnitSelection(props: UnitSelectionProps) {
     props.onNextRound();
   }
 
+  const handleMouseMove = (evt: React.MouseEvent) => {
+    const vw = window.innerWidth;
+
+    if (evt.clientX > (vw / 2)) {
+      setPosition('left');
+    } else {
+      setPosition('right');
+    }
+  }
+
   return (
-    <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur">
+    <div onMouseMove={(e) => handleMouseMove(e)} style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur">
 
       <dialog className="active absolute center middle" style={{ maxWidth: '800px', overflow: 'visible' }}>
         <h3 style={{ justifySelf: 'center' }}>{"VICTORY!"}</h3>
@@ -63,7 +74,7 @@ export function UnitSelection(props: UnitSelectionProps) {
                     <img className='responsive tiny' style={{ aspectRatio: '1/1' }} src={getIconSource(unit)} alt='' />
                   </article>
                 </button>
-                <div className="tooltip right" style={{ width: 'auto', height: 'auto' }}>
+                <div className={"tooltip " + position} style={{ width: 'auto', height: 'auto' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', minWidth: '400px', maxWidth: '500px', alignItems: 'center' }}>
                     <h2 style={{ color: getColorFromType(unit.color) }}>{unit.name}</h2>
                     <div className='statline' style={{ textAlign: 'center', justifyContent: 'center' }}>
