@@ -86,12 +86,20 @@ export const getOtherEffectsTypeDescription = (otherActionType: ActorOtherEffect
             return 'Lifesteal : Recover 20% of damage dealt as health.';
         case ActorOtherEffectsType.AOE:
             return 'Area of Effect : Action size hits all squares at and around target.';
+        case ActorOtherEffectsType.PIERCE:
+            return 'Piercing : Action size hits 2 squares behind target.';
         case ActorOtherEffectsType.DODGE:
-            return 'Dodge : 20% chance to avoid damage.';
+            return 'Dodge : 30% chance to avoid damage.';
         case ActorOtherEffectsType.DEFENSIVE:
             return 'Defensive : 10% increase to all resistances.';
         case ActorOtherEffectsType.FAST:
             return 'Fast : Doubles movement speed.';
+        case ActorOtherEffectsType.REACH:
+            return 'Reach : +2 to Range.';
+        case ActorOtherEffectsType.ACCURATE:
+            return 'Accurate : +30% to Critical Chance.'
+        case ActorOtherEffectsType.THORNS:
+            return 'Thorns : 30% damage reflected back to attacker.'
         default:
             return '';
     }

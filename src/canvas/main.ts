@@ -40,7 +40,7 @@ export class Main {
             antialias: false,
             width: this.canvas.width,
             height: this.canvas.height,
-            backgroundColor: 0x3f5592, // Default background color
+            backgroundColor: 0x161813, // Default background color
             resolution: window.devicePixelRatio,
         });
         this.webglApplication.ticker.maxFPS = TICK_RATE;

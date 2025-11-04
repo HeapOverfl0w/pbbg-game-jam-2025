@@ -92,7 +92,7 @@ export class Actor {
     }
 
     damage(pierceDamage: number, bluntDamage: number, magicDamage: number, critChance: number, color?: ActorColorType) {
-        if (this.data.action.otherActionEffect == ActorOtherEffectsType.DODGE && Math.random() > 0.8) {
+        if (this.data.action.otherActionEffect == ActorOtherEffectsType.DODGE && Math.random() > 0.7) {
             return 0;
         }
 
@@ -297,6 +297,10 @@ export class Actor {
                             if (this.data.action.otherActionEffect == ActorOtherEffectsType.LIFESTEAL) {
                                 this.heal(damage * 0.2, 0);
                             }
+                            if (targetTile.actor.data.action.otherActionEffect == ActorOtherEffectsType.THORNS) {
+                                this.health -= damage * 0.3;
+                                this.setTint(0x8b3d3d); //red
+                            }
                             break;
                         case ActorActionType.HEAL:
                             targetTile.actor.heal(this.magicDamage, this.critChance);
@@ -331,6 +335,10 @@ export class Actor {
     private doIdle(map: GameMap) {
         //find nearest enemy, make target and attempt to get path
         const nearestEnemy = this.findNearest(map, this.getTargetType());
+
+        if (nearestEnemy) {
+            this.wait(250);
+        }
 
         //if we're already close enough to our target then don't wait or move
         if (nearestEnemy && distanceFormula(this.tileX, this.tileY, nearestEnemy.tileX, nearestEnemy.tileY) <= this.data.action.range) {
@@ -373,17 +381,26 @@ export class Actor {
                     const distance = distanceFormula(this.tileX, this.tileY, tile.actor.tileX, tile.actor.tileY);
                     const isInRow = this.tileY == y;
 
-                    if (!foundTargetInRow && isInRow && this.isRowClearToTarget(map, y, tile.actor)) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
-                        nearestDistance = distance;
-                        nearestActor = tile.actor;
-                        foundTargetInRow = true;
-                    } else if (!foundTargetInRow && distance < nearestDistance) { //if we haven't found a target in our row then use the closest target outside of our row
-                        nearestDistance = distance;
-                        nearestActor = tile.actor;
-                    } else if (foundTargetInRow && isInRow && distance < nearestDistance && this.isRowClearToTarget(map, y, tile.actor)) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
-                        nearestDistance = distance;
-                        nearestActor = tile.actor;
+                    if (this.data.action.type == ActorActionType.HEAL) {
+                        if (tile.actor.health < tile.actor.maxHealth && distance < nearestDistance) {
+                            nearestDistance = distance;
+                            nearestActor = tile.actor;
+                        }
+                    } else {
+                        if (!foundTargetInRow && isInRow && this.isRowClearToTarget(map, y, tile.actor)) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
+                            nearestDistance = distance;
+                            nearestActor = tile.actor;
+                            foundTargetInRow = true;
+                        } else if (!foundTargetInRow && distance < nearestDistance) { //if we haven't found a target in our row then use the closest target outside of our row
+                            nearestDistance = distance;
+                            nearestActor = tile.actor;
+                        } else if (foundTargetInRow && isInRow && distance < nearestDistance && this.isRowClearToTarget(map, y, tile.actor)) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
+                            nearestDistance = distance;
+                            nearestActor = tile.actor;
+                        }
                     }
+
+                    
                 }
             }
         }

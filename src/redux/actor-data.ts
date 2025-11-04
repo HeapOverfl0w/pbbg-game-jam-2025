@@ -60,7 +60,11 @@ export enum ActorOtherEffectsType {
     DODGE,
     AOE,
     DEFENSIVE,
-    FAST
+    FAST,
+    REACH,
+    PIERCE,
+    ACCURATE,
+    THORNS
 }
 
 export type ActorActionData = {

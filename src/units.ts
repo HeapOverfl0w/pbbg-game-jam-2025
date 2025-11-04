@@ -14,7 +14,7 @@ export function createRandomUnit(currentLevel: number, isDemon: boolean) {
     const currentLevelRandomModifier = (currentLevel - 1) * 0.01;
     if (randomRarity > 0.95 - currentLevelRandomModifier) {
         rarity = ActorRarityType.RARE;
-    } else if (randomRarity > 0.75 - currentLevelRandomModifier) {
+    } else if (randomRarity > 0.8 - currentLevelRandomModifier) {
         rarity = ActorRarityType.UNCOMMON;
     }
 
@@ -134,6 +134,12 @@ function addInRandomUnitEffect(unit: ActorData, level: number) {
             unit.stats.bluntResist += 0.1;
             unit.stats.pierceResist += 0.1;
             unit.stats.magicResist += 0.1;
+        } else if (unit.action.otherActionEffect == ActorOtherEffectsType.PIERCE) {
+            unit.action.targets = ActorActionTargetsType.TWO_PIERCE;
+        } else if (unit.action.otherActionEffect == ActorOtherEffectsType.ACCURATE) {
+            unit.stats.critChance += 0.3;
+        } else if (unit.action.otherActionEffect == ActorOtherEffectsType.REACH) {
+            unit.action.range += 2;
         }
     }
 }
@@ -184,7 +190,19 @@ export function getEnemyArmy(level: number, isDemon: boolean) {
     const enemies = [];
     for (let i = 0; i < enemyCount; i++) {
         //use level -5 to try to ensure the enemy is a slight handicap on randomly getting great units
-        enemies.push(createRandomUnit(level - 5, isDemon));
+        let levelHandicap = level - 5;
+
+        if (level > 5) {
+            levelHandicap = level;
+        } else if (level > 10) {
+            levelHandicap = level + 5;
+        } else if (level > 15) {
+            levelHandicap = level + 10;
+        } else if (level > 20) {
+            levelHandicap = level + 30;
+        }
+
+        enemies.push(createRandomUnit(levelHandicap, isDemon));
     }
 
     //if the enemy count is over the board size then cut units based on their rarity
@@ -512,7 +530,7 @@ const Dominator: ActorData = {
         magicResist: 0.1,
         magicDamage: 0,
         actionSpeed: 1500,
-        critChance: 0.4
+        critChance: 0.2
     },
     action: {
         type: ActorActionType.ATTACK,

@@ -175,9 +175,11 @@ const storeSlice = createSlice({
             };
 
             const newInventory = [...state.inventory];
-            newInventory.sort(() => Math.random() - 0.5);
-            if (newInventory.length > state.maxReinforcements)
-            newInventory.splice(state.maxReinforcements, newInventory.length - state.maxReinforcements);
+            newInventory.sort((item1, item2) => item2.stats.level - item1.stats.level);
+            newInventory.sort((item1, item2) => item2.rarity - item1.rarity);
+            if (newInventory.length > state.maxReinforcements) {
+                newInventory.splice(state.maxReinforcements, newInventory.length - state.maxReinforcements);
+            } 
 
             state.inventory = newInventory;
         },
