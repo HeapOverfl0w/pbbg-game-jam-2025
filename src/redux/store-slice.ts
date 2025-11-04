@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ActorData, ActorStats, getInitialState, StoreData } from "./actor-data";
 import { createRandomUnit, getEnemyArmy, getEnemyStarterArmy, getStarterArmy } from '../units';
+import { UnitSelection } from "./unit-selection";
 
 const storeSlice = createSlice({
     name: 'store',
@@ -107,13 +108,16 @@ const storeSlice = createSlice({
             };
             
         },
-        victory: (state) => {
+        victory: (state, action: PayloadAction<UnitSelection>) => {
             const newInventory = [...state.inventory];
-            if (state.playerIsDemon) {
-                newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
-            }
-            newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
-            newInventory.push(createRandomUnit(state.currentRound, state.playerIsDemon));
+            action.payload.units.forEach((_, i) => {
+                if (action.payload.selections.includes(i)) {
+                    newInventory.push(_);
+                } else {
+                    // Add to enemy force
+                }
+            });
+
             state.inventory = newInventory;
             state.gold += state.currentRound * 5;
 

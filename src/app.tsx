@@ -16,6 +16,7 @@ import { Header } from './header/header';
 import { useDispatch, useSelector } from 'react-redux';
 import { lose, victory } from './redux/store-slice';
 import { StoreData } from './redux/actor-data';
+import { UnitSelection } from './unit-selection';
 
 type Size = {
   width: number,
@@ -25,7 +26,7 @@ type Size = {
 function App() {
   const [battleRunning, setBattleRunning] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [size, setSize] = useState<Size>({width: 0, height: 0});
+  const [size, setSize] = useState<Size>({ width: 0, height: 0 });
   const [gameUpdateInfo, setGameUpdateInfo] = useState<GameUpdateInfo | undefined>(undefined);
   const [endGameResult, setEndGameResult] = useState<EndGameResult | undefined>(undefined);
   const maxReinforcements = useSelector((state: StoreData) => state.maxReinforcements);
@@ -45,22 +46,10 @@ function App() {
   function endGame(result: EndGameResult) {
     if (result == "PLAYER_DEFEAT") {
       dispatch(lose());
-    } else if (result == "ENEMY_DEFEAT") {
-      dispatch(victory());
     }
 
     setEndGameResult(result);
     setBattleRunning(false);
-  }
-
-  function getEndGameStringFromResult(result: EndGameResult) {
-    if (result == "PLAYER_DEFEAT") {
-      return "DEFEAT! Your army has been slain, but " + maxReinforcements + " reinforcements managed to survive.";
-    } else if (result == "ENEMY_DEFEAT") {
-      return "VICTORY! Your army has destroyed all foes leaving none alive. The next battle awaits against a stronger foe. +2 reinforcements +" + currentRound * 5 + " gold";
-    } else {
-      return "TIE! The battle timer has ran out before a victor was decided. Try with a new formation to vanquish the enemy.";
-    }
   }
 
   return (
@@ -80,21 +69,27 @@ function App() {
               {!battleRunning &&
                 <Battlefield height={size.height} width={size.width} onStart={() => setBattleRunning(true)} />
               }
-              {battleRunning && 
-                <GameCanvas endGameCallback={endGame} gameUpdateCallback={(updateInfo) => setGameUpdateInfo(updateInfo)} showGame={true} />  
+              {battleRunning &&
+                <GameCanvas endGameCallback={endGame} gameUpdateCallback={(updateInfo) => setGameUpdateInfo(updateInfo)} showGame={true} />
               }
-              {battleRunning && gameUpdateInfo && 
-                <GameInfo info={gameUpdateInfo}/>
+              {battleRunning && gameUpdateInfo &&
+                <GameInfo info={gameUpdateInfo} />
               }
             </div>
           </main>
           {!battleRunning && <Footer />}
         </div>
       }
-      {endGameResult && 
+      {endGameResult === "ENEMY_DEFEAT" &&
+        <UnitSelection onNextRound={() => setEndGameResult(undefined)} />
+      }
+      {(endGameResult && endGameResult !== "ENEMY_DEFEAT") &&
         <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur">
-          <dialog className="active absolute center middle" style={{maxWidth: '800px'}}>
-            <p>{getEndGameStringFromResult(endGameResult)}</p>
+          <dialog className="active absolute center middle" style={{ maxWidth: '800px' }}>
+            <h3>{endGameResult === "PLAYER_DEFEAT" ? "DEFEAT!" : "TIE!"}</h3>
+            <p>{endGameResult === "PLAYER_DEFEAT" ?
+              "Your army has been slain, but " + maxReinforcements + " reinforcements managed to survive." :
+              "The battle timer has ran out before a victor was decided. Try with a new formation to vanquish the enemy."}</p>
             <nav className="center-align">
               <button onClick={() => setEndGameResult(undefined)}>OK</button>
             </nav>
