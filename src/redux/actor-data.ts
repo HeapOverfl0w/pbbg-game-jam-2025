@@ -206,7 +206,7 @@ export const getInitialState = (): StoreData => {
                 level: 0,
                 statType: "critChance",
                 value: 0,
-                increasePerLevel: 0.05,
+                increasePerLevel: 0.03,
                 image: "./img/icons/trainingground.png"
             },
         ],
