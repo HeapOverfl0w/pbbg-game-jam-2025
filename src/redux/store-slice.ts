@@ -33,10 +33,15 @@ const storeSlice = createSlice({
                     state.gold -= cost;
                     state.buildings = newBuildings;
 
-                    const teamStatsKey = building.statType as keyof ActorStats;
-                    if (teamStatsKey) {
-                        state.playerTeam.teamStats[teamStatsKey] = building.value;
-                    }                    
+                    if (building.statType == 'maxReinforcements') {
+                        state.maxReinforcements += building.increasePerLevel;
+                    } else {
+                        const teamStatsKey = building.statType as keyof ActorStats;
+                        if (teamStatsKey) {
+                            state.playerTeam.teamStats[teamStatsKey] = building.value;
+                        } 
+                    }
+                                       
                 }                
             }
         },
@@ -72,6 +77,51 @@ const storeSlice = createSlice({
                     value: 0,
                     increasePerLevel: 0.05,
                     image: "./img/icons/mystichut.png"
+                },
+                {
+                    name: "Armorsmith",
+                    description: "Increases pierce resist of all units.",
+                    level: 0,
+                    statType: "pierceResist",
+                    value: 0,
+                    increasePerLevel: 0.05,
+                    image: "./img/icons/armorsmith.png"
+                },
+                {
+                    name: "Shieldsmith",
+                    description: "Increases blunt resist of all units.",
+                    level: 0,
+                    statType: "bluntResist",
+                    value: 0,
+                    increasePerLevel: 0.05,
+                    image: "./img/icons/malletmaker.png"
+                },
+                {
+                    name: "Cathedral",
+                    description: "Increases magic resist of all units.",
+                    level: 0,
+                    statType: "magicResist",
+                    value: 0,
+                    increasePerLevel: 0.05,
+                    image: "./img/icons/mystichut.png"
+                },
+                {
+                    name: "Barracks",
+                    description: "Increases maximum reinforcements on loss.",
+                    level: 0,
+                    statType: "maxReinforcements",
+                    value: 2,
+                    increasePerLevel: 3,
+                    image: "./img/icons/barracks.png"
+                },
+                {
+                    name: "Training Ground",
+                    description: "Increases critical chance of all units.",
+                    level: 0,
+                    statType: "critChance",
+                    value: 0,
+                    increasePerLevel: 0.05,
+                    image: "./img/icons/trainingground.png"
                 },
             ];
 
@@ -253,7 +303,7 @@ const storeSlice = createSlice({
 });
 
 export function getBuildingCost(level: number) {
-    return level * 10;
+    return level * level * 10;
 }
 
 export const { loadStoreState, moveActor, addActor, levelUpBuilding, newGame, victory, lose } = storeSlice.actions

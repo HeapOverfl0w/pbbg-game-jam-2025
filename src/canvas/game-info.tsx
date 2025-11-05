@@ -20,7 +20,7 @@ export function GameInfo({ info }: GameInfoProps ) {
                 <h2>{Math.round(100 - (performance.now() - info.startTime)/1000)}</h2>
             </div>
             <div style={{width: '50vw'}}>
-                <div style={{width: '40vw', border: '2px', borderColor: 'white', borderStyle: 'solid', borderRadius: '0px', display: 'flex', flexDirection: 'row', height: '40px', marginLeft: 'auto', marginRight: '30px'}}>
+                <div style={{width: '40vw', border: '2px', borderColor: 'white', borderStyle: 'solid', borderRadius: '0px', display: 'flex', flexDirection: 'row', height: '40px', marginLeft: 'auto', marginRight: '30px', transform: 'scaleX(-1)'}}>
                     <div style={{width: Math.round(info.enemyTeamHealth / info.maxEnemyTeamHealth * 100) + '%', height: '100%', backgroundColor: '#b62a3c'}}></div>
                 </div>
             </div>

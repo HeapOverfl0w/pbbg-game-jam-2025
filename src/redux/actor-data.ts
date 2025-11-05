@@ -40,7 +40,7 @@ export enum ActorRarityType {
     RARE
 }
 
-export type ActorStatType = keyof ActorStats | 'allResists';
+export type ActorStatType = keyof ActorStats | 'allResists' | 'maxReinforcements';
 
 export enum ActorActionTargetsType {
     SINGLE, // single target
@@ -163,6 +163,51 @@ export const getInitialState = (): StoreData => {
                 value: 0,
                 increasePerLevel: 0.05,
                 image: "./img/icons/mystichut.png"
+            },
+            {
+                name: "Armorsmith",
+                description: "Increases pierce resist of all units.",
+                level: 0,
+                statType: "pierceResist",
+                value: 0,
+                increasePerLevel: 0.05,
+                image: "./img/icons/armorsmith.png"
+            },
+            {
+                name: "Shieldsmith",
+                description: "Increases blunt resist of all units.",
+                level: 0,
+                statType: "bluntResist",
+                value: 0,
+                increasePerLevel: 0.05,
+                image: "./img/icons/malletmaker.png"
+            },
+            {
+                name: "Cathedral",
+                description: "Increases magic resist of all units.",
+                level: 0,
+                statType: "magicResist",
+                value: 0,
+                increasePerLevel: 0.05,
+                image: "./img/icons/mystichut.png"
+            },
+            {
+                name: "Barracks",
+                description: "Increases maximum reinforcements on loss.",
+                level: 0,
+                statType: "maxReinforcements",
+                value: 2,
+                increasePerLevel: 3,
+                image: "./img/icons/barracks.png"
+            },
+            {
+                name: "Training Ground",
+                description: "Increases critical chance of all units.",
+                level: 0,
+                statType: "critChance",
+                value: 0,
+                increasePerLevel: 0.05,
+                image: "./img/icons/trainingground.png"
             },
         ],
         gold: 0,

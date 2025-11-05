@@ -336,8 +336,8 @@ export class Actor {
         //find nearest enemy, make target and attempt to get path
         const nearestEnemy = this.findNearest(map, this.getTargetType());
 
-        if (nearestEnemy) {
-            this.wait(250);
+        if (!nearestEnemy) {
+            this.moveForwardIfCapable(map);          
         }
 
         //if we're already close enough to our target then don't wait or move
@@ -349,14 +349,30 @@ export class Actor {
 
         if (nearestEnemy) {
             this.target = nearestEnemy;
-            this.path = aStar(new Position(this.tileX, this.tileY), new Position(this.target.tileX, this.target.tileY), map.tiles);
+            this.path = aStar(new Position(this.tileX, this.tileY), new Position(this.target.tileX, this.target.tileY), map.tiles, this.data.action.range);
 
             if (!this.path || this.path.length == 0) {
-                this.wait(500);
+                this.moveForwardIfCapable(map);
             } else {
                 this.setState(ActorStateType.MOVING);
             }
         }
+    }
+
+    private moveForwardIfCapable(map: GameMap) {
+        //if we couldn't find an enemy then just try to move forward if we're an attack unit so that 
+        //maybe we can get into range sooner
+        const movementForwardX = this.teamType == ActorTeamType.FRIENDLY ? this.tileX + 1 : this.tileX - 1;
+        if (this.data.action.type == ActorActionType.ATTACK && 
+            (map.tiles[movementForwardX] && !map.tiles[movementForwardX][this.tileY].actor && map.tiles[movementForwardX][this.tileY].passable)) {
+                if (this.data.name == 'Hellhound') {
+                    console.log('here2');
+                }
+                this.path = [new Position(movementForwardX, this.tileY)];
+                this.setState(ActorStateType.MOVING);
+            } else {
+                this.wait(250);
+            }  
     }
 
 
@@ -387,14 +403,14 @@ export class Actor {
                             nearestActor = tile.actor;
                         }
                     } else {
-                        if (!foundTargetInRow && isInRow && this.isRowClearToTarget(map, y, tile.actor)) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
+                        if (!foundTargetInRow && isInRow && this.isRowClearToTarget(map, y, distance, tile.actor)) { //if we haven't found a target in our row, but we're currently in our row use this as our default target
                             nearestDistance = distance;
                             nearestActor = tile.actor;
                             foundTargetInRow = true;
                         } else if (!foundTargetInRow && distance < nearestDistance) { //if we haven't found a target in our row then use the closest target outside of our row
                             nearestDistance = distance;
                             nearestActor = tile.actor;
-                        } else if (foundTargetInRow && isInRow && distance < nearestDistance && this.isRowClearToTarget(map, y, tile.actor)) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
+                        } else if (foundTargetInRow && isInRow && distance < nearestDistance && this.isRowClearToTarget(map, y, distance, tile.actor)) { //if we're in our row and we already found a target in our row, but this one is closer then use this target
                             nearestDistance = distance;
                             nearestActor = tile.actor;
                         }
@@ -408,9 +424,13 @@ export class Actor {
         return nearestActor;
     }
 
-    private isRowClearToTarget(map: GameMap, y: number, target: Actor) {
+    private isRowClearToTarget(map: GameMap, y: number, distance: number, target: Actor) {
         if (y < 0 || y > map.tiles[0].length) {
             return false;
+        }
+
+        if (distance <= this.data.action.range) {
+            return true;
         }
 
         const direction = Math.sign(target.tileX - this.tileX);

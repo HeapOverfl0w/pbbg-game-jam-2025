@@ -492,7 +492,7 @@ const Cherubim: ActorData = {
     rarity: ActorRarityType.RARE,
     stats: {
         level: 1,
-        maxHealth: 16,
+        maxHealth: 18,
         pierceResist: 0.4,
         pierceDamage: 3,
         bluntResist: 0.2,

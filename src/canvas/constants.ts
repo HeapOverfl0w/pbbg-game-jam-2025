@@ -75,6 +75,8 @@ export const getBuffCurseTypeName = (buffCurseType: ActorStatType) => {
             return 'Pierce Damage';
         case 'pierceResist':
             return 'Pierce Resist';
+        case 'maxReinforcements':
+            return 'Reinforcements';
         default:
             return 'Level';
     }

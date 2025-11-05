@@ -40,7 +40,7 @@ export function Item({ item, canDrag }: ItemProps) {
           }
           <img className='responsive small' style={{ aspectRatio: '1/1' }} src={getIconSource()} alt='' />
           <h6 style={{position: 'absolute', bottom: '0px', right: '10px'}}>{item.stats.level}</h6>
-          {item.action.otherActionEffect && <h6 style={{position: 'absolute', top: '5px', left: '5px', margin: '0px', color: '#dfcd7a'}}>X</h6>}
+          {item.action.otherActionEffect != undefined && <h6 style={{position: 'absolute', top: '5px', left: '5px', margin: '0px', color: '#dfcd7a'}}>X</h6>}
           {isDragging && <CustomDragIcon src={getIconSource()}/>}
           <Tooltip open={hover} targetRef={hoverTargetRef}>
             <div style={{display: 'flex', flexDirection: 'column', minWidth: '400px', maxWidth: '500px', alignItems: 'center'}}>

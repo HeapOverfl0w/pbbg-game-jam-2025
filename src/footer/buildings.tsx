@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BuildingData, StoreData } from '../redux/actor-data';
 import { getBuildingCost, levelUpBuilding } from '../redux/store-slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBuffCurseTypeName } from '../canvas/constants';
+import { getBuffCurseTypeName, roundValue2Decimals } from '../canvas/constants';
 import { createPortal } from 'react-dom';
 
 /**
@@ -15,12 +15,12 @@ export function Buildings() {
   const gold = useSelector((state: StoreData) => state.gold);
 
   return (
-    <div style={{ flex: 'auto', width: '100%', height: '100%'}}>
+    <div style={{ flex: 'auto', width: '100%', height: 'calc(100% - 70px)'}}>
       <div className='row horizontal' style={{marginBottom: '20px'}}>
         <h3>Buildings</h3>
         <h4 style={{marginLeft: 'auto'}}>{gold} Gold</h4>
       </div>
-      <div className='row horizontal wrap'>
+      <div className='row horizontal wrap' style={{ width: '100%', height: '100%', overflowY: 'auto', padding: '1em' }}>
         {buildings.map((building) => (
           <Building building={building} />
         ))}
@@ -46,17 +46,17 @@ export function Building({ building }: BuildingProp) {
 
   return (
     <div className='building'>
-      <img style={{ aspectRatio: '1/1', alignItems: 'center', width: '8rem', height: '8rem', marginTop: '10px', marginRight: '5px' }} src={building.image} alt='' />
+      <img style={{ aspectRatio: '1/1', alignItems: 'center', width: '8rem', height: '8rem', margin: '10px' }} src={building.image} alt='' />
       <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%'}}>
           <h5>{building.name}</h5>
           <div style={{display: 'flex', flexDirection: 'row',marginLeft: 'auto', gap: '20px'}}>
             <p style={{marginTop: '20px'}}>Level {building.level}</p>
             <p style={{marginTop: '20px'}}>{getBuildingCost(building.level + 1)} Gold</p>
-            <button style={{margin: '0px'}} onClick={() => gold < getBuildingCost(building.level + 1) ? setShowDeny(true) : setShowAccept(true)}>+</button>
+            {building.level < 5 && <button style={{margin: '0px'}} onClick={() => gold < getBuildingCost(building.level + 1) ? setShowDeny(true) : setShowAccept(true)}>+</button>}
           </div>
         </div>
-        <p>{getBuffCurseTypeName(building.statType)} : +{building.value}</p>
+        <p>{getBuffCurseTypeName(building.statType)} : +{building.statType == 'maxReinforcements' ? building.value : roundValue2Decimals(building.value * 100) + '%'}</p>
         <p style={{marginBottom: '10px'}}>{building.description}</p>
       </div>
       {showAccept && 

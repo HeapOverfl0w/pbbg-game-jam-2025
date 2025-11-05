@@ -1,3 +1,4 @@
+import { distanceFormula } from "./constants";
 import { Tile } from "./game-map";
 
 export class Position {
@@ -23,7 +24,7 @@ function getChildrenTiles (position: Position): Position[] {
     ]
 }
 
-export function aStar(start: Position, end: Position, collisionMap: Tile[][], searchLimit = 9999) {
+export function aStar(start: Position, end: Position, collisionMap: Tile[][], range: number = 9999, searchLimit: number = 9999) {
     start.g = 0;
     start.h = 0;
     start.f = 0;
@@ -55,7 +56,7 @@ export function aStar(start: Position, end: Position, collisionMap: Tile[][], se
         stepCount++;
 
         //found the goal
-        if (end.x === currentNode.x && end.y === currentNode.y) {
+        if (end.x === currentNode.x && end.y === currentNode.y || distanceFormula(end.x, end.y, currentNode.x, currentNode.y) <= range) {
             let path = [];
             let current: Position | undefined = currentNode;
             while (current) {
