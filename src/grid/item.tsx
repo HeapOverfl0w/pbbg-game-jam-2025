@@ -5,6 +5,8 @@ import { ActorActionType, ActorColorType, ActorData, ActorOtherEffectsType, Acto
 import { getBuffCurseTypeName, getColorFromType, getOtherEffectsTypeDescription, getRarityColorFromType, getRarityNameFromType, roundValue2Decimals } from '../canvas/constants';
 import { ActionTargetsIndicator } from './action-targets-indicator';
 import { CustomDragIcon } from '../custom-cursor';
+import { useDispatch } from 'react-redux';
+import { setFavorite } from '../redux/store-slice';
 
 export type ItemProps = {
   item: ActorData;
@@ -14,6 +16,7 @@ export type ItemProps = {
 export function Item({ item, canDrag }: ItemProps) {
   const [hover, setHover] = useState(false);
   const hoverTargetRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
 
   const [{ isDragging}, drag] = useDrag(() => ({
     type: 'item',
@@ -40,6 +43,11 @@ export function Item({ item, canDrag }: ItemProps) {
           }
           <img className='responsive small' style={{ aspectRatio: '1/1' }} src={getIconSource()} alt='' />
           <h6 style={{position: 'absolute', bottom: '0px', right: '10px'}}>{item.stats.level}</h6>
+          {canDrag && 
+            <button style={{position: 'absolute', top: '0px', right: '5px', zIndex: 50, border: '0px', padding: '0px', margin: '0px'}} onClick={() => dispatch(setFavorite(item.id))}>
+              <i className={item.favorite ? 'fill' : ''} style={item.favorite ? {color: '#b62a3c'} : undefined}>favorite</i>
+            </button>
+          }
           {item.action.otherActionEffect != undefined && <h6 style={{position: 'absolute', top: '5px', left: '5px', margin: '0px', color: '#dfcd7a'}}>X</h6>}
           {isDragging && <CustomDragIcon src={getIconSource()}/>}
           <Tooltip open={hover} targetRef={hoverTargetRef}>

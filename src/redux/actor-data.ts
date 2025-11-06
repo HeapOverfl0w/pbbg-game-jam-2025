@@ -6,6 +6,7 @@ export type ActorData = {
     color: ActorColorType;
     stats: ActorStats;
     action: ActorActionData;
+    favorite?: boolean;
 }
 
 export type ActorStats = {
@@ -147,7 +148,7 @@ export const getInitialState = (): StoreData => {
                 image: "./img/icons/swordsmith.png"
             },
             {
-                name: "Mallet Maker",
+                name: "Lumber Mill",
                 description: "Increases blunt damage of all units.",
                 level: 0,
                 statType: "bluntDamage",
@@ -170,16 +171,16 @@ export const getInitialState = (): StoreData => {
                 level: 0,
                 statType: "pierceResist",
                 value: 0,
-                increasePerLevel: 0.05,
+                increasePerLevel: 0.04,
                 image: "./img/icons/armorsmith.png"
             },
             {
-                name: "Shieldsmith",
+                name: "Mason",
                 description: "Increases blunt resist of all units.",
                 level: 0,
                 statType: "bluntResist",
                 value: 0,
-                increasePerLevel: 0.05,
+                increasePerLevel: 0.04,
                 image: "./img/icons/malletmaker.png"
             },
             {
@@ -188,7 +189,7 @@ export const getInitialState = (): StoreData => {
                 level: 0,
                 statType: "magicResist",
                 value: 0,
-                increasePerLevel: 0.05,
+                increasePerLevel: 0.04,
                 image: "./img/icons/mystichut.png"
             },
             {

@@ -61,7 +61,7 @@ const storeSlice = createSlice({
                     image: "./img/icons/swordsmith.png"
                 },
                 {
-                    name: "Mallet Maker",
+                    name: "Lumber Mill",
                     description: "Increases blunt damage of all units.",
                     level: 0,
                     statType: "bluntDamage",
@@ -84,16 +84,16 @@ const storeSlice = createSlice({
                     level: 0,
                     statType: "pierceResist",
                     value: 0,
-                    increasePerLevel: 0.05,
+                    increasePerLevel: 0.04,
                     image: "./img/icons/armorsmith.png"
                 },
                 {
-                    name: "Shieldsmith",
+                    name: "Mason",
                     description: "Increases blunt resist of all units.",
                     level: 0,
                     statType: "bluntResist",
                     value: 0,
-                    increasePerLevel: 0.05,
+                    increasePerLevel: 0.04,
                     image: "./img/icons/malletmaker.png"
                 },
                 {
@@ -102,7 +102,7 @@ const storeSlice = createSlice({
                     level: 0,
                     statType: "magicResist",
                     value: 0,
-                    increasePerLevel: 0.05,
+                    increasePerLevel: 0.04,
                     image: "./img/icons/mystichut.png"
                 },
                 {
@@ -227,6 +227,7 @@ const storeSlice = createSlice({
             const newInventory = [...state.inventory];
             newInventory.sort((item1, item2) => (item2.stats.level + (item2.action.otherActionEffect ? 1 : 0)) - (item1.stats.level + (item1.action.otherActionEffect ? 1 : 0)));
             newInventory.sort((item1, item2) => item2.rarity - item1.rarity);
+            newInventory.sort((item1, item2) => (item2.favorite ? 1 : 0) - (item1.favorite ? 1 : 0))
             if (newInventory.length > state.maxReinforcements) {
                 newInventory.splice(state.maxReinforcements, newInventory.length - state.maxReinforcements);
             } 
@@ -299,6 +300,23 @@ const storeSlice = createSlice({
                 }
             }
         },
+        setFavorite: (state, action: PayloadAction<string>) => {
+            const newPlayerTeam = Object.assign({}, state.playerTeam);
+            const newInventory = [...state.inventory];
+            const playerTeamActors = newPlayerTeam.actors.flat();
+            let actor = playerTeamActors.find((actor) => actor?.id == action.payload);
+
+            if (!actor) {
+                actor = newInventory.find((actor) => actor?.id == action.payload);
+            }
+
+            if (actor) {
+                actor.favorite = !actor.favorite;
+            }
+
+            state.playerTeam = newPlayerTeam;
+            state.inventory = newInventory;
+        }
     }
 });
 
@@ -306,6 +324,6 @@ export function getBuildingCost(level: number) {
     return level * level * 10;
 }
 
-export const { loadStoreState, moveActor, addActor, levelUpBuilding, newGame, victory, lose } = storeSlice.actions
+export const { loadStoreState, moveActor, addActor, levelUpBuilding, newGame, victory, lose, setFavorite } = storeSlice.actions
 
 export default storeSlice.reducer;
