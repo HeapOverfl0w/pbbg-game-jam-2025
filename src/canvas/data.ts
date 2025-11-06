@@ -847,7 +847,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 13
+            offsetY: 2
         });
         this.createAnimation({
             name: 'blue_red_herring',
@@ -860,7 +860,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 13
+            offsetY: 2
         });
         this.createAnimation({
             name: 'purple_red_herring',
@@ -873,7 +873,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 13
+            offsetY: 2
         });
     }
 

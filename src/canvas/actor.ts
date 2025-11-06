@@ -387,7 +387,7 @@ export class Actor {
 
     private findNearest(map: GameMap, findTeamType: ActorTeamType): Actor | undefined {
         let nearestActor: Actor | undefined = undefined;
-        let nearestDistance = Infinity;
+        let nearestDistance = this.data.action.type == ActorActionType.BUFF ? -1 : Infinity;
         let foundTargetInRow = false;
 
         for (let x = 0; x < map.tiles.length; x++) {
@@ -401,6 +401,20 @@ export class Actor {
                         if (tile.actor.health < tile.actor.maxHealth && distance < nearestDistance) {
                             nearestDistance = distance;
                             nearestActor = tile.actor;
+                        }
+                    } else if (this.data.action.type == ActorActionType.BUFF) {
+                        //buff the farthest target away
+                        if (!foundTargetInRow && isInRow && distance <= this.data.action.range) {
+                            nearestDistance = distance;
+                            nearestActor = tile.actor;
+                            foundTargetInRow = true;
+                        } else if (!foundTargetInRow && distance <= this.data.action.range && nearestDistance < distance) {
+                            nearestDistance = distance;
+                            nearestActor = tile.actor;
+                        } else if (foundTargetInRow && isInRow && distance <= this.data.action.range && nearestDistance < distance) {
+                            nearestDistance = distance;
+                            nearestActor = tile.actor;
+                            foundTargetInRow = true;
                         }
                     } else {
                         if (!foundTargetInRow && isInRow && this.isRowClearToTarget(map, y, distance, tile.actor)) { //if we haven't found a target in our row, but we're currently in our row use this as our default target

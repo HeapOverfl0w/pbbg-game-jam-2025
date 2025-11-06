@@ -608,8 +608,8 @@ const Hellraiser: ActorData = {
         bluntResist: 0,
         bluntDamage: 0,
         magicResist: 0.3,
-        magicDamage: 3,
-        actionSpeed: 1200,
+        magicDamage: 2,
+        actionSpeed: 1000,
         critChance: 0.2
     },
     action: {

@@ -42,7 +42,7 @@ export function Item({ item, canDrag, isOnBattlefield }: ItemProps) {
           {hover &&
             <div style={{ position: 'absolute', zIndex: 1, width: '100%', height: '100%', background: 'rgba(172, 164, 164, 0.35)' }}></div>
           }
-          <img className='responsive small' style={{ aspectRatio: '1/1' }} src={getIconSource()} alt='' />
+          <img className='responsive small' style={canDrag ? { aspectRatio: '1/1'} : { aspectRatio: '1/1', transform: 'scaleX(-1)' }} src={getIconSource()} alt='' />
           <h6 style={{position: 'absolute', bottom: '0px', right: '10px'}}>{item.stats.level}</h6>
           {canDrag && !isOnBattlefield && 
             <button style={{position: 'absolute', top: '0px', right: '5px', zIndex: 50, border: '0px', padding: '0px', margin: '0px'}} onClick={() => dispatch(setFavorite(item.id))}>
@@ -125,14 +125,22 @@ export function Item({ item, canDrag, isOnBattlefield }: ItemProps) {
                         <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{getBuffCurseTypeName(item.action.buffCurseStatType)}</p>
                       </div>
                     }
-                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) ?
+                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) &&
                       (<div className='statline'>
                         <p>Buff Amount</p>
                         <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage * 100)} %</p>
-                      </div>) :
+                      </div>) 
+                    }
+                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && !isPercentageBasedStat(item.action.buffCurseStatType) && item.action.buffCurseStatType != 'actionSpeed' &&
                       (<div className='statline'>
                         <p>Buff Amount</p>
                         <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
+                      </div>)
+                    }
+                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && !isPercentageBasedStat(item.action.buffCurseStatType) && item.action.buffCurseStatType == 'actionSpeed' &&
+                      (<div className='statline'>
+                        <p>Buff Amount</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage / 1000)} Seconds</p>
                       </div>)
                     }
                   </div>

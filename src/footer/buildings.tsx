@@ -64,7 +64,7 @@ export function Building({ building }: BuildingProp) {
         <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur">
           <dialog className="active absolute center middle">
             <p>Are you sure you want to upgrade {building.name} for {getBuildingCost(building.level + 1)} gold?</p>
-            <nav className='right-align no-space'>
+            <nav className="center-align">
               <button onClick={levelUp}>Yes</button>
               <button onClick={() => setShowAccept(false)}>No</button>
             </nav>
