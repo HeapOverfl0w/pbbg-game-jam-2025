@@ -834,6 +834,47 @@ class DataLoader {
             offsetX: 0,
             offsetY: 13
         });
+
+        //red herring
+        this.createAnimation({
+            name: 'green_red_herring',
+            textureName: 'units',
+            frameX: 238,
+            frameY: 45,
+            frameWidth: 32,
+            frameHeight: 22,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
+        this.createAnimation({
+            name: 'blue_red_herring',
+            textureName: 'units',
+            frameX: 238,
+            frameY: 45,
+            frameWidth: 32,
+            frameHeight: 22,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
+        this.createAnimation({
+            name: 'purple_red_herring',
+            textureName: 'units',
+            frameX: 238,
+            frameY: 45,
+            frameWidth: 32,
+            frameHeight: 22,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 13
+        });
     }
 
     public getStatus() {

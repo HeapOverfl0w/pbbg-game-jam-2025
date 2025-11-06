@@ -5,7 +5,7 @@ import { ActorActionTargetsType, ActorActionType, ActorColorType, ActorData, Act
 import { v4 as uuidv4 } from "uuid";
 
 
-export function createRandomUnit(currentLevel: number, isDemon: boolean) {
+export function createRandomUnit(currentLevel: number, isDemon: boolean, redHerringOverride: boolean = false) {
     const randomRarity = Math.random();
     const randomType = Math.random();
     let rarity = ActorRarityType.COMMON;
@@ -28,10 +28,10 @@ export function createRandomUnit(currentLevel: number, isDemon: boolean) {
         type = ActorActionType.HEAL;
     }
 
-    return createUnit(currentLevel, isDemon, rarity, type);
+    return createUnit(currentLevel, isDemon, rarity, type, redHerringOverride);
 }
 
-export function createUnit(currentLevel: number, isDemon: boolean, rarity: ActorRarityType, type: ActorActionType) {
+export function createUnit(currentLevel: number, isDemon: boolean, rarity: ActorRarityType, type: ActorActionType, redHerringOverride: boolean = false) {
     const unitLevel = 1 + Math.round(Math.random() * (currentLevel / 5));
     const units = isDemon ? ALL_DEMONS : ALL_ANGELS;
     let unitOptions = [];
@@ -42,6 +42,10 @@ export function createUnit(currentLevel: number, isDemon: boolean, rarity: Actor
         unitOptions = units.filter((unit) => unit.action.type == ActorActionType.BUFF || unit.action.type == ActorActionType.CURSE);
     } else {
         unitOptions = units.filter((unit) => unit.action.type == ActorActionType.HEAL);
+    }
+
+    if (Math.random() < 0.003 || redHerringOverride) {
+        unitOptions = [RedHerring];
     }
 
     let returnValue = structuredClone(unitOptions[Math.round(Math.random() * (unitOptions.length - 1))]);
@@ -202,7 +206,7 @@ export function getEnemyArmy(level: number, isDemon: boolean) {
             levelHandicap = level + 30;
         }
 
-        enemies.push(createRandomUnit(levelHandicap, isDemon));
+        enemies.push(createRandomUnit(levelHandicap, isDemon, level == 10));
     }
 
     //if the enemy count is over the board size then cut units based on their rarity
@@ -510,6 +514,32 @@ const Cherubim: ActorData = {
     }
 }
 
+const RedHerring: ActorData = {
+    id: "redherring-data",
+    name: "Red Herring",
+    description: "What the?! How'd this get in here?",
+    color: ActorColorType.GREEN,
+    rarity: ActorRarityType.RARE,
+    stats: {
+        level: 1,
+        maxHealth: 12,
+        pierceResist: 0.2,
+        pierceDamage: 0,
+        bluntResist: 0.2,
+        bluntDamage: 0,
+        magicResist: 0.2,
+        magicDamage: 2,
+        actionSpeed: 500,
+        critChance: 0.5
+    },
+    action: {
+        type: ActorActionType.ATTACK,
+        range: 1,
+        targets: ActorActionTargetsType.SINGLE,
+        otherActionEffect: ActorOtherEffectsType.FAST
+    }
+} 
+
 const ALL_ANGELS = [Knight, Ranger, SinSlayer, Monk, HealMonk, Valkyrie, Penitent, Bugler, Eagle, Seraphim, Cherubim];
 // #endregion
 
@@ -631,7 +661,7 @@ const Drake: ActorData = {
         magicResist: 0.3,
         magicDamage: 2,
         actionSpeed: 2000,
-        critChance: 0.65
+        critChance: 0.5
     },
     action: {
         type: ActorActionType.ATTACK,

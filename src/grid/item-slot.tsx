@@ -51,7 +51,7 @@ export function ItemSlot(props: ItemSlotProps) {
     <div className={'no-padding'} ref={ref as any} style={props.data == undefined ? {border: '2px solid white'} : {}}>
       <div>
         {(props.data !== undefined && props.data !== null) &&
-          <Item item={props.data} canDrag={props.canDrag}/>
+          <Item item={props.data} canDrag={props.canDrag} isOnBattlefield/>
         }
         {(props.data === undefined || props.data === null) &&
           <img className='responsive small' style={{ aspectRatio: '1/1' }} src={undefined} alt='' />

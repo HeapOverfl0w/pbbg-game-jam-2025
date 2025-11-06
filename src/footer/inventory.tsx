@@ -44,7 +44,7 @@ export function Inventory() {
         <div className='row horizontal wrap'>
           {
             inventory.map((actor, i) => {
-              return <Item item={actor} canDrag/>
+              return <Item item={actor} canDrag isOnBattlefield={false}/>
             })
           }
         </div>

@@ -11,9 +11,10 @@ import { setFavorite } from '../redux/store-slice';
 export type ItemProps = {
   item: ActorData;
   canDrag: boolean;
+  isOnBattlefield: boolean;
 }
 
-export function Item({ item, canDrag }: ItemProps) {
+export function Item({ item, canDrag, isOnBattlefield }: ItemProps) {
   const [hover, setHover] = useState(false);
   const hoverTargetRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ export function Item({ item, canDrag }: ItemProps) {
           }
           <img className='responsive small' style={{ aspectRatio: '1/1' }} src={getIconSource()} alt='' />
           <h6 style={{position: 'absolute', bottom: '0px', right: '10px'}}>{item.stats.level}</h6>
-          {canDrag && 
+          {canDrag && !isOnBattlefield && 
             <button style={{position: 'absolute', top: '0px', right: '5px', zIndex: 50, border: '0px', padding: '0px', margin: '0px'}} onClick={() => dispatch(setFavorite(item.id))}>
               <i className={item.favorite ? 'fill' : ''} style={item.favorite ? {color: '#b62a3c'} : undefined}>favorite</i>
             </button>
