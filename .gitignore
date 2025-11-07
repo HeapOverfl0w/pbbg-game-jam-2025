@@ -28,7 +28,6 @@ bin/
 obj/
 TestResults/
 .vs/
-dist/
 Client/dist/
 wwwroot/
 ###################
