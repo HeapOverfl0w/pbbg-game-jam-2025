@@ -66,7 +66,8 @@ export enum ActorOtherEffectsType {
     PIERCE,
     ACCURATE,
     THORNS,
-    INSTANT
+    INSTANT,
+    UNWAIVERING
 }
 
 export type ActorActionData = {
@@ -156,7 +157,7 @@ export const getInitialState = (): StoreData => {
                 statType: "bluntDamage",
                 value: 0,
                 increasePerLevel: 0.05,
-                image: "./img/icons/malletmaker.png"
+                image: "./img/icons/lumbermill.png"
             },
             {
                 name: "Mystic Hut",
@@ -183,7 +184,7 @@ export const getInitialState = (): StoreData => {
                 statType: "bluntResist",
                 value: 0,
                 increasePerLevel: 0.04,
-                image: "./img/icons/malletmaker.png"
+                image: "./img/icons/mason.png"
             },
             {
                 name: "Cathedral",
@@ -192,7 +193,7 @@ export const getInitialState = (): StoreData => {
                 statType: "magicResist",
                 value: 0,
                 increasePerLevel: 0.04,
-                image: "./img/icons/mystichut.png"
+                image: "./img/icons/cathedral.png"
             },
             {
                 name: "Barracks",
@@ -204,13 +205,13 @@ export const getInitialState = (): StoreData => {
                 image: "./img/icons/barracks.png"
             },
             {
-                name: "Training Ground",
+                name: "Training Grounds",
                 description: "Increases critical chance of all units.",
                 level: 0,
                 statType: "critChance",
                 value: 0,
                 increasePerLevel: 0.03,
-                image: "./img/icons/trainingground.png"
+                image: "./img/icons/traininggrounds.png"
             },
         ],
         gold: 0,

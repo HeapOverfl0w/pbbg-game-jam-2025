@@ -230,6 +230,31 @@ export function getEnemyArmy(level: number, isDemon: boolean) {
 }
 
 // #region ANGELS
+const Legionnaire: ActorData = {
+    id: "legionnaire-data",
+    name: "Legionnaire",
+    description: "Stout shieldbearer whose duty resides on the front lines of battle.",
+    color: ActorColorType.GREEN,
+    rarity: ActorRarityType.UNCOMMON,
+    stats: {
+        level: 1,
+        maxHealth: 17,
+        pierceResist: 0.5,
+        pierceDamage: 0,
+        bluntResist: 0.5,
+        bluntDamage: 2,
+        magicResist: 0.5,
+        magicDamage: 0,
+        actionSpeed: 2500,
+        critChance: 0
+    },
+    action: {
+        type: ActorActionType.ATTACK,
+        range: 1,
+        targets: ActorActionTargetsType.SINGLE,
+    }
+};
+
 const Knight: ActorData = {
     id: "knight-data",
     name: "Knight",
@@ -540,10 +565,35 @@ const RedHerring: ActorData = {
     }
 } 
 
-const ALL_ANGELS = [Knight, Ranger, SinSlayer, Monk, HealMonk, Valkyrie, Penitent, Bugler, Eagle, Seraphim, Cherubim];
+const ALL_ANGELS = [Knight, Ranger, SinSlayer, Monk, HealMonk, Valkyrie, Penitent, Bugler, Eagle, Seraphim, Cherubim, Legionnaire];
 // #endregion
 
 // #region DEMONS
+const Brute: ActorData = {
+    id: "brute-data",
+    name: "Brute",
+    description: "A horrifically muscular meat shield meant for front line battle.",
+    color: ActorColorType.GREEN,
+    rarity: ActorRarityType.UNCOMMON,
+    stats: {
+        level: 1,
+        maxHealth: 17,
+        pierceResist: 0.5,
+        pierceDamage: 0,
+        bluntResist: 0.5,
+        bluntDamage: 2,
+        magicResist: 0.5,
+        magicDamage: 0,
+        actionSpeed: 2500,
+        critChance: 0
+    },
+    action: {
+        type: ActorActionType.ATTACK,
+        range: 1,
+        targets: ActorActionTargetsType.SINGLE,
+    }
+};
+
 const Dominator: ActorData = {
     id: "dominator-data",
     name: "Dominator",
@@ -823,5 +873,5 @@ const SkeletonKing: ActorData = {
     }
 }
 
-const ALL_DEMONS = [Dominator, Hellhound, Hellraiser, Balrog, Witch, HealWitch, ImpSoldier, ImpArcher, Skeleton, SkeletonKing, Drake];
+const ALL_DEMONS = [Dominator, Hellhound, Hellraiser, Balrog, Witch, HealWitch, ImpSoldier, ImpArcher, Skeleton, SkeletonKing, Drake, Brute];
 // #endregion

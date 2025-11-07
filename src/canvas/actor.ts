@@ -163,6 +163,10 @@ export class Actor {
     }
 
     curse(stat: ActorStatType, amount: number) {
+        if (this.data.action.otherActionEffect == ActorOtherEffectsType.UNWAIVERING) {
+            return; //can't be cursed
+        }
+        
         switch (stat) {
             case 'pierceResist':
                 this.pierceResist -= amount;

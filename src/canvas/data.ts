@@ -860,7 +860,7 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 2
+            offsetY: 0
         });
         this.createAnimation({
             name: 'purple_red_herring',
@@ -873,7 +873,89 @@ class DataLoader {
             frameCount: 1,
             loop: false,
             offsetX: 0,
-            offsetY: 2
+            offsetY: 0
+        });
+
+        //legionnaire
+        this.createAnimation({
+            name: 'green_legionnaire',
+            textureName: 'units',
+            frameX: 417,
+            frameY: 122,
+            frameWidth: 24,
+            frameHeight: 43,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 7
+        });
+        this.createAnimation({
+            name: 'blue_legionnaire',
+            textureName: 'units',
+            frameX: 441,
+            frameY: 122,
+            frameWidth: 24,
+            frameHeight: 43,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 7
+        });
+        this.createAnimation({
+            name: 'purple_legionnaire',
+            textureName: 'units',
+            frameX: 465,
+            frameY: 122,
+            frameWidth: 24,
+            frameHeight: 43,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 7
+        });
+
+        //brute
+        this.createAnimation({
+            name: 'green_brute',
+            textureName: 'units',
+            frameX: 489,
+            frameY: 128,
+            frameWidth: 34,
+            frameHeight: 37,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 1
+        });
+        this.createAnimation({
+            name: 'blue_brute',
+            textureName: 'units',
+            frameX: 523,
+            frameY: 128,
+            frameWidth: 34,
+            frameHeight: 37,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 1
+        });
+        this.createAnimation({
+            name: 'purple_brute',
+            textureName: 'units',
+            frameX: 557,
+            frameY: 128,
+            frameWidth: 34,
+            frameHeight: 37,
+            frameSpeed: 0,
+            frameCount: 1,
+            loop: false,
+            offsetX: 0,
+            offsetY: 1
         });
     }
 

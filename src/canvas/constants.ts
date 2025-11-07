@@ -104,6 +104,8 @@ export const getOtherEffectsTypeDescription = (otherActionType: ActorOtherEffect
             return 'Thorns : 30% damage reflected back to attacker.'
         case ActorOtherEffectsType.INSTANT:
             return 'Instant : Damage dealt instantly instead of a projectile.'
+        case ActorOtherEffectsType.UNWAIVERING:
+            return 'Unwaivering : Unable to be cursed.'
         default:
             return '';
     }

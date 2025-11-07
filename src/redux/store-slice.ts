@@ -68,7 +68,7 @@ const storeSlice = createSlice({
                     statType: "bluntDamage",
                     value: 0,
                     increasePerLevel: 0.05,
-                    image: "./img/icons/malletmaker.png"
+                    image: "./img/icons/lumbermill.png"
                 },
                 {
                     name: "Mystic Hut",
@@ -95,7 +95,7 @@ const storeSlice = createSlice({
                     statType: "bluntResist",
                     value: 0,
                     increasePerLevel: 0.04,
-                    image: "./img/icons/malletmaker.png"
+                    image: "./img/icons/mason.png"
                 },
                 {
                     name: "Cathedral",
@@ -104,7 +104,7 @@ const storeSlice = createSlice({
                     statType: "magicResist",
                     value: 0,
                     increasePerLevel: 0.04,
-                    image: "./img/icons/mystichut.png"
+                    image: "./img/icons/cathedral.png"
                 },
                 {
                     name: "Barracks",
@@ -116,15 +116,15 @@ const storeSlice = createSlice({
                     image: "./img/icons/barracks.png"
                 },
                 {
-                    name: "Training Ground",
+                    name: "Training Grounds",
                     description: "Increases critical chance of all units.",
                     level: 0,
                     statType: "critChance",
                     value: 0,
                     increasePerLevel: 0.03,
-                    image: "./img/icons/trainingground.png"
+                    image: "./img/icons/traininggrounds.png"
                 },
-            ];
+            ],
 
             state.playerTeam = {
                 actors: getStarterArmy(state.playerIsDemon),
