@@ -32,7 +32,7 @@ export function Item({ item, canDrag, isOnBattlefield }: ItemProps) {
   }
 
   function getIconSource() {
-    return './img/icons/' + ActorColorType[item.color] + '_' + item.name.toLowerCase().replace(' ', '_') + '.png';
+    return './img/icons/' + ActorColorType[item.color].toLowerCase() + '_' + item.name.toLowerCase().replace(' ', '_') + '.png';
   }
 
   return (

@@ -24,7 +24,7 @@ export function UnitSelection(props: UnitSelectionProps) {
   ]);
 
   function getIconSource(unit: ActorData) {
-    return './img/icons/' + ActorColorType[unit.color] + '_' + unit.name.toLowerCase().replace(' ', '_') + '.png';
+    return './img/icons/' + ActorColorType[unit.color].toLowerCase() + '_' + unit.name.toLowerCase().replace(' ', '_') + '.png';
   }
 
   function isPercentageBasedStat(statType: ActorStatType) {

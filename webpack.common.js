@@ -1,5 +1,6 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const htmlPlugin = new HtmlWebPackPlugin({
  template: "./src/index.html",
@@ -44,5 +45,15 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
- plugins: [htmlPlugin]
+  output: {
+    path: path.resolve(__dirname, 'docs')
+  },
+  plugins: [
+    htmlPlugin,
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public', to: '.' }, // copy all from public → docs/
+      ],
+    }),
+  ]
 };
