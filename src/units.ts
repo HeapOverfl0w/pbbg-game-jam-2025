@@ -91,13 +91,13 @@ function randomizeBuffCurseUnit(unit: ActorData, type: ActorActionType) {
         unit.stats.magicDamage = roundValue2Decimals(0.05 + Math.random() * 0.1);
     } else if (randomStatType > 0.55) {
         unit.action.buffCurseStatType = 'pierceDamage';
-        unit.stats.magicDamage = roundValue2Decimals(1 + Math.round(Math.random() * 2));
+        unit.stats.magicDamage = roundValue2Decimals(1 + Math.random());
     } else if (randomStatType > 0.45) {
         unit.action.buffCurseStatType = 'bluntDamage';
-        unit.stats.magicDamage = roundValue2Decimals(1 + Math.round(Math.random() * 2));
+        unit.stats.magicDamage = roundValue2Decimals(1 + Math.random());
     } else if (randomStatType > 0.35) {
         unit.action.buffCurseStatType = 'magicDamage';
-        unit.stats.magicDamage = roundValue2Decimals(1 + Math.round(Math.random() * 2));
+        unit.stats.magicDamage = roundValue2Decimals(1 + Math.random());
     } else if (randomStatType > 0.25) {
         unit.action.buffCurseStatType = 'critChance';
         unit.stats.magicDamage = roundValue2Decimals(0.05 + Math.random() * 0.1);
