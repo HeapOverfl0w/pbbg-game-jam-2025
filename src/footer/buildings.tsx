@@ -52,7 +52,7 @@ export function Building({ building }: BuildingProp) {
           <h5>{building.name}</h5>
           <div style={{display: 'flex', flexDirection: 'row',marginLeft: 'auto', gap: '20px'}}>
             <p style={{marginTop: '20px'}}>Level {building.level}</p>
-            <p style={{marginTop: '20px'}}>{getBuildingCost(building.level + 1)} Gold</p>
+            {building.level < 5 && <p style={{marginTop: '20px'}}>{getBuildingCost(building.level + 1)} Gold</p>}
             {building.level < 5 && <button style={{margin: '0px'}} onClick={() => gold < getBuildingCost(building.level + 1) ? setShowDeny(true) : setShowAccept(true)}>+</button>}
           </div>
         </div>

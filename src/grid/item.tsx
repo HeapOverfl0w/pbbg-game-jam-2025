@@ -157,14 +157,22 @@ export function Item({ item, canDrag, isOnBattlefield }: ItemProps) {
                         <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{getBuffCurseTypeName(item.action.buffCurseStatType)}</p>
                       </div>
                     }
-                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) ?
+                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && isPercentageBasedStat(item.action.buffCurseStatType) &&
                       (<div className='statline'>
                         <p>Curse Amount</p>
                         <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage * 100)} %</p>
-                      </div>) :
+                      </div>) 
+                    }
+                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && !isPercentageBasedStat(item.action.buffCurseStatType) && item.action.buffCurseStatType != 'actionSpeed' &&
                       (<div className='statline'>
                         <p>Curse Amount</p>
                         <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage)}</p>
+                      </div>)
+                    }
+                    {item.stats.magicDamage > 0 && item.action.buffCurseStatType && !isPercentageBasedStat(item.action.buffCurseStatType) && item.action.buffCurseStatType == 'actionSpeed' &&
+                      (<div className='statline'>
+                        <p>Curse Amount</p>
+                        <p style={{marginLeft: 'auto', marginBottom: '15px'}}>{roundValue2Decimals(item.stats.magicDamage / 1000)} Seconds</p>
                       </div>)
                     }
                   </div>

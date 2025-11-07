@@ -116,10 +116,10 @@ function modifyStatsForLevel(unit: ActorData, level: number) {
     if (level > 1) {
         const levelModifier = Math.pow(0.2 * (level - 1), 1.2);
         unit.stats.level = level;
-        unit.stats.maxHealth = Math.round(unit.stats.maxHealth * (1 + levelModifier - (Math.random() * 0.1)));
-        unit.stats.pierceDamage = Math.round(unit.stats.pierceDamage * (1 + levelModifier - (Math.random() * 0.1)));
-        unit.stats.bluntDamage = Math.round(unit.stats.bluntDamage * (1 + levelModifier - (Math.random() * 0.1)));
-        unit.stats.magicDamage = unit.action.type == ActorActionType.BUFF || unit.action.type == ActorActionType.CURSE ? roundValue2Decimals(unit.stats.magicDamage * (1 + levelModifier - (Math.random() * 0.1))) : Math.round(unit.stats.magicDamage * (1 + levelModifier - (Math.random() * 0.1)));
+        unit.stats.maxHealth = roundValue2Decimals(unit.stats.maxHealth * (1 + levelModifier - (Math.random() * 0.1)));
+        unit.stats.pierceDamage = roundValue2Decimals(unit.stats.pierceDamage * (1 + levelModifier - (Math.random() * 0.1)));
+        unit.stats.bluntDamage = roundValue2Decimals(unit.stats.bluntDamage * (1 + levelModifier - (Math.random() * 0.1)));
+        unit.stats.magicDamage = unit.action.type == ActorActionType.BUFF || unit.action.type == ActorActionType.CURSE ? roundValue2Decimals(unit.stats.magicDamage * (1 + levelModifier - (Math.random() * 0.1))) : roundValue2Decimals(unit.stats.magicDamage * (1 + levelModifier - (Math.random() * 0.1)));
         unit.stats.pierceResist = roundValue2Decimals(unit.stats.pierceResist * (1 + levelModifier - (Math.random() * 0.1)));
         unit.stats.bluntResist = roundValue2Decimals(unit.stats.bluntResist * (1 + levelModifier - (Math.random() * 0.1)));
         unit.stats.magicResist = roundValue2Decimals(unit.stats.magicResist * (1 + levelModifier - (Math.random() * 0.1)));

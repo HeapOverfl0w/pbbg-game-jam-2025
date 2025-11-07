@@ -70,22 +70,42 @@ export class Projectile {
 
         // Check for collisions with the map
         const collisionChecks = [];
-        collisionChecks.push(Math.floor(this.x / TILE_WIDTH));
+        const tileX = Math.round(this.x / TILE_WIDTH);
+        const tileY = Math.round(this.y / TILE_HEIGHT);
+        collisionChecks.push(tileX);
+        collisionChecks.push(tileY);
+        collisionChecks.push(tileX + 1);
+        collisionChecks.push(tileY);
+        collisionChecks.push(tileX - 1);
+        collisionChecks.push(tileY);
+        collisionChecks.push(tileX);
+        collisionChecks.push(tileY + 1);
+        collisionChecks.push(tileX);
+        collisionChecks.push(tileY - 1);
+
+        /* collisionChecks.push(Math.floor(this.x / TILE_WIDTH));
         collisionChecks.push(Math.floor(this.y / TILE_HEIGHT));
+
         collisionChecks.push(Math.ceil(this.x / TILE_WIDTH));
         collisionChecks.push(Math.ceil(this.y / TILE_HEIGHT));
+
         collisionChecks.push(Math.round((this.x + TILE_WIDTH/2) / TILE_WIDTH));
         collisionChecks.push(Math.round(this.y / TILE_HEIGHT));
+
         collisionChecks.push(Math.round(this.x / TILE_WIDTH));
         collisionChecks.push(Math.round((this.y + TILE_HEIGHT/2) / TILE_HEIGHT));
+
         collisionChecks.push(Math.round((this.x - TILE_WIDTH/2) / TILE_WIDTH));
         collisionChecks.push(Math.round(this.y / TILE_HEIGHT));
+
         collisionChecks.push(Math.round(this.x / TILE_WIDTH));
         collisionChecks.push(Math.round((this.y - TILE_HEIGHT/2) / TILE_HEIGHT));
+
         collisionChecks.push(Math.round((this.x + TILE_WIDTH/2) / TILE_WIDTH));
         collisionChecks.push(Math.round((this.y + TILE_HEIGHT/2) / TILE_HEIGHT));
+
         collisionChecks.push(Math.round((this.x - TILE_WIDTH/2) / TILE_WIDTH));
-        collisionChecks.push(Math.round((this.y - TILE_HEIGHT/2) / TILE_HEIGHT));
+        collisionChecks.push(Math.round((this.y - TILE_HEIGHT/2) / TILE_HEIGHT)); */
 
         for (let i = 0; i < collisionChecks.length; i += 2) {
             const tileX = collisionChecks[i];
