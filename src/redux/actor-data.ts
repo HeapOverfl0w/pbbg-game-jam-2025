@@ -91,6 +91,7 @@ export type StoreData = {
     currentRound: number;
     playerIsDemon: boolean;
     maxReinforcements: number;
+    highestRound: number;
 }
 
 export type BuildingData = {
@@ -106,6 +107,7 @@ export type BuildingData = {
 export const getInitialState = (): StoreData => {
     const inventory: ActorData[] = [];
     return {
+        highestRound: 1,
         playerTeam: {
             actors: Array.from({ length: 4 }, () => Array(5).fill(undefined)),
             teamStats: {
@@ -198,7 +200,7 @@ export const getInitialState = (): StoreData => {
                 level: 0,
                 statType: "maxReinforcements",
                 value: 2,
-                increasePerLevel: 3,
+                increasePerLevel: 2,
                 image: "./img/icons/barracks.png"
             },
             {

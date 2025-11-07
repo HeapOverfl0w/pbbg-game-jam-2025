@@ -50,6 +50,7 @@ const storeSlice = createSlice({
             state.maxReinforcements = 2;
             state.currentRound = 1;
             state.gold = 0;
+            state.highestRound = 1;
             state.buildings = [
                 {
                     name: "Swordsmith",
@@ -111,7 +112,7 @@ const storeSlice = createSlice({
                     level: 0,
                     statType: "maxReinforcements",
                     value: 2,
-                    increasePerLevel: 3,
+                    increasePerLevel: 2,
                     image: "./img/icons/barracks.png"
                 },
                 {
@@ -170,6 +171,10 @@ const storeSlice = createSlice({
 
             state.inventory = newInventory;
             state.gold += state.currentRound * 5;
+
+            if (state.highestRound < state.currentRound) {
+                state.highestRound = state.currentRound;
+            }
 
             state.currentRound++;
 

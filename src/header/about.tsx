@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { StoreData } from '../redux/actor-data';
 
 type AboutModalProps = {
   onClose: () => void;
@@ -10,12 +12,14 @@ type AboutModalProps = {
  * @returns 
  */
 export function AboutModal(props: AboutModalProps) {
+  const highestRound = useSelector<StoreData, number>((state) => state.highestRound);
   return (
     <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur" onClick={() => props.onClose()}>
       <dialog className="active absolute center middle" onClick={(e) => { e.stopPropagation() }}>
         <div className="center-align padding">
           <h5>About</h5>
         </div>
+        <p className="center-align padding">Your Highest Round: {highestRound}</p>
         <p className='padding'>Blood Moon: Of Angels and Demons is an army auto-battler with roguelite elements.</p>
         <p className='padding'>It was made by two developers for the r/PBBG 2025 gamejam.</p>
         <img style={{display: 'block', marginLeft: 'auto', marginRight: 'auto'}} src='./img/logo.png' />

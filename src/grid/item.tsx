@@ -45,7 +45,7 @@ export function Item({ item, canDrag, isOnBattlefield }: ItemProps) {
           <img className='responsive small' style={canDrag ? { aspectRatio: '1/1'} : { aspectRatio: '1/1', transform: 'scaleX(-1)' }} src={getIconSource()} alt='' />
           <h6 style={{position: 'absolute', bottom: '0px', right: '10px'}}>{item.stats.level}</h6>
           {canDrag && !isOnBattlefield && 
-            <button style={{position: 'absolute', top: '0px', right: '5px', zIndex: 50, border: '0px', padding: '0px', margin: '0px'}} onClick={() => dispatch(setFavorite(item.id))}>
+            <button style={{position: 'absolute', top: '0px', right: '5px', zIndex: 1, border: '0px', padding: '0px', margin: '0px'}} onClick={() => dispatch(setFavorite(item.id))}>
               <i className={item.favorite ? 'fill' : ''} style={item.favorite ? {color: '#b62a3c'} : undefined}>favorite</i>
             </button>
           }
