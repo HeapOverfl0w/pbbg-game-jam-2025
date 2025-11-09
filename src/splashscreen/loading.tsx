@@ -46,7 +46,7 @@ export function Loading(props: SplashscreenProps) {
     <>
       <img src='./img/castle.png' style={{ height: '100%' }} />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column', textAlign: 'center', padding: '1em' }}>
-        <h3 style={{ color: '#b62a3c' }}>Blood Moon: Of Angels and Demons (Temp Title)</h3>
+        <h3 style={{ color: '#b62a3c' }}>Blood Moon: Of Angels and Demons</h3>
         <p style={{ width: '60%', fontSize: '1.75rem' }}>
           When the Blood Moon rose and refused to wane, the veil twixt Heaven and Hell was sundered. Through long forgotten portals, angels and demons alike now tread upon mortal soil; their endless war rekindled beneath crimson skies. Amidst the ruin of men, only those who endure the night may glimpse the dawn.
         </p>
