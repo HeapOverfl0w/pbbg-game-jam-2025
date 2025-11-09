@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { GameGoal } from './game-goal';
 import { Sides } from './sides';
-import { AngelUnits } from './angel-units';
-import { DemonUnits } from './demon-units';
 import { HowToPlay } from './how-to-play';
 import { Buildings } from './buildings';
 import { UnitColors } from './unit-colors';
@@ -41,10 +39,6 @@ export function TutorialModal(props: TutorialModalProps) {
         return <ActionTargeting />;
       case 8:
         return <AdditionalEffects />;
-      case 9:
-        return <AngelUnits />;
-      case 10:
-        return <DemonUnits />;
       default:
         return <GameGoal />;
 
