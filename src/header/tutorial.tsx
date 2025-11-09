@@ -55,7 +55,7 @@ export function TutorialModal(props: TutorialModalProps) {
     <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: '2', userSelect: 'none' }} className="small-blur" onClick={() => props.onClose()}>
       <dialog className="active absolute center middle" onClick={(e) => { e.stopPropagation() }}>
         <div className="center-align padding">
-          <h3>Tutorial</h3>
+          <h2>Tutorial</h2>
         </div>
         <>
           {
